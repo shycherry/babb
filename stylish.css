@@ -1,0 +1,8 @@
+/* Style ecran principal */
+@import url("styles/main_screen.css");
+
+/* Style boutons */
+@import url("styles/buttons.css");
+
+/* TODO explorateur de fichiers */
+@import url("styles/files.css");

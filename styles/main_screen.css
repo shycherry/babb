@@ -1,0 +1,14 @@
+/* no selection by user*/
+* {
+  -webkit-user-select: none;
+}
+
+body {
+  background-image: url('../images/htmlbg.png');
+}
+
+
+.single{
+	text-align: center;
+
+}
