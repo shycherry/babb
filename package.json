@@ -2,6 +2,7 @@
   "name": "BABB Frontend Prototype",
   "description": "Frontend Prototype for BABB Project",
   "version": "0.1",
+  "nodejs":true,
   "main": "index.html",
   "window": {
     "toolbar": true,
