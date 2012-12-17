@@ -3,10 +3,17 @@
   -webkit-user-select: none;
 }
 
+input {
+  -webkit-user-select: text;
+}
+
 body {
   background-image: url('../images/htmlbg.png');
 }
 
+#content{
+  background-color:rgba(250,250,250,0.9);  
+}
 
 .single{
 	text-align: center;
