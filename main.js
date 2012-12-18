@@ -25,15 +25,22 @@ function doSpawn(){
 
 function doSniff(){
   clearContent();
+  fillContent();
   sniffer.stopSniff();
   sniffer.sniff([pathToSniff.val()], function(itemChange){
     console.log('change ! ('+itemChange+")");
+    clearContent();
+    fillContent();
   });
-  fs.readdir(pathToSniff.val(),function(err, files){
+
+}
+
+function fillContent(){
+    fs.readdir(pathToSniff.val(),function(err, files){
     for(var i in files){
       content.append("<div class='file'>"+files[i]+"</div>");
     }    
-  });
+  });    
 }
 
 function clearContent(){
