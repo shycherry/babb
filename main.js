@@ -1,20 +1,28 @@
-var jquery = require('./js/vendor/jquery-1.9.0b1');
-var underscore = require('./js/vendor/underscore');
-var backbone = require('./js/vendor/backbone');
-//
+﻿//vendor libs
+require('./js/vendor/jquery-1.9.0b1');
+global.$ = $;
+
+require('./js/vendor/underscore');
+
+require('./js/vendor/backbone');
+//native libs
 var path = require('path');
 var shell = require('nw.gui').Shell;
 var fs = require('fs');
-var sniffer = require('./files_sniffer');
+//my libs
+var sniffer = require('./js/files_sniffer');
+var model = require('./js/model');
+
+//
 var content = null;
 var pathToSniff = null;
 
-//global.$ = $;
+$(document).ready(retrieveHtmlElements);
 
-$(document).ready(function() {
-    content = $('#content');
-    pathToSniff = $('#pathToSniff');
-});
+function retrieveHtmlElements(){
+  content = $('#content');
+  pathToSniff = $('#pathToSniff');
+}
 
 function doSpawn(){
 	var spawn = require('child_process').spawn;

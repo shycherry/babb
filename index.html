@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>BABB Frontend Prototype</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">		
-		<link href="stylish.css" rel="stylesheet">
-		<!--<script type="text/javascript" src="js/jquery-1.9.0b1.js"></script>-->
+		<title>BABB Frontend Prototype</title>		
+		<link href="stylish.css" rel="stylesheet">		
 		<script type="text/javascript" src="main.js"></script>
 	</head>
 	
 	<body>    
+    
+    <script type="text/template" id="rom-template">
+      <div class="file">
+        <span><%= id %></span>
+        <span><%= title %></span>
+        <span><%= path %></span>
+      </div>
+    </script>
+    
 		<div class="single">
       <input id="pathToSniff" type="text"/>
 			<a href="javascript:doSniff()" class="std_button">Sniff da directory !</a>
