@@ -1,12 +1,15 @@
-global.$ = $;
-
-//var backbone = require('backbone');
+var jquery = require('./js/vendor/jquery-1.9.0b1');
+var underscore = require('./js/vendor/underscore');
+var backbone = require('./js/vendor/backbone');
+//
 var path = require('path');
 var shell = require('nw.gui').Shell;
 var fs = require('fs');
 var sniffer = require('./files_sniffer');
 var content = null;
 var pathToSniff = null;
+
+//global.$ = $;
 
 $(document).ready(function() {
     content = $('#content');
