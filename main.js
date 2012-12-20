@@ -17,7 +17,7 @@ var pathToSniff = null;
 $(document).ready(retrieveHtmlElements);
 
 function retrieveHtmlElements(){
-  content = $('#content');
+  content = $('#roms-container');
   pathToSniff = $('#pathToSniff');
 }
 
@@ -32,21 +32,21 @@ function doSpawn(){
 }
 
 function doSniff(){
-  clearContent();
-  fillContent();
+  //clearContent();
+  //fillContent();
   sniffer.stopSniff();
   sniffer.sniff([pathToSniff.val()], function(itemChange){
     console.log('change ! ('+itemChange+")");
-    clearContent();
-    fillContent();
+    //clearContent();
+    //fillContent();
   });
 
 }
 
 function fillContent(){
-    fs.readdir(pathToSniff.val(),function(err, files){
+  fs.readdir(pathToSniff.val(),function(err, files){
     for(var i in files){
-      content.append("<div class='file'>"+files[i]+"</div>");
+      content.append("<div class='rom'>"+files[i]+"</div>");
     }    
   });    
 }

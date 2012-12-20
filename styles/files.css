@@ -3,7 +3,11 @@
   margin: 0;
 }
 
-.file {
+.rom:hover{
+  -webkit-filter: invert(0%);
+}
+
+.file, .rom{
   padding: 2px;
   margin: 2px;
   width: 80px;
@@ -11,6 +15,7 @@
   word-wrap: break-word;
   text-align: center;
   vertical-align: top;
+  -webkit-filter: invert(50%);
 }
 
 .file.focus {

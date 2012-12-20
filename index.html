@@ -3,27 +3,29 @@
 	<head>
 		<title>BABB Frontend Prototype</title>		
 		<link href="stylish.css" rel="stylesheet">		
-		<script type="text/javascript" src="./js/vendor/jquery-1.9.0b1.js"></script>
-		<script type="text/javascript" src="./js/vendor/underscore.js"></script>
-		<script type="text/javascript" src="./js/vendor/backbone.js"></script>
-		<script type="text/javascript" src="main.js"></script>
+
 	</head>
 	
 	<body>    
-    
-    <script type="text/template" id="rom-template">
-      <div class="file">
-        <span><%= id %></span>
-        <span><%= title %></span>
-        <span><%= path %></span>
-      </div>
+
+    <script type="text/template" id="roms-collection-template">
+      <% _.each(roms, function(rom){%>
+        <div class="rom">          
+          <span><b><%= rom.title %></b></span>
+          <span><%= rom.path %></span>
+        </div>
+      <%})%>      
     </script>
-    
+      
 		<div class="single">
       <input id="pathToSniff" type="text"/>
 			<a href="javascript:doSniff()" class="std_button">Sniff da directory !</a>
-      <div id="content">
+      <div id="roms-container">
       </div>
 		</div>
 	</body>
+  		<script type="text/javascript" src="./js/vendor/jquery-1.9.0b1.js"></script>
+		<script type="text/javascript" src="./js/vendor/underscore.js"></script>
+		<script type="text/javascript" src="./js/vendor/backbone.js"></script>
+		<script type="text/javascript" src="main.js"></script>
 </html>
