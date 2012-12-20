@@ -1,10 +1,7 @@
-﻿//vendor libs
-require('./js/vendor/jquery-1.9.0b1');
-global.$ = $;
+﻿global.$ = $;
+global.Backbone = Backbone;
+global._ = _;
 
-require('./js/vendor/underscore');
-
-require('./js/vendor/backbone');
 //native libs
 var path = require('path');
 var shell = require('nw.gui').Shell;

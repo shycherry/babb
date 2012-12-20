@@ -1,7 +1,6 @@
-﻿var Jquery = require('./vendor/jquery-1.9.0b1');
-var Backbone = require('./vendor/backbone');
-
-var $ = global.$;
+﻿var $ = global.$;
+var Backbone = global.Backbone;
+var _ = global._;
 
  var RomView = Backbone.View.extend({
     el : $('#content'),
