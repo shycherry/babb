@@ -1,14 +1,21 @@
 /* no selection by user*/
 * {
   -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 input {
   -webkit-user-select: text;
 }
 
+html{
+	height: 100%;
+}
+
 body {
   background-image: url('../images/htmlbg.png');
+  margin: 0px;
+  height: 100%;
 }
 
 #roms-container{
