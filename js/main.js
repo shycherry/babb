@@ -4,9 +4,7 @@ global.Backbone = Backbone;
 global._ = _;
 
 //native libs
-var path = require('path');
-var shell = require('nw.gui').Shell;
-var fs = require('fs');
+var Gui = require('nw.gui');
 //my libs
 var Sniffer = require('./js/directory_sniffer');
 var spawner = require('./js/spawner');
@@ -15,11 +13,13 @@ var spawner = require('./js/spawner');
 var content = null;
 var pathToSniff = null;
 
-$(document).ready(retrieveHtmlElements);
+$(document).ready(finishLoading);
 
-function retrieveHtmlElements(){
+function finishLoading(){
   content = $('#roms-container');
   pathToSniff = $('#pathToSniff');
+  
+  //Gui.Window.get().show();
 }
 
 function doSniff(){

@@ -5,6 +5,7 @@
   "nodejs":true,
   "main": "index.html",
   "window": {
+    "show": true,
     "toolbar": true,
     "width": 660,
     "height": 500

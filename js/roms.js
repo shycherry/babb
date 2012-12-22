@@ -4,6 +4,7 @@ var _ = global._;
 
 var Path = require('path');
 
+
 var RomView = Backbone.View.extend({
   el : $('#roms-container'),
   initialize : function() {
@@ -40,21 +41,21 @@ var RomsCollectionView = Backbone.View.extend({
   
   render : function() {
     console.log('call to render');
-    var renderedContent = this.template({roms : this.collection.toJSON()});
+    var renderedContent = this.template({roms : this.collection.toArray()});
     $(this.el).html(renderedContent);
     return this;
   }
 });
 
 var Rom = Backbone.Model.extend({
-  defaults: {
-    /*id : "???",*/
+  defaults: {    
+    id : "x",
     title : "Rom title",
     path : "/default/path",    
   },
   
   initialize: function Rom(){
-    console.log('Rom constructor');
+    console.log('Rom constructor');    
   },
   
   toString: function(){

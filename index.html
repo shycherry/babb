@@ -1,30 +1,28 @@
 <html>
 	<head>
-		<title>BABB Frontend Prototype</title>		
-		<link href="stylish.css" rel="stylesheet">		
-
+		<title>BABB Frontend Prototype</title>
+		<link href="stylish.css" rel="stylesheet">
 	</head>
-	
+
 	<body>
-    
+
     <script type="text/template" id="roms-collection-template">
       <% _.each(roms, function(rom){%>
-        <div class="rom">
-          <span><b><a href='javascript:spawner.spawn("<%= rom.path%>")'><%= rom.title %></a></b></span>
-          <!--<span><%= rom.path %></span>-->
-        </div>
-      <%})%>      
+        <li id="<%= rom.get("id") %>" class="rom">
+          <b><%= rom.get("title") %></b>
+        </li>
+      <%})%>
     </script>
-      
+
 		<div class="single">
       <input id="pathToSniff" type="text"/>
 			<a href="javascript:doSniff()" class="std_button">do it !</a>
-      <div id="roms-container">
-      </div>      
+      <ul id="roms-container">
+      </ul>
 		</div>
-    
+
 	</body>
-  
+
   <script type="text/javascript" src="./js/vendor/jquery-1.9.0b1.js"></script>
   <script type="text/javascript" src="./js/vendor/underscore.js"></script>
   <script type="text/javascript" src="./js/vendor/backbone.js"></script>

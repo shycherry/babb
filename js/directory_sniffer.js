@@ -13,7 +13,8 @@ function sniff(pathsToSniff){
 
     Fs.readdir(pathToSniff,function(err, files){
       for(var i in files){
-        var rom = new Roms.Rom(/*{id: i}*/);
+        var rom = new Roms.Rom();
+        rom.set({id:rom.cid});
         var filenameParts = Path.basename(files[i]).split('.');
         rom.set({title:filenameParts[0]});
         var pathNormalized = Path.join(pathToSniff,files[i]);
