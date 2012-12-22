@@ -2,6 +2,7 @@
 * {
   -webkit-user-select: none;
   -webkit-user-drag: none;
+  cursor:default;
   padding:0;
   margin:0;
 }
