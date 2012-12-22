@@ -5,7 +5,8 @@ var romsContainer = $(global.BABB.RomsConfig.romsContainerId);
 var romsCollectionTemplate = $('#roms-collection-template');
 
 romsContainer.on("click", ".rom", function(){
-  $(this).removeClass('rom');
+  romsContainer.children('.focus').removeClass('focus');
+  $(this).addClass('focus');
 })
 
 var RomView = Backbone.View.extend({
