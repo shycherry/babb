@@ -1,28 +1,22 @@
-﻿//define globals
+﻿//global definitions
 global.$ = $;
 global.Backbone = Backbone;
 global._ = _;
 
-//native libs
-var Gui = require('nw.gui');
-//my libs
-var Sniffer = require('./js/directory_sniffer');
-var spawner = require('./js/spawner');
+global.BABB = {
+  RomsConfig:{
+    romsContainerId : "#roms-container",
+    romsCollectionTemplateId: "#roms-collection-template"
+  },
+  ServicesConfig:{
+    manualSnifferInputId : "#pathToSniff"
+  }
+};
 
-//
-var content = null;
-var pathToSniff = null;
+var Services = require("./js/services");
 
-$(document).ready(finishLoading);
-
-function finishLoading(){
-  content = $('#roms-container');
-  pathToSniff = $('#pathToSniff');
-  
-  //Gui.Window.get().show();
+function go(){  
+  Services.doSniff();
 }
 
-function doSniff(){
-  Sniffer.stopSniff();
-  Sniffer.sniff([pathToSniff.val()]);
-}
+$(document).ready(go);

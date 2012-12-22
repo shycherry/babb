@@ -1,12 +1,15 @@
 ﻿var $ = global.$;
 var Backbone = global.Backbone;
 var _ = global._;
+var romsContainer = $(global.BABB.RomsConfig.romsContainerId);
+var romsCollectionTemplate = $('#roms-collection-template');
 
-var Path = require('path');
-
+romsContainer.on("click", ".rom", function(){
+  $(this).removeClass('rom');
+})
 
 var RomView = Backbone.View.extend({
-  el : $('#roms-container'),
+  el : romsContainer,
   initialize : function() {
     this.template = _.template($('#rom-template').html());
       
@@ -21,7 +24,7 @@ var RomView = Backbone.View.extend({
   
   render : function() {
     console.log('call to render');
-    var renderedContent = this.template(this.model.toJSON());
+    var renderedContent = this.template(this.model);
     $(this.el).html(renderedContent)
     return this;
   }
@@ -29,9 +32,9 @@ var RomView = Backbone.View.extend({
 
 var RomsCollectionView = Backbone.View.extend({
   model: Rom,
-  el : $('#roms-container'),
+  el : romsContainer,
   initialize : function() {
-    this.template = _.template($('#roms-collection-template').html());
+    this.template = _.template(romsCollectionTemplate.html());
     
     _.bindAll(this, 'render');
     this.collection.bind('change', this.render);
