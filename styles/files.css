@@ -10,10 +10,11 @@
 .file, .rom{
   padding: 2px;
   margin: 2px;
-  width: 80px;
+  width: 100%;
+  overflow-x:hidden;
   display: inline-block;
   word-wrap: break-word;
-  text-align: center;
+  text-align: left;
   vertical-align: top;
   -webkit-filter: invert(50%);
 }
