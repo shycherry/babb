@@ -46,6 +46,7 @@
 }
 
 #intro-overlay{
+  #display:none;
   text-align:center;
   pointer-events:none;
   left: 0%;

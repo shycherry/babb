@@ -9,6 +9,11 @@ romsContainer.on("click", ".rom", function(){
   $(this).addClass('focus');
 })
 
+romsContainer.on("dblclick", ".rom", function(){
+  console.log("dblclick on "+this);
+})
+
+
 var RomView = Backbone.View.extend({
   el : romsContainer,
   initialize : function() {

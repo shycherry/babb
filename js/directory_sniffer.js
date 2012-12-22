@@ -7,10 +7,22 @@ var watchers = {};
 var multiRomsCollection = new Roms.RomsCollection();
 var multiRomsCollectionView = new Roms.RomsCollectionView({collection : multiRomsCollection});
 
+var locPathsToSniff = null;
+
 function sniff(pathsToSniff){
+  locPathsToSniff = pathsToSniff;
+  
+  refillCollections();
+  startSniff();
+  
+  return multiRomsCollection;
+}
 
-  pathsToSniff.forEach(function(pathToSniff){
-
+function refillCollections(){
+  
+  multiRomsCollection.reset();
+  
+  locPathsToSniff.forEach(function(pathToSniff){
     Fs.readdir(pathToSniff,function(err, files){
       for(var i in files){
         var rom = new Roms.Rom();
@@ -23,23 +35,25 @@ function sniff(pathsToSniff){
         multiRomsCollection.add(rom);
       }
     });
+  });
+}
 
+function startSniff(){
+  locPathsToSniff.forEach(function(pathToSniff){
     var watcher = Fs.watch(pathToSniff, function(event, filename){
-      console.log('event:'+event+' for filename:'+filename);      
+      console.log('event:'+event+' for filename:'+filename);
+      refillCollections(locPathsToSniff);
     });
 
     if(watcher){
       watchers[pathToSniff] = watcher;
     }
   });
-  
-  return multiRomsCollection;
 }
 
 function stopSniff(){
-  
-  multiRomsCollectionView.unbind();
-  //multiRomsCollectionView.remove();
+  //multiRomsCollectionView.unbind();
+  locPathsToSniff=null;
   
   for(var path in watchers){
     watchers[path].close();
