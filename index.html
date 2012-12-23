@@ -6,9 +6,10 @@
 
 	<body>
 
+	
     <script type="text/template" id="roms-collection-template">
       <% _.each(roms, function(rom){%>
-        <li id="<%= rom.get("id") %>" class="rom">
+        <li id="<%= rom.get("id") %>" class="rom future">
           <b><%= rom.get("title") %></b>
         </li>
       <%})%>
@@ -24,7 +25,7 @@
 		</div>
     
     
-    <ul id="roms-container">
+    <ul id="roms-container" class=cards>
       <p>rien</p>
     </ul>
     
