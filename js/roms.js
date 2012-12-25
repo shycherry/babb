@@ -4,15 +4,23 @@ var _ = global._;
 var romsContainer = $(global.BABB.RomsConfig.romsContainerId);
 var romsCollectionTemplate = $('#roms-collection-template');
 
+var onRomFocus = null;
+
 romsContainer.on("click", ".rom", function(){
   romsContainer.children('.focus').removeClass('focus');
   $(this).addClass('focus');
-})
+  if(onRomFocus){
+    onRomFocus(this);
+  }
+});
 
 romsContainer.on("dblclick", ".rom", function(){
   console.log("dblclick on "+this);
-})
+});
 
+function setOnRomFocus(parOnRomFocus){
+  onRomFocus = parOnRomFocus;
+}
 
 var RomView = Backbone.View.extend({
   el : romsContainer,
@@ -79,6 +87,7 @@ var RomsCollection = Backbone.Collection.extend({
   }
 });
 
+exports.setOnRomFocus = setOnRomFocus;
 exports.Rom = Rom;
 exports.RomView = RomView;
 exports.RomsCollection = RomsCollection;

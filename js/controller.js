@@ -1,8 +1,22 @@
+var $ = global.$;
+var Backbone = global.Backbone;
+var _ = global._;
+
 var Roms = require('./roms');
 var Path = require('path');
 
 var multiRomsCollection = new Roms.RomsCollection();
 var multiRomsCollectionView = new Roms.RomsCollectionView({collection : multiRomsCollection});
+
+Roms.setOnRomFocus(onRomFocus);
+function onRomFocus(romEle){
+  console.log('focus ! on '+romEle.id );
+}
+
+global.window.document.onkeydown = applyKey;
+function applyKey(keyEvent){
+  console.log('keyEvent: '+keyEvent);
+}
 
 function doSniff(){
   var Sniffer = require('./directory_sniffer');

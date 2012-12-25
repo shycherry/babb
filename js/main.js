@@ -16,12 +16,7 @@ global.BABB = {
 var Controller = require("./js/controller");
 
 function go(){  
-  document.onkeydown = applyKey;
   Controller.doSniff();
-}
-
-function applyKey(keyEvent){
-  keyEvent.cancelBubble=true;
 }
 
 $(document).ready(go);
