@@ -13,10 +13,15 @@ global.BABB = {
   }
 };
 
-var Services = require("./js/services");
+var Controller = require("./js/controller");
 
 function go(){  
-  Services.doSniff();
+  document.onkeydown = applyKey;
+  Controller.doSniff();
+}
+
+function applyKey(keyEvent){
+  keyEvent.cancelBubble=true;
 }
 
 $(document).ready(go);

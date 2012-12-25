@@ -1,48 +1,55 @@
 var Fs = require('fs');
-var Path = require('path');
-var Roms = require('./roms');
 
 var watchers = {};
 
-var multiRomsCollection = new Roms.RomsCollection();
-var multiRomsCollectionView = new Roms.RomsCollectionView({collection : multiRomsCollection});
+var pathsToSniff = null;
+var callback = null;
 
-var locPathsToSniff = null;
+var SniffedDirectoryRepport = function(){}
 
-function sniff(pathsToSniff){
-  locPathsToSniff = pathsToSniff;
+function sniff(parPathsToSniff, parCallback){
+  pathsToSniff = parPathsToSniff;
+  callback = parCallback;
   
   refillCollections();
   startSniff();
-  
-  return multiRomsCollection;
+}
+
+function notifyDirectoryChanged(report){
+  if(callback){
+    callback(report);
+  }
 }
 
 function refillCollections(){
   
-  multiRomsCollection.reset();
-  
-  locPathsToSniff.forEach(function(pathToSniff){
-    Fs.readdir(pathToSniff,function(err, files){
+  pathsToSniff.forEach(function(pathToSniff){
+    Fs.readdir(pathToSniff,function(err, files){      
+      var locReport = new SniffedDirectoryRepport();
+      locReport.sniffedPath = pathToSniff;
+      var sniffedFilesArray = [];
       for(var i in files){
-        var rom = new Roms.Rom();
-        rom.set({id:rom.cid});
-        var filenameParts = Path.basename(files[i]).split('.');
-        rom.set({title:filenameParts[0]});
-        var pathNormalized = Path.join(pathToSniff,files[i]);
-        pathNormalized = Path.normalize(pathNormalized);
-        rom.set({path : pathNormalized});
-        multiRomsCollection.add(rom);
+        sniffedFilesArray.push(files[i]);       
+        //var rom = new Roms.Rom();
+        //rom.set({id:rom.cid});
+        //var filenameParts = Path.basename(files[i]).split('.');
+        //rom.set({title:filenameParts[0]});
+        //var pathNormalized = Path.join(pathToSniff,files[i]);
+        //pathNormalized = Path.normalize(pathNormalized);
+        //rom.set({path : pathNormalized});
+        //sniffedFilesArray.add(rom);
       }
+      locReport.sniffedFilesArray = sniffedFilesArray;      
+      notifyDirectoryChanged(locReport);
     });
   });
 }
 
 function startSniff(){
-  locPathsToSniff.forEach(function(pathToSniff){
+  pathsToSniff.forEach(function(pathToSniff){
     var watcher = Fs.watch(pathToSniff, function(event, filename){
       console.log('event:'+event+' for filename:'+filename);
-      refillCollections(locPathsToSniff);
+      refillCollections(pathsToSniff);
     });
 
     if(watcher){
@@ -53,7 +60,7 @@ function startSniff(){
 
 function stopSniff(){
   //multiRomsCollectionView.unbind();
-  locPathsToSniff=null;
+  pathsToSniff=null;
   
   for(var path in watchers){
     watchers[path].close();

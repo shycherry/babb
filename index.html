@@ -9,7 +9,7 @@
 	
     <script type="text/template" id="roms-collection-template">
       <% _.each(roms, function(rom){%>
-        <li id="<%= rom.get("id") %>" class="rom future">
+        <li id="<%= rom.get("id") %>" class="rom">
           <b><%= rom.get("title") %></b>
         </li>
       <%})%>
@@ -21,7 +21,7 @@
 
 		<div id="bandana">
       <input id="pathToSniff" type="text" value="/"/>
-			<a href="javascript:Services.doSniff()" class="std_button">do it !</a>      
+			<a href="javascript:Controller.doSniff()" class="std_button">do it !</a>      
 		</div>
     
     
