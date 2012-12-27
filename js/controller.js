@@ -56,9 +56,11 @@ var multiRomsCollectionView = new RomsCollectionView({collection : Roms.getRomsC
 
 Roms.setOnSelectedRomChange(onSelectedRomChange);
 function onSelectedRomChange(romEle){
-  console.log('focus ! on '+romEle.id );  
   romsContainer.children('.focus').removeClass('focus');
-  $('#'+romEle.id).addClass('focus');
+  if(romEle != null){
+    console.log('focus ! on '+romEle.id );      
+    $('#'+romEle.id).addClass('focus');
+  }
 }
 
 romsContainer.on("click", ".rom", function(){  
@@ -72,6 +74,13 @@ romsContainer.on("dblclick", ".rom", function(){
 global.window.document.onkeydown = applyKey;
 function applyKey(keyEvent){
   console.log('keyEvent: '+keyEvent);
+  if(keyEvent.keyCode == global.BABB.Controls.up){
+    Roms.selectPreviousRom();
+  }
+  if(keyEvent.keyCode == global.BABB.Controls.down){
+    Roms.selectNextRom();
+  }
+  
 }
 
 function doSniff(){
@@ -85,7 +94,7 @@ function onSniffed(parReport){
   var locSniffedPath = parReport.sniffedPath;
   var locSniffedFilesArray = parReport.sniffedFilesArray;
   
-  Roms.getRomsCollection().reset();
+  Roms.reset();
   for(var i in locSniffedFilesArray){
     var locFileName = locSniffedFilesArray[i];    
     var rom = new Roms.Rom();
@@ -97,6 +106,7 @@ function onSniffed(parReport){
     rom.set({path : pathNormalized});    
     Roms.getRomsCollection().add(rom);
   }
+  Roms.selectNextRom();
 }
 
 function doSpawn(command){
