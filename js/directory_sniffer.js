@@ -29,15 +29,7 @@ function refillCollections(){
       locReport.sniffedPath = pathToSniff;
       var sniffedFilesArray = [];
       for(var i in files){
-        sniffedFilesArray.push(files[i]);       
-        //var rom = new Roms.Rom();
-        //rom.set({id:rom.cid});
-        //var filenameParts = Path.basename(files[i]).split('.');
-        //rom.set({title:filenameParts[0]});
-        //var pathNormalized = Path.join(pathToSniff,files[i]);
-        //pathNormalized = Path.normalize(pathNormalized);
-        //rom.set({path : pathNormalized});
-        //sniffedFilesArray.add(rom);
+        sniffedFilesArray.push(files[i]);        
       }
       locReport.sniffedFilesArray = sniffedFilesArray;      
       notifyDirectoryChanged(locReport);
