@@ -18,7 +18,7 @@ html{
 body {
   background-image: url('../images/htmlbg.png');
   margin: 0px;
-  height: 100%;
+  height: 100%;  
 }
 
 img{
@@ -32,31 +32,37 @@ img{
   overflow-y:auto;  
 }
 
+#roms-container.focus{
+  opacity:1;
+}
+
 #roms-container{  
   text-align:left;
-  background-color:rgba(250,250,250,0.9);
-  float:left;
+  background-color:rgba(250,250,250,0.9);  
+  opacity:0.1;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: 1s;
   width:40%;
   height:90%;
   overflow-x:hidden;  
   overflow-y:auto;
+  position: fixed;
+  z-index:1000; 
 }
 
 #picts-container{
-  #margin-left:5%;
-  background-color:rgba(250,100,250,0.9);
-  float:left;
+  margin:auto;
+  background-color:rgba(250,250,250,0.9);
+  text-align:center;  
   width:60%;
   height:60%;
   overflow:hidden;
 }
 
-#info-container{
-  #margin-left:5%;
-  #margin-top:5%;
+#info-container{  
+  margin:auto;
   text-align:left;
-  background-color:rgba(250,250,100,0.9);
-  float:left;
+  background-color:rgba(250,250,250,0.9);  
   width:60%;
   height:30%;
   overflow-y:auto;  

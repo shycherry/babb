@@ -4,12 +4,16 @@ global.Backbone = Backbone;
 global._ = _;
 
 global.BABB = {
+  TestConfig:{
+    killidPath: '.\\native_tools\\killid.exe',
+    platformPath: 'C:\\Users\\Vincent\\Downloads\\mame\\mame64.exe'
+  },
   Controls:{
     up: 90, //z
     down: 83, //s
     back: 81, //q
     valid: 68 //d    
-  },
+  },  
   RomsConfig:{
     romsContainerId : "#roms-container",
     romsCollectionTemplateId: "#roms-collection-template"

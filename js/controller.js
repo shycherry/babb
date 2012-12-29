@@ -6,6 +6,7 @@ var romsCollectionTemplate = $('#roms-collection-template');
 
 
 var Roms = require('./roms');
+var Spawner = require('./spawner');
 var Path = require('path');
 
 var RomView = Backbone.View.extend({
@@ -40,7 +41,7 @@ var RomsCollectionView = Backbone.View.extend({
     _.bindAll(this, 'render');
     this.collection.bind('change', this.render);
     this.collection.bind('add', this.render);
-    this.collection.bind('remove', this.render);
+    this.collection.bind('remove', this.render);    
   },
   
   render : function() {
@@ -53,15 +54,27 @@ var RomsCollectionView = Backbone.View.extend({
 
 
 var multiRomsCollectionView = new RomsCollectionView({collection : Roms.getRomsCollection()});
+var lastRomsContainerFocusTimeoutId=0;
 
 Roms.setOnSelectedRomChange(onSelectedRomChange);
 function onSelectedRomChange(romEle){
+  temporaryFocusRomsContainer();
   romsContainer.children('.focus').removeClass('focus');
   if(romEle != null){
     console.log('focus ! on '+romEle.id );      
     $('#'+romEle.id).addClass('focus');
   }
 }
+
+function temporaryFocusRomsContainer(){
+  clearTimeout(lastRomsContainerFocusTimeoutId);
+  romsContainer.addClass('focus');
+  lastRomsContainerFocusTimeoutId = setTimeout(function(){romsContainer.removeClass('focus')},1000);
+}
+
+romsContainer.on("mouseover", function(){
+  temporaryFocusRomsContainer();
+});
 
 romsContainer.on("click", ".rom", function(){  
   Roms.setSelectedRom(Roms.getRomsCollection().get(this.id));
@@ -79,6 +92,20 @@ function applyKey(keyEvent){
   }
   if(keyEvent.keyCode == global.BABB.Controls.down){
     Roms.selectNextRom();
+  }
+  
+  if(keyEvent.keyCode == global.BABB.Controls.valid){    
+    var selectedRom = Roms.getSelectedRom();
+    if(selectedRom){
+      var selectedRomPath = selectedRom.get('path');
+      if(selectedRomPath){        
+        Spawner.spawn(
+          global.BABB.TestConfig.platformPath, 
+          ['-rp', Path.dirname(selectedRomPath), selectedRom.get('title')],
+          {cwd : Path.dirname(global.BABB.TestConfig.platformPath)}
+        );        
+      }
+    }
   }
   
 }
