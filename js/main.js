@@ -13,12 +13,17 @@ global.BABB = {
     down: 83, //s
     back: 81, //q
     valid: 68 //d    
-  },  
+  },
+  PlatformsConfig:{
+    platformsContainerId: "#platform-container",
+    platformsCollectionTemplateId: "#platforms-collection-template"
+  },
   RomsConfig:{
     romsContainerId : "#roms-container",
     romsCollectionTemplateId: "#roms-collection-template"
   },
   ServicesConfig:{
+    firstDefaultRomPath:"c:\\",
     manualSnifferInputId : "#pathToSniff"
   }
 };

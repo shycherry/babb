@@ -5,9 +5,7 @@
 .rom{
   padding: 2px;
   overflow-x:hidden;
-  word-wrap: break-word;
-  text-align: left;
-  vertical-align: top;
+  word-wrap: break-word;  
 }
 
 .rom.focus{

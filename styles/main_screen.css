@@ -25,45 +25,52 @@ img{
   height:100%;
 }
 
-#bandana{
-  background-color:rgba(0,0,250,0.9);
+#bandana{  
 	text-align: center;
   height:5%;
   overflow-y:auto;  
 }
 
-#roms-container.focus{
+#roms-container.focus, #platforms-container.focus{
   opacity:1;
 }
 
-#roms-container{  
-  text-align:left;
-  background-color:rgba(250,250,250,0.9);  
+#roms-container, #platforms-container{
+  background-color:rgba(250,250,250,0.9);
   opacity:0.1;
   -webkit-transition-property: opacity;
   -webkit-transition-duration: 1s;
-  width:40%;
+  width:20%;
   height:90%;
-  overflow-x:hidden;  
+  overflow-x:hidden;
   overflow-y:auto;
   position: fixed;
-  z-index:1000; 
+  z-index:1000;
 }
 
-#picts-container{
+#platforms-container{
+  text-align:left;
+  left:0%;
+}
+
+#roms-container{
+  text-align:right;
+  left:80%;
+}
+
+#info-container,#picts-container{
   margin:auto;
-  background-color:rgba(250,250,250,0.9);
+  background-color:rgba(250,250,250,0.9); 
+  width:100%;
+}
+#picts-container{
   text-align:center;  
-  width:60%;
   height:60%;
   overflow:hidden;
 }
 
 #info-container{  
-  margin:auto;
   text-align:left;
-  background-color:rgba(250,250,250,0.9);  
-  width:60%;
   height:30%;
   overflow-y:auto;  
 }
