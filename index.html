@@ -6,6 +6,13 @@
 
 	<body>
 
+    <script type="text/template" id="platforms-collection-template">
+      <% _.each(platforms, function(platform){%>
+        <li id="<%= platform.get("id") %>" class="platform">
+          <b><%= platform.get("name") %></b>
+        </li>
+      <%})%>
+    </script>
 	
     <script type="text/template" id="roms-collection-template">
       <% _.each(roms, function(rom){%>

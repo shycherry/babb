@@ -15,7 +15,8 @@ global.BABB = {
     valid: 68 //d    
   },
   PlatformsConfig:{
-    platformsContainerId: "#platform-container",
+    defaultPlatformsPath: ".\\platforms",
+    platformsContainerId: "#platforms-container",
     platformsCollectionTemplateId: "#platforms-collection-template"
   },
   RomsConfig:{

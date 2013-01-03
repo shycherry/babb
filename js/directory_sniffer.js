@@ -1,62 +1,64 @@
-var Fs = require('fs');
+﻿var Fs = require('fs');
 
 var watchers = {};
+var callbacks = {};
 
-var pathsToSniff = null;
-var callback = null;
-
-var SniffedDirectoryRepport = function(){}
+var SniffedDirectoryRepport = function () {};
 
 function sniff(parPathsToSniff, parCallback){
-  pathsToSniff = parPathsToSniff;
-  callback = parCallback;
-  
-  refillCollections();
+  for (var i in parPathsToSniff){
+    callbacks[parPathsToSniff[i]] = parCallback;
+  }
+  for (var path in parPathsToSniff){
+    refillCollection(path);
+  }
   startSniff();
 }
 
-function notifyDirectoryChanged(report){
+function notifyDirectoryChanged(pathToSniff, report){
+  var callback = callbacks[pathToSniff];
   if(callback){
     callback(report);
   }
 }
 
-function refillCollections(){
+function refillCollection(parPathToSniff){
   
-  pathsToSniff.forEach(function(pathToSniff){
-    Fs.readdir(pathToSniff,function(err, files){      
-      var locReport = new SniffedDirectoryRepport();
-      locReport.sniffedPath = pathToSniff;
-      var sniffedFilesArray = [];
-      for(var i in files){
-        sniffedFilesArray.push(files[i]);        
-      }
-      locReport.sniffedFilesArray = sniffedFilesArray;      
-      notifyDirectoryChanged(locReport);
-    });
+  Fs.readdir(parPathToSniff,function(err, files){      
+    var locReport = new SniffedDirectoryRepport();
+    locReport.sniffedPath = parPathToSniff;
+    var sniffedFilesArray = [];
+    for(var i in files){
+      sniffedFilesArray.push(files[i]);        
+    }
+    locReport.sniffedFilesArray = sniffedFilesArray;      
+    notifyDirectoryChanged(parPathToSniff, locReport);
   });
 }
 
 function startSniff(){
-  pathsToSniff.forEach(function(pathToSniff){
+  for (var pathToSniff in callbacks){
+    refillCollection(pathToSniff);
     var watcher = Fs.watch(pathToSniff, function(event, filename){
       console.log('event:'+event+' for filename:'+filename);
-      refillCollections(pathsToSniff);
+      refillCollection(pathToSniff);
     });
 
     if(watcher){
       watchers[pathToSniff] = watcher;
     }
-  });
+  };
 }
 
-function stopSniff(){
-  //multiRomsCollectionView.unbind();
-  pathsToSniff=null;
-  
-  for(var path in watchers){
-    watchers[path].close();
-    delete(watchers[path]);
+function stopSniff(parPaths){
+  for(var path in parPaths){
+    if(callbacks[path]){
+      delete(callbacks[path]);
+    }  
+    if(watchers[path]){
+      watchers[path].close();
+      delete(watchers[path]);
+    }
   }
 }
 
