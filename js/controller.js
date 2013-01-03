@@ -14,6 +14,7 @@ var PlatformsCollectionView = Backbone.View.extend({
 	lastPlatformsContainerFocusTimeoutId : 0,
 	validCallback : null,
   backCallback: null,
+  selectCallback: null,
 	  
   initialize : function() {
     var self = this;
@@ -65,17 +66,27 @@ var PlatformsCollectionView = Backbone.View.extend({
     }
   },
   
-  setSelected : function(parPlatform){
-    this.selectedPlatform = parPlatform;
-    this.onSelectedChange(parPlatform);
+  getSelected: function(){
+    return this.selectedPlatform;
   },
   
-  onSelectedChange : function (platformEle){
-    this.temporaryFocusContainer();
+  setSelected : function(parPlatform){
+    var changed = (this.selectedPlatform != parPlatform);
+    this.selectedPlatform = parPlatform;    
+    if(changed){
+      this.onSelectedChange(parPlatform);
+    }
+  },
+  
+  onSelectedChange : function (platformEle){    
     this.el.children('.focus').removeClass('focus');
-    if(platformEle != null){
+    if(platformEle){
+      this.temporaryFocusContainer();
       console.log('focus ! on '+platformEle.id );
       $('#'+platformEle.id).addClass('focus');
+    }
+    if(this.selectCallback){
+      this.selectCallback(platformEle);
     }
   },
   
@@ -120,7 +131,7 @@ var PlatformsCollectionView = Backbone.View.extend({
       }
     }
     if(this.validCallback){
-      this.validCallback();
+      this.validCallback(this.selectedPlatform);
     }
   },
   
@@ -147,6 +158,7 @@ var RomsCollectionView = Backbone.View.extend({
   lastRomsContainerFocusTimeoutId : 0,
   validCallback: null,
   backCallback: null,
+  selectCallback: null,
   
   initialize : function() {
     var self = this;
@@ -202,18 +214,28 @@ var RomsCollectionView = Backbone.View.extend({
       this.romsCollection.add(rom);
     }    
   },
-    
+  
+  getSelected : function(){
+    return this.selectedRom;
+  },
+      
   setSelected : function(parRom){
+    var changed = (this.selectedRom != parRom);
     this.selectedRom = parRom;
-    this.onSelectedChange(parRom);
+    if(changed){
+      this.onSelectedChange(parRom);
+    }
   },
   
   onSelectedChange : function (romEle){
-    this.temporaryFocusContainer();
     this.el.children('.focus').removeClass('focus');
-    if(romEle != null){
+    if(romEle){
+      this.temporaryFocusContainer();
       console.log('focus ! on '+romEle.id );
       $('#'+romEle.id).addClass('focus');
+    }
+    if(this.selectCallback){
+      this.selectCallback(romEle);
     }
   },
   
@@ -262,7 +284,7 @@ var RomsCollectionView = Backbone.View.extend({
       }
     }
     if (this.validCallback){
-      this.validCallback();
+      this.validCallback(this.selectedRom);
     }
   },
   
@@ -282,18 +304,33 @@ var RomsCollectionView = Backbone.View.extend({
 });
 
 
-var multiRomsCollectionView = new RomsCollectionView();
+var romsCollectionView = new RomsCollectionView();
 var platformsCollectionView = new PlatformsCollectionView();
 var currentView = platformsCollectionView;
 
-platformsCollectionView.validCallback = function(){
-  multiRomsCollectionView.setSelected(null);
-  multiRomsCollectionView.selectNext();
-  currentView = multiRomsCollectionView;  
+
+platformsCollectionView.selectCallback = function(){
+  currentView = platformsCollectionView;
+  romsCollectionView.setSelected(null);  
 }
 
-multiRomsCollectionView.backCallback = function(){
-   currentView= platformsCollectionView;
+romsCollectionView.selectCallback = function(){
+  if(romsCollectionView.getSelected()){
+    currentView = romsCollectionView;
+  }
+}
+
+platformsCollectionView.validCallback = function(){  
+  currentView = romsCollectionView;  
+  currentView.temporaryFocusContainer();
+  if( ! currentView.getSelected()){
+    currentView.selectNext();
+  }
+}
+
+romsCollectionView.backCallback = function(){
+  platformsCollectionView.temporaryFocusContainer();  
+  currentView= platformsCollectionView;
 }
 
 global.window.document.onkeydown = applyKey;
@@ -315,7 +352,7 @@ function applyKey(keyEvent){
 
 function doSniff(){
   platformsCollectionView.doSniff();
-  multiRomsCollectionView.doSniff();    
+  romsCollectionView.doSniff();    
 }
 
 exports.doSniff = doSniff;
