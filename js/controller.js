@@ -6,6 +6,7 @@ var Platforms = require('./platforms');
 var Roms = require('./roms');
 var Spawner = require('./spawner');
 var Path = require('path');
+var Fs = require('fs');
 
 var PlatformsCollectionView = Backbone.View.extend({
 	platformsCollection : new Platforms.PlatformsCollection(),
@@ -22,8 +23,7 @@ var PlatformsCollectionView = Backbone.View.extend({
     _.bindAll(this, 'render');
     _.bindAll(this, 'onSniffed');
     _.bindAll(this, 'onSelectedChange');
-    _.bindAll(this, 'temporaryFocusContainer');
-    
+    _.bindAll(this, 'temporaryFocusContainer');    
     this.platformsCollection.bind('change', _.throttle(this.render,100));
     this.platformsCollection.bind('add', _.throttle(this.render,100));
     this.platformsCollection.bind('remove', _.throttle(this.render,100));    
@@ -53,15 +53,18 @@ var PlatformsCollectionView = Backbone.View.extend({
     var locSniffedFilesArray = parReport.sniffedFilesArray;
     
     this.reset();
-    for(var i in locSniffedFilesArray){
-      var locFileName = locSniffedFilesArray[i];      
-      var platform = new Platforms.Platform();
-      platform.set({id:platform.cid});
+    for(var i in locSniffedFilesArray){      
+      var locFileName = locSniffedFilesArray[i];
+      
+      var pathNormalized = Path.join(locSniffedPath,locFileName);
+      pathNormalized = Path.normalize(pathNormalized);      
+      var platform = new Platforms.Platform({path : pathNormalized});
+      
+      //platform.set({id:platform.cid});
       var filenameParts = Path.basename(locFileName).split('.');
       platform.set({name:filenameParts[0]});
-      var pathNormalized = Path.join(locSniffedPath,locFileName);
-      pathNormalized = Path.normalize(pathNormalized);
-      platform.set({path : pathNormalized});    
+      
+      
       this.platformsCollection.add(platform);
     }
   },
@@ -71,9 +74,9 @@ var PlatformsCollectionView = Backbone.View.extend({
   },
   
   setSelected : function(parPlatform){
-    var changed = (this.selectedPlatform != parPlatform);
-    this.selectedPlatform = parPlatform;    
+    var changed = (this.selectedPlatform != parPlatform);    
     if(changed){
+      this.selectedPlatform = parPlatform;
       this.onSelectedChange(parPlatform);
     }
   },
@@ -84,6 +87,14 @@ var PlatformsCollectionView = Backbone.View.extend({
       this.temporaryFocusContainer();
       console.log('focus ! on '+platformEle.id );
       $('#'+platformEle.id).addClass('focus');
+      
+      var oldCSSPlatform = $('#CSS-Platform');
+      oldCSSPlatform.attr('href', '');
+      var platformCSSPath = Path.normalize(platformEle.get('path')+"/style.css");
+      console.log('stylesheet path :'+platformCSSPath);
+      if(Fs.existsSync(platformCSSPath)){
+        oldCSSPlatform.attr('href', platformCSSPath);
+      }
     }
     if(this.selectCallback){
       this.selectCallback(platformEle);
@@ -220,9 +231,9 @@ var RomsCollectionView = Backbone.View.extend({
   },
       
   setSelected : function(parRom){
-    var changed = (this.selectedRom != parRom);
-    this.selectedRom = parRom;
+    var changed = (this.selectedRom != parRom);    
     if(changed){
+      this.selectedRom = parRom;
       this.onSelectedChange(parRom);
     }
   },
@@ -230,8 +241,7 @@ var RomsCollectionView = Backbone.View.extend({
   onSelectedChange : function (romEle){
     this.el.children('.focus').removeClass('focus');
     if(romEle){
-      this.temporaryFocusContainer();
-      console.log('focus ! on '+romEle.id );
+      this.temporaryFocusContainer();      
       $('#'+romEle.id).addClass('focus');
     }
     if(this.selectCallback){
@@ -309,7 +319,7 @@ var platformsCollectionView = new PlatformsCollectionView();
 var currentView = platformsCollectionView;
 
 
-platformsCollectionView.selectCallback = function(){
+platformsCollectionView.selectCallback = function(parSelected){
   currentView = platformsCollectionView;
   romsCollectionView.setSelected(null);  
 }
@@ -320,7 +330,10 @@ romsCollectionView.selectCallback = function(){
   }
 }
 
-platformsCollectionView.validCallback = function(){  
+platformsCollectionView.validCallback = function(parPlatform){
+  if(parPlatform){
+    parPlatform.doRun();
+  }
   currentView = romsCollectionView;  
   currentView.temporaryFocusContainer();
   if( ! currentView.getSelected()){

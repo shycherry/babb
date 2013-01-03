@@ -2,6 +2,9 @@
 var Backbone = global.Backbone;
 var _ = global._;
 
+var Path = require('path');
+var Fs = require('fs');
+
 var Platform = Backbone.Model.extend({
   defaults: {    
     id : "x",
@@ -10,7 +13,21 @@ var Platform = Backbone.Model.extend({
   },
   
   initialize: function Platform(){
-    console.log('Platform constructor');    
+    console.log('Platform constructor');
+    var manifest = this.loadModule().manifest;
+    this.set({'id':manifest.id});    
+  },
+
+  loadModule : function(){
+    var modulePath = Path.normalize(this.get('path')+'/platform.js');    
+    if(Fs.existsSync(modulePath)){    
+      this.module = require('../'+modulePath);    
+    }
+    return this.module;
+  },
+  
+  doRun : function (){    
+    this.loadModule().doRun();
   },
   
   toString: function(){

@@ -1,9 +1,9 @@
 manifest = {
-  id : '56FF6680-55BB-11E2-BCFD-0800200C9A66',  
+  id : 'psone',  
 }
 
 function doRun(){
-  console.log('running mame !');
+  console.log('running ps one !');
 }
 
 exports.manifest = manifest;

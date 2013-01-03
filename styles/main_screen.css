@@ -5,6 +5,7 @@
   cursor:default;
   padding:0;
   margin:0;
+  font-family: Consolas;
 }
 
 input {
@@ -19,6 +20,8 @@ body {
   background-image: url('../images/htmlbg.png');
   margin: 0px;
   height: 100%;  
+  -webkit-transition-property: all;
+  -webkit-transition-duration: 1s;
 }
 
 img{
@@ -32,13 +35,14 @@ img{
 }
 
 #roms-container.focus, #platforms-container.focus{
+  background-color:rgba(250,250,250,0.9);
   opacity:1;
 }
 
 #roms-container, #platforms-container{
-  background-color:rgba(250,250,250,0.9);
+  background-color:rgba(250,250,250,0);
   opacity:0.1;
-  -webkit-transition-property: opacity;
+  -webkit-transition-property: opacity, background-color;
   -webkit-transition-duration: 1s;
   width:20%;
   height:90%;
@@ -60,7 +64,7 @@ img{
 
 #info-container,#picts-container{
   margin:auto;
-  background-color:rgba(250,250,250,0.9); 
+  background-color:rgba(250,250,250,0.5); 
   width:100%;
 }
 #picts-container{
