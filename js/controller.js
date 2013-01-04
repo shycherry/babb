@@ -325,30 +325,37 @@ var romsCollectionView = new RomsCollectionView();
 var platformsCollectionView = new PlatformsCollectionView();
 var currentView = platformsCollectionView;
 
+function changeCurrentView(parNewCurrentView){
+  currentView = parNewCurrentView;
+  if(currentView == platformsCollectionView){
+    $('#dynabody').removeClass('parallax');
+  }
+  if(currentView == romsCollectionView){
+    $('#dynabody').addClass('parallax');
+  }
+}
 
 platformsCollectionView.selectCallback = function(parSelected){
-  currentView = platformsCollectionView;
+  changeCurrentView(platformsCollectionView);
   romsCollectionView.setSelected(null);  
 }
 
 romsCollectionView.selectCallback = function(){
   if(romsCollectionView.getSelected()){
-    currentView = romsCollectionView;
+    changeCurrentView(romsCollectionView);
   }
 }
 
-platformsCollectionView.validCallback = function(parPlatform){
-  $('#dynabody').addClass('parallax');
-  currentView = romsCollectionView;
+platformsCollectionView.validCallback = function(parPlatform){  
+  changeCurrentView(romsCollectionView);
   currentView.temporaryFocusContainer();
   if( ! currentView.getSelected()){
     currentView.selectNext();
   }
 }
 
-romsCollectionView.backCallback = function(){
-  $('#dynabody').removeClass('parallax');
-  currentView = platformsCollectionView;
+romsCollectionView.backCallback = function(){  
+  changeCurrentView(platformsCollectionView);
   currentView.temporaryFocusContainer();  
 }
 
