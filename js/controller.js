@@ -54,17 +54,12 @@ var PlatformsCollectionView = Backbone.View.extend({
     
     this.reset();
     for(var i in locSniffedFilesArray){      
-      var locFileName = locSniffedFilesArray[i];
-      
+      var locFileName = locSniffedFilesArray[i];      
       var pathNormalized = Path.join(locSniffedPath,locFileName);
       pathNormalized = Path.normalize(pathNormalized);      
       var platform = new Platforms.Platform({path : pathNormalized});
-      
-      //platform.set({id:platform.cid});
       var filenameParts = Path.basename(locFileName).split('.');
       platform.set({name:filenameParts[0]});
-      
-      
       this.platformsCollection.add(platform);
     }
   },
@@ -85,15 +80,27 @@ var PlatformsCollectionView = Backbone.View.extend({
     this.el.children('.focus').removeClass('focus');
     if(platformEle){
       this.temporaryFocusContainer();
+      
+      //highlight
       console.log('focus ! on '+platformEle.id );
       $('#'+platformEle.id).addClass('focus');
       
+      //change CSS
       var oldCSSPlatform = $('#CSS-Platform');
       oldCSSPlatform.attr('href', '');
       var platformCSSPath = Path.normalize(platformEle.get('path')+"/style.css");
       console.log('stylesheet path :'+platformCSSPath);
       if(Fs.existsSync(platformCSSPath)){
         oldCSSPlatform.attr('href', platformCSSPath);
+      }
+      
+      //change dynabody
+      var dynabody = $('#dynabody');
+      dynabody.children().remove();
+      var platformDynaBodyPath = Path.normalize(platformEle.get('path')+"/layout.html");
+      console.log('dynabody path :'+platformDynaBodyPath);
+      if(Fs.existsSync(platformDynaBodyPath)){
+        dynabody.load(platformDynaBodyPath);
       }
     }
     if(this.selectCallback){
@@ -331,10 +338,8 @@ romsCollectionView.selectCallback = function(){
 }
 
 platformsCollectionView.validCallback = function(parPlatform){
-  if(parPlatform){
-    parPlatform.doRun();
-  }
-  currentView = romsCollectionView;  
+  $('#dynabody').addClass('parallax');
+  currentView = romsCollectionView;
   currentView.temporaryFocusContainer();
   if( ! currentView.getSelected()){
     currentView.selectNext();
@@ -342,8 +347,9 @@ platformsCollectionView.validCallback = function(parPlatform){
 }
 
 romsCollectionView.backCallback = function(){
-  platformsCollectionView.temporaryFocusContainer();  
-  currentView= platformsCollectionView;
+  $('#dynabody').removeClass('parallax');
+  currentView = platformsCollectionView;
+  currentView.temporaryFocusContainer();  
 }
 
 global.window.document.onkeydown = applyKey;

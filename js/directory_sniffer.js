@@ -29,7 +29,7 @@ function refillCollection(parPathToSniff){
     locReport.sniffedPath = parPathToSniff;
     var sniffedFilesArray = [];
     for(var i in files){
-      sniffedFilesArray.push(files[i]);        
+      sniffedFilesArray.push(files[i]);
     }
     locReport.sniffedFilesArray = sniffedFilesArray;      
     notifyDirectoryChanged(parPathToSniff, locReport);

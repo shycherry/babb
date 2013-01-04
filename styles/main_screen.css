@@ -16,12 +16,27 @@ html{
 	height: 100%;
 }
 
-body {
+body {    
   background-image: url('../images/htmlbg.png');
   margin: 0px;
-  height: 100%;  
-  -webkit-transition-property: all;
-  -webkit-transition-duration: 1s;
+  height: 100%;    
+}
+
+#dynabody.parallax{
+  margin:0%;
+}
+
+#dynabody{  
+  position: fixed;
+  z-index:-1;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  margin-left:5%;
+  background-color:transparent;  
+  -webkit-transition-property: background-image, margin;
+  -webkit-transition-duration: 0.5s;
 }
 
 img{
@@ -35,15 +50,17 @@ img{
 }
 
 #roms-container.focus, #platforms-container.focus{
+  -webkit-transform:translateX(0);
+  -webkit-transition-duration: 0.5s;
   background-color:rgba(250,250,250,0.9);
   opacity:1;
 }
 
 #roms-container, #platforms-container{
   background-color:rgba(250,250,250,0);
-  opacity:0.1;
-  -webkit-transition-property: opacity, background-color;
-  -webkit-transition-duration: 1s;
+  opacity:0.1;  
+  -webkit-transition-property: opacity, background-color, -webkit-transform;
+  -webkit-transition-duration: 2s;
   width:20%;
   height:90%;
   overflow-x:hidden;
@@ -53,28 +70,13 @@ img{
 }
 
 #platforms-container{
+  -webkit-transform:translateX(-50%);
   text-align:left;
   left:0%;
 }
 
-#roms-container{
+#roms-container{  
+  -webkit-transform:translateX(50%);
   text-align:right;
   left:80%;
-}
-
-#info-container,#picts-container{
-  margin:auto;
-  background-color:rgba(250,250,250,0.5); 
-  width:100%;
-}
-#picts-container{
-  text-align:center;  
-  height:60%;
-  overflow:hidden;
-}
-
-#info-container{  
-  text-align:left;
-  height:30%;
-  overflow-y:auto;  
 }
