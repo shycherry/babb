@@ -6,14 +6,14 @@ exports.getName = function(){
 }
 
 exports.getLogoPath = function(){
-  return './platforms/N64/images/n64_logo_128px_by_breadwrap.png'
+  return __dirname+'/images/n64_logo_128px_by_breadwrap.png'
 }
 
 exports.getRomsPaths = function(){
   return romsPaths
 }
 
-exports.runRom = function (parRom){
+exports.runRom = function (parRom){  
   if(parRom){
     var selectedRomPath = parRom.get('path');
     if(selectedRomPath){

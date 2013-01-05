@@ -34,6 +34,8 @@
 #info-container{  
   background-color:rgba(250,250,250,0.9); 
   text-align:left;
+  width:80%;
   height:30%;
   overflow-y:auto;  
+  pointer-events:all;
 }

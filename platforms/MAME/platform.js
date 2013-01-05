@@ -6,7 +6,7 @@ exports.getName = function(){
 }
 
 exports.getLogoPath = function(){
-  return './platforms/mame/images/8364-haveac00kie-Mame.png'
+  return __dirname+'/images/8364-haveac00kie-Mame.png'
 }
 
 exports.getRomsPaths = function(){

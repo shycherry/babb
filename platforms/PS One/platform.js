@@ -3,5 +3,5 @@ exports.getName = function(){
 }
 
 exports.getLogoPath = function(){
-  return './platforms/ps one/images/logo.png'
+  return __dirname+'/images/logo.png'
 }
