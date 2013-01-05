@@ -34,11 +34,8 @@ var PlatformsCollectionView = Backbone.View.extend({
     });
     this.el.on("click", ".platform", function(event){
       self.setSelected(self.platformsCollection.get(this.id));
-      
-    });
-    this.el.on("dblclick", ".platform", function(){
-      self.validSelected();
-    });
+      self.validSelected();      
+    });    
 	},
   
   doSniff: function(){
