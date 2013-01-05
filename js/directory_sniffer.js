@@ -8,11 +8,8 @@ var SniffedDirectoryRepport = function () {};
 function sniff(parPathsToSniff, parCallback){
   for (var i in parPathsToSniff){
     callbacks[parPathsToSniff[i]] = parCallback;
-  }
-  for (var path in parPathsToSniff){
-    refillCollection(path);
-  }
-  startSniff();
+    startSniff(parPathsToSniff[i]);
+  }  
 }
 
 function notifyDirectoryChanged(pathToSniff, report){
@@ -36,22 +33,22 @@ function refillCollection(parPathToSniff){
   });
 }
 
-function startSniff(){
-  for (var pathToSniff in callbacks){
-    refillCollection(pathToSniff);
-    var watcher = Fs.watch(pathToSniff, function(event, filename){
-      console.log('event:'+event+' for filename:'+filename);
-      refillCollection(pathToSniff);
-    });
+function startSniff(parPathToSniff){  
+  refillCollection(parPathToSniff);
+  var watcher = Fs.watch(parPathToSniff, function(event, filename){
+    console.log('event:'+event+' for filename:'+filename);
+    refillCollection(parPathToSniff);
+  });
 
-    if(watcher){
-      watchers[pathToSniff] = watcher;
-    }
-  };
+  if(watcher){
+    watchers[parPathToSniff] = watcher;
+  }
+  
 }
 
 function stopSniff(parPaths){
-  for(var path in parPaths){
+  for(var i in parPaths){
+    var path = parPaths[i];
     if(callbacks[path]){
       delete(callbacks[path]);
     }  

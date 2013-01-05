@@ -18,18 +18,23 @@ var PlatformsCollectionView = Backbone.View.extend({
   selectCallback: null,
 	  
   initialize : function() {
+    console.log('PlatformsCollectionView initialize');
     var self = this;
     this.el = $(global.BABB.PlatformsConfig.platformsContainerId);
     _.bindAll(this, 'render');
     _.bindAll(this, 'onSniffed');
     _.bindAll(this, 'onSelectedChange');
     _.bindAll(this, 'temporaryFocusContainer');    
-    this.platformsCollection.bind('change', _.throttle(this.render,100));
-    this.platformsCollection.bind('add', _.throttle(this.render,100));
-    this.platformsCollection.bind('remove', _.throttle(this.render,100));    
-    this.el.bind("mousemove", this.temporaryFocusContainer);
-    this.el.on("click", ".platform", function(){
+    this.platformsCollection.bind('change', /*_.throttle(*/this.render/*,100)*/);
+    this.platformsCollection.bind('add', /*_.throttle(*/this.render/*,100)*/);
+    this.platformsCollection.bind('remove', /*_.throttle(*/this.render/*,100)*/);    
+    this.el.bind("mousemove", this.temporaryFocusContainer);    
+    this.el.on("click", function(event){      
+      event.stopPropagation();
+    });
+    this.el.on("click", ".platform", function(event){
       self.setSelected(self.platformsCollection.get(this.id));
+      
     });
     this.el.on("dblclick", ".platform", function(){
       self.validSelected();
@@ -58,8 +63,7 @@ var PlatformsCollectionView = Backbone.View.extend({
       var pathNormalized = Path.join(locSniffedPath,locFileName);
       pathNormalized = Path.normalize(pathNormalized);      
       var platform = new Platforms.Platform({path : pathNormalized});
-      var filenameParts = Path.basename(locFileName).split('.');
-      platform.set({name:filenameParts[0]});
+      platform.set({id:platform.cid});
       this.platformsCollection.add(platform);
     }
   },
@@ -81,15 +85,13 @@ var PlatformsCollectionView = Backbone.View.extend({
     if(platformEle){
       this.temporaryFocusContainer();
       
-      //highlight
-      console.log('focus ! on '+platformEle.id );
+      //highlight      
       $('#'+platformEle.id).addClass('focus');
       
       //change CSS
       var oldCSSPlatform = $('#CSS-Platform');
       oldCSSPlatform.attr('href', '');
       var platformCSSPath = Path.normalize(platformEle.get('path')+"/style.css");
-      console.log('stylesheet path :'+platformCSSPath);
       if(Fs.existsSync(platformCSSPath)){
         oldCSSPlatform.attr('href', platformCSSPath);
       }
@@ -98,7 +100,6 @@ var PlatformsCollectionView = Backbone.View.extend({
       var dynabody = $('#dynabody');
       dynabody.children().remove();
       var platformDynaBodyPath = Path.normalize(platformEle.get('path')+"/layout.html");
-      console.log('dynabody path :'+platformDynaBodyPath);
       if(Fs.existsSync(platformDynaBodyPath)){
         dynabody.load(platformDynaBodyPath);
       }
@@ -114,7 +115,7 @@ var PlatformsCollectionView = Backbone.View.extend({
       next = this.platformsCollection.first();
     }else{
       var indexSelected = this.platformsCollection.indexOf(this.selectedPlatform);
-      next = this.platformsCollection.at(indexSelected + 1 );
+      next = this.platformsCollection.at((indexSelected + 1) % this.platformsCollection.size() );
     }
     if(next){
       this.setSelected(next);
@@ -127,7 +128,7 @@ var PlatformsCollectionView = Backbone.View.extend({
       previous = this.platformsCollection.first();
     }else{
       var indexSelected = this.platformsCollection.indexOf(this.selectedPlatform);
-      previous = this.platformsCollection.at(indexSelected - 1 );
+      previous = this.platformsCollection.at((indexSelected + this.platformsCollection.size() - 1) % this.platformsCollection.size() );
     }
     if(previous){
       this.setSelected(previous);
@@ -139,6 +140,11 @@ var PlatformsCollectionView = Backbone.View.extend({
     this.el.addClass('focus');
     var self = this;
     this.lastPlatformsContainerFocusTimeoutId = setTimeout(function(){self.el.removeClass('focus')},1000);
+  },
+  
+  unfocusContainer : function(){
+    clearTimeout(this.lastRomsContainerFocusTimeoutId);
+    this.el.removeClass('focus');
   },
   
   validSelected : function(){    
@@ -177,8 +183,10 @@ var RomsCollectionView = Backbone.View.extend({
   validCallback: null,
   backCallback: null,
   selectCallback: null,
+  currentPathsToSniff : null,
   
   initialize : function() {
+    console.log('RomsCollectionView initialize');
     var self = this;
     this.el = $(global.BABB.RomsConfig.romsContainerId);
     _.bindAll(this, 'render');
@@ -186,27 +194,32 @@ var RomsCollectionView = Backbone.View.extend({
     _.bindAll(this, 'onSelectedChange');
     _.bindAll(this, 'temporaryFocusContainer');
     
-    this.romsCollection.bind('change', /*_.throttle(*/this.render/*,100)*/);
-    this.romsCollection.bind('add', /*_.throttle(*/this.render/*,100)*/);
-    this.romsCollection.bind('remove', /*_.throttle(*/this.render/*,100)*/);    
+    this.romsCollection.bind('change', _.throttle(this.render,100));
+    this.romsCollection.bind('add', _.throttle(this.render,100));
+    this.romsCollection.bind('remove', _.throttle(this.render,100));    
+    this.romsCollection.bind('reset', _.throttle(this.render,100));    
     this.el.bind("mousemove", this.temporaryFocusContainer);
-    this.el.on("click", ".rom", function(){
+    this.el.on("click", function(event){      
+      event.stopPropagation();
+    });
+    this.el.on("click", ".rom", function(event){
       self.setSelected(self.romsCollection.get(this.id));
+      event.stopPropagation();
+    });
+    this.el.on("mousewheel", function(event){      
+      event.stopPropagation();
     });
     this.el.on("dblclick", ".rom", function(){
       self.validSelected();
     });
   },
   
-  doSniff: function(){
+  doSniff: function(romsPaths){
+    this.reset();
     var Sniffer = require('./directory_sniffer');    
-    var snifferInput = $(global.BABB.ServicesConfig.manualSnifferInputId);  
-    var pathsToSniff = [global.BABB.ServicesConfig.firstDefaultRomPath];
-    if(snifferInput.size() >0){
-      pathsToSniff = [snifferInput.val()];
-    }
-    Sniffer.stopSniff(pathsToSniff);
-    Sniffer.sniff(pathsToSniff, this.onSniffed);
+    Sniffer.stopSniff(this.currentPathsToSniff);    
+    Sniffer.sniff(romsPaths, this.onSniffed);
+    this.currentPathsToSniff = romsPaths;
   },
   
     
@@ -230,7 +243,7 @@ var RomsCollectionView = Backbone.View.extend({
       pathNormalized = Path.normalize(pathNormalized);
       rom.set({path : pathNormalized});    
       this.romsCollection.add(rom);
-    }    
+    }
   },
   
   getSelected : function(){
@@ -289,17 +302,12 @@ var RomsCollectionView = Backbone.View.extend({
     this.lastRomsContainerFocusTimeoutId = setTimeout(function(){self.el.removeClass('focus')},1000);
   },
   
+  unfocusContainer : function(){
+    clearTimeout(this.lastRomsContainerFocusTimeoutId);
+    this.el.removeClass('focus');
+  },
+  
   validSelected : function(){    
-    if(this.selectedRom){
-      var selectedRomPath = this.selectedRom.get('path');
-      if(selectedRomPath){
-        Spawner.spawn(
-          global.BABB.TestConfig.platformPath, 
-          ['-rp', Path.dirname(selectedRomPath), this.selectedRom.get('title')],
-          {cwd : Path.dirname(global.BABB.TestConfig.platformPath)}
-        );        
-      }
-    }
     if (this.validCallback){
       this.validCallback(this.selectedRom);
     }
@@ -323,24 +331,58 @@ var RomsCollectionView = Backbone.View.extend({
 
 var romsCollectionView = new RomsCollectionView();
 var platformsCollectionView = new PlatformsCollectionView();
-var currentView = platformsCollectionView;
+var currentView = null;
+changeCurrentView(platformsCollectionView);
 
 function changeCurrentView(parNewCurrentView){
-  currentView = parNewCurrentView;
-  if(currentView == platformsCollectionView){
-    $('#dynabody').removeClass('parallax');
-  }
-  if(currentView == romsCollectionView){
-    $('#dynabody').addClass('parallax');
+  if(parNewCurrentView && parNewCurrentView != currentView){
+    if(currentView){
+      currentView.unfocusContainer();
+    }
+    currentView = parNewCurrentView;    
+    currentView.temporaryFocusContainer();
+    if(currentView == platformsCollectionView){
+      $('#dynabody').removeClass('parallax');
+      $(global.BABB.RomsConfig.romsContainerId).addClass('hidden');
+      $(global.BABB.PlatformsConfig.platformsContainerId).removeClass('hidden');
+    }
+    else if(currentView == romsCollectionView){
+      $('#dynabody').addClass('parallax');
+      $(global.BABB.PlatformsConfig.platformsContainerId).addClass('hidden');
+      $(global.BABB.RomsConfig.romsContainerId).removeClass('hidden');
+    }
   }
 }
 
-platformsCollectionView.selectCallback = function(parSelected){
-  changeCurrentView(platformsCollectionView);
-  romsCollectionView.setSelected(null);  
+$('body').on("click", function(event){
+  if(currentView == platformsCollectionView){
+    currentView.validSelected();
+  }
+  else if(currentView == romsCollectionView){
+    currentView.back();
+  }
+});
+
+$('body').on("mousewheel", function(event, delta){
+  var delta = event.originalEvent.wheelDelta;
+  if(delta < 0){
+    currentView.selectNext();
+  }else{
+    currentView.selectPrevious();
+  }  
+});
+
+platformsCollectionView.selectCallback = function(parPlatform){
+  if(parPlatform){
+    changeCurrentView(platformsCollectionView);
+    console.log('platforms select callback');
+    romsCollectionView.doSniff(parPlatform.getRomsPaths());
+    romsCollectionView.setSelected(null);
+  }
 }
 
 romsCollectionView.selectCallback = function(){
+  console.log('roms select callback');
   if(romsCollectionView.getSelected()){
     changeCurrentView(romsCollectionView);
   }
@@ -348,20 +390,30 @@ romsCollectionView.selectCallback = function(){
 
 platformsCollectionView.validCallback = function(parPlatform){  
   changeCurrentView(romsCollectionView);
-  currentView.temporaryFocusContainer();
   if( ! currentView.getSelected()){
     currentView.selectNext();
   }
 }
 
+platformsCollectionView.backCallback = function(){  
+  changeCurrentView(platformsCollectionView);
+}
+
+romsCollectionView.validCallback = function(parRom){
+  if(parRom){
+    var selectedPlatform = platformsCollectionView.getSelected();
+    if(selectedPlatform){
+      selectedPlatform.runRom(parRom);
+    }
+  }
+}
+
 romsCollectionView.backCallback = function(){  
   changeCurrentView(platformsCollectionView);
-  currentView.temporaryFocusContainer();  
 }
 
 global.window.document.onkeydown = applyKey;
 function applyKey(keyEvent){
-  console.log('keyEvent: '+keyEvent);
   if(keyEvent.keyCode == global.BABB.Controls.up){
     currentView.selectPrevious();
   }
@@ -378,7 +430,6 @@ function applyKey(keyEvent){
 
 function doSniff(){
   platformsCollectionView.doSniff();
-  romsCollectionView.doSniff();    
 }
 
 exports.doSniff = doSniff;

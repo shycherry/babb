@@ -8,26 +8,42 @@ var Fs = require('fs');
 var Platform = Backbone.Model.extend({
   defaults: {    
     id : "x",
-    name : "Platform name",
-    path : "/default/path",    
+    name : "unammed platform",
+    path : "/default/path",
   },
+  
+  platformModule : null,
   
   initialize: function Platform(){
     console.log('Platform constructor');
-    var manifest = this.loadModule().manifest;
-    this.set({'id':manifest.id});    
+    this.loadModule();
+    
+    if(this.platformModule.getName){
+      this.set({
+        'name' : this.platformModule.getName(),
+      });    
+    }
   },
 
-  loadModule : function(){
-    var modulePath = Path.normalize(this.get('path')+'/platform.js');    
+  loadModule : function(){    
+    var modulePath = Path.normalize(this.get('path')+'/platform.js');
     if(Fs.existsSync(modulePath)){    
-      this.module = require('../'+modulePath);    
+      this.platformModule = require('../'+modulePath);
     }
-    return this.module;
+    return this.platformModule;
   },
   
-  doRun : function (){    
-    this.loadModule().doRun();
+  getRomsPaths : function(){
+    if(this.platformModule.getRomsPaths){
+      return this.platformModule.getRomsPaths();
+    }
+    return [];
+  },
+  
+  runRom : function (parRom){    
+    if(this.platformModule.runRom){
+      this.platformModule.runRom(parRom);
+    }
   },
   
   toString: function(){

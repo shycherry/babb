@@ -1,10 +1,3 @@
-manifest = {
-  id : 'PS2',
+exports.getName = function(){
+  return 'PlayStation 2'
 }
-
-function doRun(){
-  console.log('running PS2 !');
-}
-
-exports.manifest = manifest;
-exports.doRun = doRun;

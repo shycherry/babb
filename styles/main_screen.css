@@ -24,6 +24,7 @@ body {
 
 #dynabody.parallax{
   margin:0%;
+  opacity:1;
 }
 
 #dynabody{  
@@ -35,7 +36,8 @@ body {
   height: 100%;
   margin-left:5%;
   background-color:transparent;  
-  -webkit-transition-property: background-image, margin;
+  opacity:0.9;
+  -webkit-transition-property: background-image, margin, opacity;
   -webkit-transition-duration: 0.5s;
 }
 
@@ -47,6 +49,12 @@ img{
 	text-align: center;
   height:5%;
   overflow-y:auto;  
+}
+
+#roms-container.hidden, #platforms-container.hidden{
+  -webkit-transition-duration: 0.5s;
+  opacity:0;
+  pointer-events:none;
 }
 
 #roms-container.focus, #platforms-container.focus{
@@ -73,6 +81,7 @@ img{
   -webkit-transform:translateX(-50%);
   text-align:left;
   left:0%;
+  display:none;
 }
 
 #roms-container{  

@@ -1,10 +1,3 @@
-manifest = {
-  id : 'psone',  
+exports.getName = function(){
+  return 'PS One'
 }
-
-function doRun(){
-  console.log('running ps one !');
-}
-
-exports.manifest = manifest;
-exports.doRun = doRun;

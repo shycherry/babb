@@ -6,7 +6,6 @@ global._ = _;
 global.BABB = {
   TestConfig:{
     killidPath: '.\\native_tools\\killid.exe',
-    platformPath: 'C:\\Users\\Vincent\\Downloads\\mame\\mame64.exe'
   },
   Controls:{
     up: 90, //z

@@ -1,10 +1,27 @@
-manifest = {
-  id : 'mame',
+var mamePath = 'C:\\Users\\Vincent\\Downloads\\mame\\mame64.exe'
+var romsPaths = ["c:\\"]
+
+exports.getName = function(){
+  return 'MAME'
 }
 
-function doRun(){
-  console.log('running mame !');
+exports.getRomsPaths = function(){
+  return romsPaths
 }
 
-exports.manifest = manifest;
-exports.doRun = doRun;
+exports.runRom = function (parRom){
+  if(parRom){
+    var selectedRomPath = parRom.get('path');
+    if(selectedRomPath){      
+      var Spawner = require('../../js/spawner');
+      var Path = require('path');
+      Spawner.spawn(
+        mamePath, 
+        ['-rp', Path.dirname(selectedRomPath), parRom.get('title')],
+        {cwd : Path.dirname(mamePath)}
+      );        
+    }
+  }  
+}
+
+
