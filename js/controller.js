@@ -276,7 +276,7 @@ var RomsCollectionView = Backbone.View.extend({
       nextRom = this.romsCollection.first();
     }else{
       var indexSelected = this.romsCollection.indexOf(this.selectedRom);
-      nextRom = this.romsCollection.at(indexSelected + 1 );
+      nextRom = this.romsCollection.at((indexSelected + 1) % this.romsCollection.size() );      
     }
     if(nextRom){
       this.setSelected(nextRom);
@@ -289,7 +289,7 @@ var RomsCollectionView = Backbone.View.extend({
       previousRom = this.romsCollection.first();
     }else{
       var indexSelected = this.romsCollection.indexOf(this.selectedRom);
-      previousRom = this.romsCollection.at(indexSelected - 1 );
+      previousRom = this.romsCollection.at((indexSelected + this.romsCollection.size() - 1) % this.romsCollection.size() );     
     }
     if(previousRom){
       this.setSelected(previousRom);
