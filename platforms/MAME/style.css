@@ -10,6 +10,10 @@
   }
 }
 
+#dynabody{
+  background-image: url('images/mameLogo.png');
+}
+
 #info-container,#picts-container{
   margin:auto;  
   width:100%;

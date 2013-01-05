@@ -49,6 +49,7 @@ img{
 	text-align: center;
   height:5%;
   overflow-y:auto;  
+  position:fixed;
 }
 
 #roms-container.hidden, #platforms-container.hidden{
@@ -69,8 +70,6 @@ img{
   opacity:0.1;  
   -webkit-transition-property: opacity, background-color, -webkit-transform;
   -webkit-transition-duration: 2s;
-  width:20%;
-  height:90%;
   overflow-x:hidden;
   overflow-y:auto;
   position: fixed;
@@ -81,11 +80,21 @@ img{
   -webkit-transform:translateX(-50%);
   text-align:left;
   left:0%;
-  display:none;
+  height:100%;
+  width:5%;
+  #display:none;
+}
+
+.platform img{
+  width:100%;
+  height:auto;  
 }
 
 #roms-container{  
   -webkit-transform:translateX(50%);
   text-align:right;
+  top : 5%;
   left:80%;
+  height:90%;
+  width:20%;
 }

@@ -10,7 +10,11 @@
     <script type="text/template" id="platforms-collection-template">
       <% _.each(platforms, function(platform){%>
         <li id="<%= platform.get("id") %>" class="platform">
-          <b><%= platform.get("name") %></b>
+          <% if(platform.getLogoPath() ) {%>
+            <img src="<%= platform.getLogoPath()%>">
+          <%}else{%>
+            <b><%= platform.get("name") %></b>
+          <%}%>
         </li>
       <%})%>
     </script>

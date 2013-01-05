@@ -66,6 +66,10 @@ var PlatformsCollectionView = Backbone.View.extend({
       platform.set({id:platform.cid});
       this.platformsCollection.add(platform);
     }
+    
+    if(!this.getSelected()){
+      this.selectNext();
+    }
   },
   
   getSelected: function(){
@@ -364,12 +368,14 @@ $('body').on("click", function(event){
 });
 
 $('body').on("mousewheel", function(event, delta){
+
   var delta = event.originalEvent.wheelDelta;
   if(delta < 0){
     currentView.selectNext();
   }else{
     currentView.selectPrevious();
-  }  
+  }      
+  
 });
 
 platformsCollectionView.selectCallback = function(parPlatform){

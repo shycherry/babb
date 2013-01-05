@@ -1,8 +1,12 @@
-var mamePath = 'C:\\Users\\Vincent\\Downloads\\mame\\mame64.exe'
-var romsPaths = ["c:\\"]
+var mamePath = 'C:\\Users\\Vincent\\Desktop\\Emulateur\\mame\\mame64.exe'
+var romsPaths = ["C:\\Users\\Vincent\\Desktop\\Roms\\MAME"]
 
 exports.getName = function(){
   return 'MAME'
+}
+
+exports.getLogoPath = function(){
+  return './platforms/mame/images/8364-haveac00kie-Mame.png'
 }
 
 exports.getRomsPaths = function(){

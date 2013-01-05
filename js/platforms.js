@@ -33,6 +33,12 @@ var Platform = Backbone.Model.extend({
     return this.platformModule;
   },
   
+  getLogoPath : function(){
+    if(this.platformModule.getLogoPath){
+      return this.platformModule.getLogoPath();
+    }
+  },
+  
   getRomsPaths : function(){
     if(this.platformModule.getRomsPaths){
       return this.platformModule.getRomsPaths();
