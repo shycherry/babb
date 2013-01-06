@@ -7,8 +7,10 @@ var SniffedDirectoryRepport = function () {};
 
 function sniff(parPathsToSniff, parCallback){
   for (var i in parPathsToSniff){
-    callbacks[parPathsToSniff[i]] = parCallback;
-    startSniff(parPathsToSniff[i]);
+    if(Fs.existsSync(parPathsToSniff[i])){
+      callbacks[parPathsToSniff[i]] = parCallback;
+      startSniff(parPathsToSniff[i]);
+    }
   }  
 }
 

@@ -1,0 +1,9 @@
+﻿//config for PSOne platform
+//used emulator : epsxe 1.8
+
+exports.config = {
+  displayName : 'PSOne',
+  emulatorPath : 'C:/Users/Vincent/Desktop/emulators/ePSXe/epsxe.exe',
+  romsPaths : ['E:/ISOs PSX', 'E:/ISOs PSX/Crash Bandicoot 3', 'E:/ISOs PSX/[PSX]Metal.Gear.Solid.1'],
+  romsExtensions : ['.iso', '.bin'],
+}
