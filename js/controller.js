@@ -34,7 +34,7 @@ var PlatformsCollectionView = Backbone.View.extend({
     });
     this.el.on("click", ".platform", function(event){
       self.setSelected(self.platformsCollection.get(this.id));
-      self.validSelected();      
+      self.validSelected();
     });    
 	},
   
@@ -185,6 +185,7 @@ var RomsCollectionView = Backbone.View.extend({
   backCallback: null,
   selectCallback: null,
   currentPathsToSniff : null,
+  romsProvider: null,
   
   initialize : function() {
     console.log('RomsCollectionView initialize');
@@ -215,8 +216,10 @@ var RomsCollectionView = Backbone.View.extend({
     });
   },
   
-  doSniff: function(romsPaths){
+  doSniff: function(parPlatform){
     this.reset();
+    var romsPaths = parPlatform.getRomsPaths();
+    this.romsProvider = parPlatform.getRomsProvider();
     var Sniffer = require('./directory_sniffer');    
     Sniffer.stopSniff(this.currentPathsToSniff);    
     Sniffer.sniff(romsPaths, this.onSniffed);
@@ -225,26 +228,14 @@ var RomsCollectionView = Backbone.View.extend({
   
     
   reset : function(){
+    this.template = _.template( $(global.BABB.RomsConfig.romsCollectionTemplateId).html() );
     this.romsCollection.reset();
     this.setSelected(null);
   },
   
   onSniffed : function(parReport){  
-    var locSniffedPath = parReport.sniffedPath;
-    var locSniffedFilesArray = parReport.sniffedFilesArray;
-    
     this.reset();
-    for(var i in locSniffedFilesArray){
-      var locFileName = locSniffedFilesArray[i];    
-      var rom = new Roms.Rom();
-      rom.set({id:rom.cid});
-      var filenameParts = Path.basename(locFileName).split('.');
-      rom.set({title:filenameParts[0]});
-      var pathNormalized = Path.join(locSniffedPath,locFileName);
-      pathNormalized = Path.normalize(pathNormalized);
-      rom.set({path : pathNormalized});    
-      this.romsCollection.add(rom);
-    }
+    this.romsProvider(parReport, this.romsCollection);    
   },
   
   getSelected : function(){
@@ -352,6 +343,8 @@ function changeCurrentView(parNewCurrentView){
       $(global.BABB.PlatformsConfig.platformsContainerId).addClass('hidden');
       $(global.BABB.RomsConfig.romsContainerId).removeClass('hidden');
     }
+  }else if(currentView){
+    currentView.temporaryFocusContainer();
   }
 }
 
@@ -377,9 +370,8 @@ $('body').on("mousewheel", function(event, delta){
 
 platformsCollectionView.selectCallback = function(parPlatform){
   if(parPlatform){
-    changeCurrentView(platformsCollectionView);
-    console.log('platforms select callback');
-    romsCollectionView.doSniff(parPlatform.getRomsPaths());
+    changeCurrentView(platformsCollectionView);    
+    romsCollectionView.doSniff(parPlatform);
     romsCollectionView.setSelected(null);
   }
 }

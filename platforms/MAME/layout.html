@@ -1,4 +1,12 @@
 ﻿<html>
+  <script type="text/template" id="roms-collection-template">
+    <% _.each(roms, function(rom){%>
+      <li id="<%= rom.get("id") %>" class="rom">
+        <b>~<%= rom.get("title") %>~</b>
+      </li>
+    <%})%>
+  </script>
+    
   <ul id="picts-container">
     <img src="./platforms/MAME/images/metalslug.jpg">
   </ul>

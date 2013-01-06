@@ -1,0 +1,9 @@
+﻿//config for N64 platform
+//used emulator : project64 v1.6
+
+exports.config = {
+  displayName : 'Nintendo 64',
+  project64Path : 'C:/Program Files (x86)/Project64 1.6/Project64.exe',
+  romsPaths : ['C:/Users/Vincent/Desktop/Roms/N64'],
+  romsExtensions : ['.zip'],
+}

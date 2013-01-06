@@ -4,6 +4,7 @@ var _ = global._;
 
 var Path = require('path');
 var Fs = require('fs');
+var Roms = require('./roms');
 
 var Platform = Backbone.Model.extend({
   defaults: {    
@@ -44,6 +45,30 @@ var Platform = Backbone.Model.extend({
       return this.platformModule.getRomsPaths();
     }
     return [];
+  },
+  
+  getRomsProvider: function(){
+    if(this.platformModule.romsProvider){
+      return this.platformModule.romsProvider;
+    }
+    return this.defaultRomsProvider;
+  },
+  
+  defaultRomsProvider : function(parReport, oRomsCollection){  
+    var locSniffedPath = parReport.sniffedPath;
+    var locSniffedFilesArray = parReport.sniffedFilesArray;    
+    
+    for(var i in locSniffedFilesArray){
+      var locFileName = locSniffedFilesArray[i];    
+      var rom = new Roms.Rom();
+      rom.set({id:rom.cid});
+      var filenameParts = Path.basename(locFileName).split('.');
+      rom.set({title:filenameParts[0]});
+      var pathNormalized = Path.join(locSniffedPath,locFileName);
+      pathNormalized = Path.normalize(pathNormalized);
+      rom.set({path : pathNormalized});    
+      oRomsCollection.add(rom);
+    }
   },
   
   runRom : function (parRom){    

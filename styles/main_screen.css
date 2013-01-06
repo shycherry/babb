@@ -50,6 +50,7 @@ img{
   height:5%;
   overflow-y:auto;  
   position:fixed;
+  display:none;
 }
 
 #roms-container.hidden, #platforms-container.hidden{
