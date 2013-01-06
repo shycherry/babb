@@ -395,11 +395,15 @@ platformsCollectionView.backCallback = function(){
 }
 
 romsCollectionView.validCallback = function(parRom){
-  if(parRom){
-    var selectedPlatform = platformsCollectionView.getSelected();
-    if(selectedPlatform){
-      selectedPlatform.runRom(parRom);
+  if($(global.BABB.RomsConfig.romsContainerId).hasClass('focus')){
+    if(parRom){
+      var selectedPlatform = platformsCollectionView.getSelected();
+      if(selectedPlatform){
+        selectedPlatform.runRom(parRom);
+      }
     }
+  }else{
+    changeCurrentView(romsCollectionView);
   }
 }
 
