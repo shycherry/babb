@@ -21,17 +21,15 @@ global.BABB = {
   RomsConfig:{
     romsContainerId : "#roms-container",
     romsCollectionTemplateId: "#roms-collection-template"
-  },
-  ServicesConfig:{
-    firstDefaultRomPath:"c:\\",
-    manualSnifferInputId : "#pathToSniff"
-  }
+  }, 
 };
 
 var Controller = require("./js/controller");
+var Gui = require('nw.gui');
 
 function go(){  
   Controller.doSniff();
+  Gui.Window.get().show();
 }
 
 $(document).ready(go);
