@@ -6,7 +6,7 @@ exports.getName = function(){
 }
 
 exports.getLogoPath = function(){
-  return __dirname+'/images/8364-haveac00kie-Mame.png'
+  return '/images/8364-haveac00kie-Mame.png'
 }
 
 exports.getRomsPaths = function(){
@@ -17,7 +17,7 @@ exports.runRom = function (parRom){
   if(parRom){
     var selectedRomPath = parRom.get('path');
     if(selectedRomPath){      
-      var Spawner = require('../../js/spawner');
+      var Spawner = require(process.cwd()+'/js/spawner');
       var Path = require('path');
       Spawner.spawn(
         mamePath, 

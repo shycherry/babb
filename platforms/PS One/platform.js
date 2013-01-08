@@ -7,7 +7,7 @@ exports.getName = function(){
 }
 
 exports.getLogoPath = function(){
-  return __dirname+'/images/logo.png'
+  return './images/logo.png'
 }
 
 exports.getRomsPaths = function(){
