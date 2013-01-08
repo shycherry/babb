@@ -22,8 +22,8 @@ body {
   height: 100%;    
 }
 
-#dynabody.parallax{
-  margin:0%;
+#dynabody.parallax{  
+  -webkit-transform:translateX(0);
   opacity:1;
 }
 
@@ -33,11 +33,11 @@ body {
   left: 0%;
   top: 0%;
   width: 100%;
-  height: 100%;
-  margin-left:5%;
+  height: 100%;  
   background-color:transparent;  
   opacity:0.9;
-  -webkit-transition-property: background-image, margin, opacity;
+  -webkit-transform:translateX(5%);
+  -webkit-transition-property: -webkit-transform, opacity;
   -webkit-transition-duration: 0.5s;
 }
 
