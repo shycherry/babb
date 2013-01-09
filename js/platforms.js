@@ -55,19 +55,21 @@ var Platform = Backbone.Model.extend({
   },
   
   defaultRomsProvider : function(parReport, oRomsCollection){  
-    var locSniffedPath = parReport.sniffedPath;
-    var locSniffedFilesArray = parReport.sniffedFilesArray;    
     
-    for(var i in locSniffedFilesArray){
-      var locFileName = locSniffedFilesArray[i];    
-      var rom = new Roms.Rom();
-      rom.set({id:rom.cid});
-      var filenameParts = Path.basename(locFileName).split('.');
-      rom.set({title:filenameParts[0]});
-      var pathNormalized = Path.join(locSniffedPath,locFileName);
-      pathNormalized = Path.normalize(pathNormalized);
-      rom.set({path : pathNormalized});    
-      oRomsCollection.add(rom);
+    for(locSniffedPath in parReport){      
+      var locSniffedFilesArray = parReport[locSniffedPath];
+      
+      for(var i in locSniffedFilesArray){
+        var locFileName = locSniffedFilesArray[i];    
+        var rom = new Roms.Rom();
+        rom.set({id:rom.cid});
+        var filenameParts = Path.basename(locFileName).split('.');
+        rom.set({title:filenameParts[0]});
+        var pathNormalized = Path.join(locSniffedPath,locFileName);
+        pathNormalized = Path.normalize(pathNormalized);
+        rom.set({path : pathNormalized});    
+        oRomsCollection.add(rom);
+      }
     }
   },
   

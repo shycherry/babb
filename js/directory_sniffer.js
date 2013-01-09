@@ -1,59 +1,125 @@
 ﻿var Fs = require('fs');
-
 var watchers = {};
-var callbacks = {};
+
+function Map(){
+  this.globalId = 0;
+  this.idToKeys = {};
+  this.idToValues = {};
+  
+  this.add = function(parKey, parValue){    
+    this.idToKeys[this.globalId] = parKey;
+    this.idToValues[this.globalId] = parValue;
+    this.globalId++;
+  };
+  
+  this.remove = function(parKey){
+    var keyId = this.findId(this.idToKeys, parKey);
+    delete(this.idToValues[keyId]);
+    delete(this.idToKeys[keyId]);    
+  };
+  
+  this.getValueFromKey = function(parKey){
+    var keyId = this.findId(this.idToKeys, parKey);
+    return this.idToValues[keyId];
+  };
+  
+  this.getKeyFromValue = function(parValue){
+    var valueId = this.findId(this.idToValues, parValue)
+    return this.idToKeys[valueId];
+  };
+  
+  this.findId = function(collection, Item){
+    var id = -1;
+    for(var i in collection){
+      if(collection[i] == Item){
+        id = i;
+        break;
+      }
+    }    
+    return id;
+  };   
+};
+
+var pathsToCallbacksMap = new Map();
+var callbacksToPathsMap = new Map();
+
 
 var SniffedDirectoryRepport = function () {};
 
 function sniff(parPathsToSniff, parCallback){
   for (var i in parPathsToSniff){
-    if(Fs.existsSync(parPathsToSniff[i])){
-      callbacks[parPathsToSniff[i]] = parCallback;
-      startSniff(parPathsToSniff[i]);
+    var currentPath = parPathsToSniff[i];
+    if(Fs.existsSync(currentPath)){
+      
+      if( ! pathsToCallbacksMap.getValueFromKey(currentPath)){
+        pathsToCallbacksMap.add(currentPath, []);
+      }
+      pathsToCallbacksMap.getValueFromKey(currentPath).push(parCallback);
+      
+      if( ! callbacksToPathsMap.getValueFromKey(parCallback)){
+        callbacksToPathsMap.add(parCallback,[]);
+      }
+      callbacksToPathsMap.getValueFromKey(parCallback).push(currentPath);
     }
+    startSniff(parCallback);
   }  
 }
 
-function notifyDirectoryChanged(pathToSniff, report){
-  var callback = callbacks[pathToSniff];
-  if(callback){
-    callback(report);
+function readDirectoryCollection(parCallback){  
+  var paths = callbacksToPathsMap.getValueFromKey(parCallback);  
+  var locReport = new SniffedDirectoryRepport();
+  
+  for(var i in paths){
+    var currentPath = paths[i];
+    Fs.readdir(currentPath,
+      (function(path, report, callback){
+        return function(err, files){
+          handleDirectory(err, files, path, report, callback);
+        };
+      })(currentPath, locReport, parCallback)
+    );    
   }
 }
 
-function refillCollection(parPathToSniff){
-  
-  Fs.readdir(parPathToSniff,function(err, files){      
-    var locReport = new SniffedDirectoryRepport();
-    locReport.sniffedPath = parPathToSniff;
-    var sniffedFilesArray = [];
-    for(var i in files){
-      sniffedFilesArray.push(files[i]);
-    }
-    locReport.sniffedFilesArray = sniffedFilesArray;      
-    notifyDirectoryChanged(parPathToSniff, locReport);
-  });
+function handleDirectory(err, files, path, report, callback){
+  if( ! report[path]){
+    report[path] = [];
+  }
+  for(var i in files){
+    report[path].push(files[i]);
+  }  
+  callback(report);
 }
 
-function startSniff(parPathToSniff){  
-  refillCollection(parPathToSniff);
-  var watcher = Fs.watch(parPathToSniff, function(event, filename){
-    console.log('event:'+event+' for filename:'+filename);
-    refillCollection(parPathToSniff);
-  });
+function startSniff(parCallback){  
+  readDirectoryCollection(parCallback);
+  var paths = callbacksToPathsMap.getValueFromKey(parCallback);
+  for(var i in paths){
+    var watcher = Fs.watch(paths[i], function(event, filename){
+      console.log('event:'+event+' for filename:'+filename);
+      readDirectoryCollection(parCallback);
+    });
 
-  if(watcher){
-    watchers[parPathToSniff] = watcher;
+    if(watcher){
+      watchers[paths[i]] = watcher;
+    }
   }
   
 }
 
 function stopSniff(parPaths){
-  for(var i in parPaths){
-    var path = parPaths[i];
-    if(callbacks[path]){
-      delete(callbacks[path]);
-    }  
+  for(var i in parPaths){    
+    var path = parPaths[i];    
+    var callbacks = pathsToCallbacksMap.getValueFromKey(path);
+    
+    for(var j in callbacks){
+      if(callbacks[j]){
+        callbacks.pop(callbacks[j]);
+        callbacksToPathsMap.remove(callbacks[j]);
+      }
+    }
+    pathsToCallbacksMap.remove(path);
+    
     if(watchers[path]){
       watchers[path].close();
       delete(watchers[path]);

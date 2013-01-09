@@ -51,17 +51,20 @@ var PlatformsCollectionView = Backbone.View.extend({
   },
   
   onSniffed : function(parReport){  
-    var locSniffedPath = parReport.sniffedPath;
-    var locSniffedFilesArray = parReport.sniffedFilesArray;
-    
     this.reset();
-    for(var i in locSniffedFilesArray){      
-      var locFileName = locSniffedFilesArray[i];      
-      var pathNormalized = Path.join(locSniffedPath,locFileName);
-      pathNormalized = Path.normalize(pathNormalized);      
-      var platform = new Platforms.Platform({path : pathNormalized});
-      platform.set({id:platform.cid});
-      this.platformsCollection.add(platform);
+    for(locSniffedPath in parReport){      
+      var locSniffedFilesArray = parReport[locSniffedPath];
+      
+      for(var i in locSniffedFilesArray){      
+        var locFileName = locSniffedFilesArray[i];      
+        var pathNormalized = Path.join(locSniffedPath,locFileName);
+        pathNormalized = Path.normalize(pathNormalized);      
+        if(Fs.existsSync(pathNormalized+'/platform.js')){
+          var platform = new Platforms.Platform({path : pathNormalized});
+          platform.set({id:platform.cid});
+          this.platformsCollection.add(platform);
+        }
+      }
     }
     
     if(!this.getSelected()){
