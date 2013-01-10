@@ -50,8 +50,7 @@ var PlatformsCollectionView = Backbone.View.extend({
     this.setSelected(null);
   },
   
-  onSniffed : function(parReport){  
-    this.reset();
+  onSniffed : function(parReport){      
     for(locSniffedPath in parReport){      
       var locSniffedFilesArray = parReport[locSniffedPath];
       
@@ -236,8 +235,7 @@ var RomsCollectionView = Backbone.View.extend({
     this.setSelected(null);
   },
   
-  onSniffed : function(parReport){  
-    this.reset();
+  onSniffed : function(parReport){    
     this.romsProvider(parReport, this.romsCollection);    
   },
   

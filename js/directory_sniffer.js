@@ -66,25 +66,23 @@ function sniff(parPathsToSniff, parCallback){
 }
 
 function readDirectoryCollection(parCallback){  
-  var paths = callbacksToPathsMap.getValueFromKey(parCallback);  
-  var locReport = new SniffedDirectoryRepport();
+  var paths = callbacksToPathsMap.getValueFromKey(parCallback);    
   
   for(var i in paths){
     var currentPath = paths[i];
     Fs.readdir(currentPath,
-      (function(path, report, callback){
+      (function(path, callback){
         return function(err, files){
-          handleDirectory(err, files, path, report, callback);
+          handleDirectory(err, files, path, callback);
         };
-      })(currentPath, locReport, parCallback)
+      })(currentPath, parCallback)
     );    
   }
 }
 
-function handleDirectory(err, files, path, report, callback){
-  if( ! report[path]){
-    report[path] = [];
-  }
+function handleDirectory(err, files, path, callback){
+  var report = new SniffedDirectoryRepport();  
+  report[path] = [];  
   for(var i in files){
     report[path].push(files[i]);
   }  
