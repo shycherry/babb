@@ -60,9 +60,9 @@ function sniff(parPathsToSniff, parCallback){
         callbacksToPathsMap.add(parCallback,[]);
       }
       callbacksToPathsMap.getValueFromKey(parCallback).push(currentPath);
-    }
-    startSniff(parCallback);
+    }    
   }  
+  startSniff(parCallback);
 }
 
 function readDirectoryCollection(parCallback){  
@@ -113,9 +113,10 @@ function stopSniff(parPaths){
     var callbacks = pathsToCallbacksMap.getValueFromKey(path);
     
     for(var j in callbacks){
-      if(callbacks[j]){
-        callbacks.pop(callbacks[j]);
-        callbacksToPathsMap.remove(callbacks[j]);
+      var currentCallback = callbacks[j];
+      if(currentCallback){
+        callbacks.pop(currentCallback);
+        callbacksToPathsMap.remove(currentCallback);
       }
     }
     pathsToCallbacksMap.remove(path);
