@@ -23,11 +23,12 @@ exports.romsProvider = function(parReport, oRomsCollection){
     
     for(var i in locSniffedFilesArray){
       var locFileName = locSniffedFilesArray[i]    
-      if(config.romsExtensions.indexOf(Path.extname(locFileName)) != -1){
+      var locExtName = Path.extname(locFileName)
+      if(config.romsExtensions.indexOf(locExtName) != -1){
         var rom = new Roms.Rom()
         rom.set({id:rom.cid})
-        var filenameParts = Path.basename(locFileName).split('.')
-        rom.set({title:filenameParts[0]})
+        var filename = Path.basename(locFileName).replace(locExtName, '')
+        rom.set({title:filename})
         var pathNormalized = Path.join(locSniffedPath,locFileName)
         pathNormalized = Path.normalize(pathNormalized)
         rom.set({path : pathNormalized})    

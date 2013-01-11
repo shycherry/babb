@@ -4,6 +4,6 @@
 exports.config = {
   displayName : 'PSOne',
   emulatorPath : 'C:/Users/Vincent/Desktop/emulators/ePSXe/epsxe.exe',
-  romsPaths : ['E:/ISOs PSX', 'E:/ISOs PSX/Crash Bandicoot 3', 'E:/ISOs PSX/[PSX]Metal.Gear.Solid.1'],
+  romsPaths : ['E:/ISOs PSX', 'E:/ISOs PSX/Crash Bandicoot 3', 'E:/ISOs PSX/[PSX]Metal.Gear.Solid.1', 'Z:/ISOs/ISOs PSX'],
   romsExtensions : ['.iso', '.bin'],
 }
