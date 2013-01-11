@@ -1,9 +1,13 @@
 ﻿//global definitions
-global.$ = $;
-global.Backbone = Backbone;
-global._ = _;
+global.$ = $
+global.Backbone = Backbone
+global._ = _
 
 global.BABB = {
+  Libs : {
+    Roms : require('roms'),
+    Spawner : require('spawner')
+  },  
   TestConfig:{
     killidPath: '.\\native_tools\\killid.exe',
   },
@@ -22,14 +26,14 @@ global.BABB = {
     romsContainerId : "#roms-container",
     romsCollectionTemplateId: "#roms-collection-template"
   }, 
-};
-
-var Controller = require("./js/controller");
-var Gui = require('nw.gui');
-
-function go(){  
-  Controller.doSniff();
-  Gui.Window.get().show();
 }
 
-$(document).ready(go);
+var Controller = require('controller')
+var Gui = require('nw.gui')
+
+function go(){  
+  Controller.doSniff()
+  Gui.Window.get().show()
+}
+
+$(document).ready(go)

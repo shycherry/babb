@@ -1,9 +1,9 @@
-﻿var config = require('./config').config;
-var emulatorPath = config.emulatorPath;
-var romsPaths = config.romsPaths;
+﻿var config = require('./config').config
+var emulatorPath = config.emulatorPath
+var romsPaths = config.romsPaths
 
 exports.getName = function(){
-  return config.dispayName;
+  return config.dispayName
 }
 
 exports.getLogoPath = function(){
@@ -15,23 +15,23 @@ exports.getRomsPaths = function(){
 }
 
 exports.romsProvider = function(parReport, oRomsCollection){
-  var Roms = require(process.cwd()+'/js/roms');  
-  var Path = require('path');
+  var Roms = global.BABB.Libs.Roms
+  var Path = require('path')
   
   for(locSniffedPath in parReport){      
-    var locSniffedFilesArray = parReport[locSniffedPath];
+    var locSniffedFilesArray = parReport[locSniffedPath]
     
     for(var i in locSniffedFilesArray){
-      var locFileName = locSniffedFilesArray[i];    
+      var locFileName = locSniffedFilesArray[i]    
       if(config.romsExtensions.indexOf(Path.extname(locFileName)) != -1){
-        var rom = new Roms.Rom();
-        rom.set({id:rom.cid});
-        var filenameParts = Path.basename(locFileName).split('.');
-        rom.set({title:filenameParts[0]});
-        var pathNormalized = Path.join(locSniffedPath,locFileName);
-        pathNormalized = Path.normalize(pathNormalized);
-        rom.set({path : pathNormalized});    
-        oRomsCollection.add(rom);
+        var rom = new Roms.Rom()
+        rom.set({id:rom.cid})
+        var filenameParts = Path.basename(locFileName).split('.')
+        rom.set({title:filenameParts[0]})
+        var pathNormalized = Path.join(locSniffedPath,locFileName)
+        pathNormalized = Path.normalize(pathNormalized)
+        rom.set({path : pathNormalized})    
+        oRomsCollection.add(rom)
       }
     }
   }
@@ -40,15 +40,15 @@ exports.romsProvider = function(parReport, oRomsCollection){
 
 exports.runRom = function (parRom){  
   if(parRom){  
-    var selectedRomPath = parRom.get('path');
+    var selectedRomPath = parRom.get('path')
     if(selectedRomPath){
-      var Spawner = require(process.cwd()+'/js/spawner');      
-      var Path = require('path');
+      var Spawner = global.BABB.Libs.Spawner
+      var Path = require('path')
       Spawner.spawn(
         emulatorPath, 
         ['-nogui','-loadbin', selectedRomPath], 
         {cwd : Path.dirname(emulatorPath)}
-      );
+      )
       
     }
   }  
