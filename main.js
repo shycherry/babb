@@ -3,30 +3,12 @@ global.$ = $
 global.Backbone = Backbone
 global._ = _
 
-global.BABB = {
-  Libs : {
-    Roms : require('roms'),
-    Spawner : require('spawner')
-  },  
-  TestConfig:{
-    killidPath: '.\\native_tools\\killid.exe',
-  },
-  Controls:{
-    up: 90, //z
-    down: 83, //s
-    back: 81, //q
-    valid: 68 //d    
-  },
-  PlatformsConfig:{
-    defaultPlatformsPath: ".\\platforms",
-    platformsContainerId: "#platforms-container",
-    platformsCollectionTemplateId: "#platforms-collection-template"
-  },
-  RomsConfig:{
-    romsContainerId : "#roms-container",
-    romsCollectionTemplateId: "#roms-collection-template"
-  }, 
-}
+global.BABB = require('./config').config
+
+global.BABB.Libs = {
+  Roms : require('roms'),
+  Spawner : require('spawner')
+}  
 
 var Controller = require('controller')
 var Gui = require('nw.gui')
