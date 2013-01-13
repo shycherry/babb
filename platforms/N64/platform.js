@@ -1,9 +1,9 @@
-﻿var config = require('./config').config;
-var project64Path = config.project64Path;
-var romsPaths = config.romsPaths;
+﻿var config = require('./config').config
+var project64Path = config.project64Path
+var romsPaths = config.romsPaths
 
 exports.getName = function(){
-  return config.dispayName;
+  return config.dispayName
 }
 
 exports.getLogoPath = function(){
@@ -16,14 +16,14 @@ exports.getRomsPaths = function(){
 
 exports.runRom = function (parRom){  
   if(parRom){
-    var selectedRomPath = parRom.get('path');
+    var selectedRomPath = parRom.get('path')
     if(selectedRomPath){
-      var Spawner = require(process.cwd()+'/js/spawner');
-      var selectedRomPathArgs = selectedRomPath.trim().split(' ');
+      var Spawner = global.BABB.Libs.Spawner
+      var selectedRomPathArgs = selectedRomPath.trim().split(' ')
       Spawner.spawn(
         project64Path, 
         selectedRomPathArgs
-      );        
+      )        
     }
   }  
 }

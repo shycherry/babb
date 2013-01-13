@@ -15,15 +15,15 @@ exports.getRomsPaths = function(){
 
 exports.runRom = function (parRom){
   if(parRom){
-    var selectedRomPath = parRom.get('path');
+    var selectedRomPath = parRom.get('path')
     if(selectedRomPath){      
-      var Spawner = require('../../js/spawner');
-      var Path = require('path');
+      var Spawner = global.BABB.Libs.Spawner
+      var Path = require('path')
       Spawner.spawn(
         mamePath, 
         ['-rp', Path.dirname(selectedRomPath), parRom.get('title')],
         {cwd : Path.dirname(mamePath)}
-      );        
+      )        
     }
   }  
 }
