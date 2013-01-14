@@ -41,7 +41,7 @@ exports.romsProvider = function(parReport, oRomsCollection){
    
 }
 
-exports.runRome = function (parRom){  
+exports.runRom = function (parRom){  
   if(parRom){  
     var selectedRomPath = parRom.get('path')
     if(selectedRomPath){
