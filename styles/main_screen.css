@@ -45,12 +45,32 @@ img{
   height:100%;
 }
 
-#bandana{  
+#bandana.error{
+  background-color:rgba(128,0,0,0.9);
+}
+
+#bandana.info{
+  background-color:rgba(0,0,128,0.9);
+}
+
+#bandana.focus{
+  -webkit-transition-duration: 0.5s;
+  opacity:1;
+}
+
+#bandana{
+  top:30%;  
+  left:2.5%;
 	text-align: center;
-  height:5%;
-  overflow-y:auto;  
+  height:40%;
+  width : 95%;
+  overflow-y:auto;
   position:fixed;
-  display:none;
+  z-index:1001;
+  border-radius:1em 1em 1em 1em / 1em 1em 1em 1em;
+  opacity:0;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: 2s;
 }
 
 #roms-container.hidden, #platforms-container.hidden{

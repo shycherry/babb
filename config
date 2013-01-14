@@ -10,6 +10,9 @@ exports.config = {
     back: 81, //q
     valid: 68 //d    
   },
+  BandanaConfig:{
+    bandanaId : '#bandana'
+  },
   PlatformsConfig:{
     defaultPlatformsPath: ".\\platforms",
     platformsContainerId: "#platforms-container",
