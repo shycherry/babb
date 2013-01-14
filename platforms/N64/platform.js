@@ -3,7 +3,7 @@ var project64Path = config.project64Path
 var romsPaths = config.romsPaths
 
 exports.getName = function(){
-  return config.dispayName
+  return config.displayName
 }
 
 exports.getLogoPath = function(){

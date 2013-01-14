@@ -3,7 +3,7 @@ var emulatorPath = config.emulatorPath
 var romsPaths = config.romsPaths
 
 exports.getName = function(){
-  return config.dispayName
+  return config.displayName
 }
 
 exports.getLogoPath = function(){
@@ -41,7 +41,7 @@ exports.romsProvider = function(parReport, oRomsCollection){
    
 }
 
-exports.runRom = function (parRom){  
+exports.runRome = function (parRom){  
   if(parRom){  
     var selectedRomPath = parRom.get('path')
     if(selectedRomPath){
