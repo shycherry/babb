@@ -7,7 +7,8 @@ global.BABB = require('./config').config
 
 global.BABB.Libs = {
   Roms : require('roms'),
-  Spawner : require('spawner')
+  Spawner : require('spawner'),
+  FilenamesFilter : require('filenamesFilter').FilenamesFilter
 }  
 
 var Controller = require('controller')
