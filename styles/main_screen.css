@@ -59,10 +59,12 @@ img{
 }
 
 #bandana{
-  top:30%;  
+  top:30%;
   left:2.5%;
 	text-align: center;
-  height:40%;
+  font-size : 2em;
+  color : white;
+  max-height:40%;
   width : 95%;
   overflow-y:auto;
   position:fixed;
