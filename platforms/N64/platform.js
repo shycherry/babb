@@ -14,6 +14,11 @@ exports.getRomsPaths = function(){
   return romsPaths
 }
 
+exports.isAvailable = function(){
+  var Fs = require('fs')
+  return Fs.existsSync(project64Path)
+}
+
 exports.runRom = function (parRom){  
   if(parRom){
     var selectedRomPath = parRom.get('path')

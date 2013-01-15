@@ -14,6 +14,11 @@ exports.getRomsPaths = function(){
   return romsPaths
 }
 
+exports.isAvailable = function(){
+  var Fs = require('fs')
+  return Fs.existsSync(emulatorPath)
+}
+
 exports.romsProvider = function(parReport, oRomsCollection){
   var Roms = global.BABB.Libs.Roms
   var Path = require('path')
