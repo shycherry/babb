@@ -31,12 +31,10 @@ exports.romsProvider = function(parReport, oRomsCollection){
       .get()
 
   for(var locPath in filteredFilesMap){
-    var rom = new Roms.Rom()
-    rom.set({
-      id : rom.cid,
+    var rom = new Roms.Rom({
       title : filteredFilesMap[locPath],
       path : locPath
-    })
+    })    
     oRomsCollection.add(rom)
   }
   
