@@ -19,12 +19,11 @@ exports.isAvailable = function(){
   return Fs.existsSync(emulatorPath)
 }
 
-exports.romsProvider = function(parReport, oRomsCollection){
-  var Roms = global.BABB.Libs.Roms
-  var Path = require('path')
+exports.romsProvider = function(iReport, ioRomsCollection){
+  var Roms = global.BABB.Libs.Roms  
   var FilenamesFilter = global.BABB.Libs.FilenamesFilter
   
-  var filteredFilesMap = new FilenamesFilter(parReport)
+  var filteredFilesMap = new FilenamesFilter(iReport)
       .keepFilesWithExtensions(config.romsExtensions)
       .onlyKeepBasename()
       .removeExtensions()
@@ -35,14 +34,13 @@ exports.romsProvider = function(parReport, oRomsCollection){
       title : filteredFilesMap[locPath],
       path : locPath
     })    
-    oRomsCollection.add(rom)
-  }
-  
+    ioRomsCollection.add(rom)
+  }  
 }
 
-exports.runRom = function (parRom){  
-  if(parRom){  
-    var selectedRomPath = parRom.get('path')
+exports.runRom = function (iRom){  
+  if(iRom){  
+    var selectedRomPath = iRom.get('path')
     if(selectedRomPath){
       var Spawner = global.BABB.Libs.Spawner
       var Path = require('path')
@@ -50,8 +48,7 @@ exports.runRom = function (parRom){
         emulatorPath, 
         ['-nogui','-loadbin', selectedRomPath], 
         {cwd : Path.dirname(emulatorPath)}
-      )
-      
+      )      
     }
   }  
 }

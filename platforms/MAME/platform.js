@@ -1,5 +1,5 @@
-var mamePath = 'C:\\Users\\Vincent\\Desktop\\Emulateur\\mame\\mame64.exe'
-var romsPaths = ["C:\\Users\\Vincent\\Desktop\\Roms\\MAME"]
+var mamePath = 'C:/Users/Vincent/Desktop/Emulateur/mame/mame64.exe'
+var romsPaths = ["C:/Users/Vincent/Desktop/Roms/MAME"]
 
 exports.getName = function(){
   return 'MAME'
@@ -18,15 +18,15 @@ exports.isAvailable = function(){
   return Fs.existsSync(mamePath)
 }
 
-exports.runRom = function (parRom){
-  if(parRom){
-    var selectedRomPath = parRom.get('path')
+exports.runRom = function (iRom){
+  if(iRom){
+    var selectedRomPath = iRom.get('path')
     if(selectedRomPath){      
       var Spawner = global.BABB.Libs.Spawner
       var Path = require('path')
       Spawner.spawn(
         mamePath, 
-        ['-rp', Path.dirname(selectedRomPath), parRom.get('title')],
+        ['-rp', Path.dirname(selectedRomPath), iRom.get('title')],
         {cwd : Path.dirname(mamePath)}
       )        
     }

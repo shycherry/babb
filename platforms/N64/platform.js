@@ -19,9 +19,9 @@ exports.isAvailable = function(){
   return Fs.existsSync(project64Path)
 }
 
-exports.runRom = function (parRom){  
-  if(parRom){
-    var selectedRomPath = parRom.get('path')
+exports.runRom = function (iRom){  
+  if(iRom){
+    var selectedRomPath = iRom.get('path')
     if(selectedRomPath){
       var Spawner = global.BABB.Libs.Spawner
       var selectedRomPathArgs = selectedRomPath.trim().split(' ')
