@@ -113,6 +113,10 @@ img{
   height:auto;  
 }
 
+.unavailable{
+  -webkit-filter: grayscale(100%);
+}
+
 #roms-container{  
   -webkit-transform:translateX(50%);
   text-align:right;

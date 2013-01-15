@@ -21,7 +21,7 @@
     
     <script type="text/template" id="platforms-collection-template">
       <% _.each(platforms, function(platform){%>
-        <li id="<%= platform.get("id") %>" class="platform">
+        <li id="<%= platform.get("id") %>" class="platform <%if ( !platform.isAvailable()){%> unavailable<%}%>">
           <% if(platform.getLogoPath() ) {%>
             <img src="<%= platform.getLogoPath()%>">
           <%}else{%>
