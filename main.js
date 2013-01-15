@@ -11,6 +11,8 @@ global.BABB.Libs = {
   FilenamesFilter : require('filenamesFilter').FilenamesFilter
 }  
 
+global.BABB.EventEmitter = new Backbone.View()
+
 var Controller = require('controller')
 var Gui = require('nw.gui')
 

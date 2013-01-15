@@ -3,17 +3,18 @@
 }
 
 .platform.unavailable:hover{
-  -webkit-filter: grayscale(100%) blur(2px);
+  -webkit-filter: grayscale(100%) blur(2px);  
 }
 
 .platform:hover{
-  -webkit-filter: blur(2px);
+  -webkit-filter: blur(2px);  
 }
 
 .rom, .platform{
   padding: 2px;
   overflow-x:hidden;
   word-wrap: break-word;  
+  -webkit-transition: all 600ms ease;
 }
 
 .rom.focus, .platform.focus{

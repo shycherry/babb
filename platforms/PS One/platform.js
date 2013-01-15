@@ -24,26 +24,22 @@ exports.romsProvider = function(parReport, oRomsCollection){
   var Path = require('path')
   var FilenamesFilter = global.BABB.Libs.FilenamesFilter
   
-  for(locSniffedPath in parReport){      
-    var locSniffedFilesArray = parReport[locSniffedPath]
-    var filteredFilesArray = new FilenamesFilter(locSniffedFilesArray)
+  var filteredFilesMap = new FilenamesFilter(parReport)
       .keepFilesWithExtensions(config.romsExtensions)
+      .onlyKeepBasename()
+      .removeExtensions()
       .get()
-    
-    for(var i in filteredFilesArray){
-      var locFileName = locSniffedFilesArray[i]    
-      var locExtName = Path.extname(locFileName)
-      var rom = new Roms.Rom()
-      rom.set({id:rom.cid})
-      var filename = Path.basename(locFileName).replace(locExtName, '')
-      rom.set({title:filename})
-      var pathNormalized = Path.join(locSniffedPath,locFileName)
-      pathNormalized = Path.normalize(pathNormalized)
-      rom.set({path : pathNormalized})    
-      oRomsCollection.add(rom)      
-    }
+
+  for(var locPath in filteredFilesMap){
+    var rom = new Roms.Rom()
+    rom.set({
+      id : rom.cid,
+      title : filteredFilesMap[locPath],
+      path : locPath
+    })
+    oRomsCollection.add(rom)
   }
-   
+  
 }
 
 exports.runRom = function (parRom){  
