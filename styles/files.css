@@ -1,5 +1,13 @@
-.rom:hover, .platform:hover{
+.rom:hover {
   -webkit-filter: invert(0%);
+}
+
+.platform.unavailable:hover{
+  -webkit-filter: grayscale(100%) blur(2px);
+}
+
+.platform:hover{
+  -webkit-filter: blur(2px);
 }
 
 .rom, .platform{
