@@ -1,6 +1,6 @@
 ﻿<html>
   <script type="text/template" id="roms-collection-template">
-    <% _.each(roms, function(rom){%>
+    <% _.each(collection, function(rom){%>
       <li id="<%= rom.get("id") %>" class="rom">
         <b>~<%= rom.get("title") %>~</b>
       </li>

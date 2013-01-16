@@ -18,7 +18,7 @@ var Controller = require('controller')
 var Gui = require('nw.gui')
 
 function go(){  
-  Controller.doSniff()  
+  Controller.start()  
   //Gui.Window.get().show()
   
   // try{

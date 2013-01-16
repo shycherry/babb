@@ -20,7 +20,7 @@
     <ul id="roms-container"></ul>
     
     <script type="text/template" id="platforms-collection-template">
-      <% _.each(platforms, function(platform){%>
+      <% _.each(collection, function(platform){%>
         <li id="<%= platform.get("id") %>" class="platform <%if ( !platform.isAvailable()){%> unavailable<%}%>">
           <% if(platform.getLogoPath() ) {%>
             <img src="<%= platform.getLogoPath()%>">
@@ -32,7 +32,7 @@
     </script>
 	
     <script type="text/template" id="roms-collection-template">
-      <% _.each(roms, function(rom){%>
+      <% _.each(collection, function(rom){%>
         <li id="<%= rom.get("id") %>" class="rom">
           <b><%= rom.get("title") %></b>
         </li>
