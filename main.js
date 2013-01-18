@@ -17,8 +17,9 @@ global.BABB.EventEmitter = new Backbone.View()
 var Controller = require('controller')
 var Gui = require('nw.gui')
 
-function go(){  
-  Controller.start()  
+
+function go(){
+  new Controller.FrontendView()  
   //Gui.Window.get().show()
   
   // try{
