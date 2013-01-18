@@ -19,7 +19,7 @@ var Gui = require('nw.gui')
 
 
 function go(){
-  new Controller.FrontendView()  
+  new Controller.FrontendView({el : 'body'})
   //Gui.Window.get().show()
   
   // try{
