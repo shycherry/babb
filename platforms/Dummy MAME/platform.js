@@ -1,5 +1,5 @@
 var mamePath = 'C:/Users/Vincent/Desktop/Emulateur/mame/mame64.exe'
-var romsPaths = ["C:/Users/Vincent/Desktop/Roms/MAME"]
+var romsPaths = [__dirname+'/Roms']
 
 exports.getName = function(){
   return 'Dummy'
