@@ -23,12 +23,15 @@ function go(){
   //Gui.Window.get().show()
   
   // try{
-    // var find = global.BABB.Libs.Finder.find
-    // find('c:/', 'ePSXe.exe', function(fullpath){
-      // global.BABB.EventEmitter.trigger('info', 'ePSXe.exe found :'+fullpath)
-    // })
+   // var find = global.BABB.Libs.Finder.find
+   // find('c:/NodeWebkit', 'testtofind.db', function(fullpath){
+    // global.BABB.EventEmitter.trigger('info', 'mcbase.db found :'+fullpath)
+   // },
+   // function(){
+    // global.BABB.EventEmitter.trigger('info', 'mcbase.db was not found')
+   // })
   // }catch(err){
-    // global.BABB.EventEmitter.trigger('error', err.toString())    
+   // global.BABB.EventEmitter.trigger('error', err.toString())    
   // }
 }
 
