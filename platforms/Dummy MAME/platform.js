@@ -1,4 +1,4 @@
-var mamePath = 'C:/Users/Vincent/Desktop/Emulateur/mame/mame64.exe'
+var mamePath = 'notepad.exe'
 var romsPaths = [__dirname+'/Roms']
 
 exports.getName = function(){
