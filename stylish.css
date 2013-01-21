@@ -13,5 +13,8 @@
 /* stroll */
 @import url("styles/stroll.css");
 
+/* finderCpnt */
+@import url("styles/finder.css");
+
 /*intro animation*/
 @import url("styles/intro.css");
