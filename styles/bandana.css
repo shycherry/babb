@@ -7,23 +7,25 @@
 }
 
 #bandana.status{
-  background-color:rgba(128,128,0,0.9);
+  background-color:rgba(0,128,0,0.9);
   opacity:1;
+  text-align: left;
 }
 
 #bandana.focus{
   -webkit-transition-duration: 0.5s;
-  opacity:1;
+  opacity:1; 
 }
 
 #bandana{
-  top:30%;
+  top:5%;
   left:2.5%;
 	text-align: center;
   font-size : 2em;
+  padding: 5%;
   color : white;
-  max-height:40%;
-  width : 95%;
+  max-height:80%;
+  width : 85%;
   overflow-y:auto;
   position:fixed;
   z-index:1001;
