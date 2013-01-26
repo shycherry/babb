@@ -22,12 +22,12 @@ exports.runRom = function (iRom){
   if(iRom){
     if(iRom.get('title') == 'Retourner A Windows'){
       process.exit()
-    }    
-    
-    var selectedRomPath = iRom.get('path')
-    if(selectedRomPath){
-      var Spawner = global.BABB.Libs.Spawner      
-      Spawner.exec(selectedRomPath)
+    }else{    
+      var selectedRomPath = iRom.get('path')
+      if(selectedRomPath){
+        var Spawner = global.BABB.Libs.Spawner      
+        Spawner.exec(selectedRomPath)
+      }
     }
   }    
 }
