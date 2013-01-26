@@ -1,0 +1,9 @@
+﻿//config for SNES
+//used emulator : zsnesw
+
+exports.config = {
+  displayName : 'SNES',
+  emulatorPath : 'D:/SNES/zsnesw.exe',
+  romsPaths : ['D:/SNES/rom'],
+  romsExtensions : ['.zip'],
+}
