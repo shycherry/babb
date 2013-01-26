@@ -15,7 +15,6 @@
 #bandana.focus{
   -webkit-transition-duration: 0.5s;
   opacity:1; 
-  z-index:1001;
 }
 
 #bandana{

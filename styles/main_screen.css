@@ -64,7 +64,7 @@ img{
   -webkit-transition-property: opacity, background-color, -webkit-transform;
   -webkit-transition-duration: 2s;
   overflow-x:hidden;
-  overflow-y:auto;
+  overflow-y:hidden;
   position: fixed;
   z-index:1000;
 }
@@ -89,9 +89,8 @@ img{
 
 #roms-container{  
   -webkit-transform:translateX(50%);
-  text-align:right;
-  top : 5%;
-  left:80%;
-  height:90%;
-  width:20%;
+  text-align:right;  
+  left:70%;
+  height:auto;
+  width:30%;
 }

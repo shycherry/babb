@@ -2,10 +2,11 @@
 
 exports.config = {  
 
-  TestConfig:{
+  GlobalConfig:{
+    maxItemsToRender:20,
     killidPath: '.\\native_tools\\killid.exe',
   },
-  
+    
   Controls:{
     up: 90, //z
     down: 83, //s
