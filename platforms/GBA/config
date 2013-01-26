@@ -1,0 +1,9 @@
+﻿//config for GameBoy Advance
+//used emulator : VisualBoy Advance
+
+exports.config = {
+  displayName : 'GBA',
+  emulatorPath : 'D:/Gameboy Advance/GameBoy Advance VisualBoyAdvance.exe',
+  romsPaths : ['D:/Gameboy Advance/roms'],
+  romsExtensions : ['.zip'],
+}
