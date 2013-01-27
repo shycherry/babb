@@ -78,19 +78,10 @@ img{
   #display:none;
 }
 
-.platform img{
-  width:100%;
-  height:auto;  
-}
-
-.unavailable{
-  -webkit-filter: grayscale(100%);
-}
-
 #roms-container{  
   -webkit-transform:translateX(50%);
   text-align:right;  
   left:70%;
-  height:auto;
+  height:100%;
   width:30%;
 }

@@ -10,11 +10,36 @@
   -webkit-filter: blur(2px);  
 }
 
+.platform img{
+  width:50%;
+  height:auto;  
+}
+
+.rom{
+  font-size:1em;
+  -webkit-transition: font-size 300ms ease;
+}
+
+.rom.focus{
+  font-size:2em;
+}
+
+.platform.focus img{
+  width:100%;
+  height:auto;
+  -webkit-transition: width 300ms ease;
+}
+
+.unavailable{
+  -webkit-filter: grayscale(100%);
+}
+
+
 .rom, .platform{
   padding: 2px;
   overflow-x:hidden;
   word-wrap: break-word;  
-  -webkit-transition: all 600ms ease;
+  #-webkit-transition: all 600ms ease;
 }
 
 .rom.focus, .platform.focus{
