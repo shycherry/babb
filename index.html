@@ -21,9 +21,9 @@
     
     <script type="text/template" id="platforms-collection-template">
       <% _.each(collection, function(platform){%>
-        <li id="<%= platform.get("id") %>" class="platform <%if ( !platform.isAvailable()){%> unavailable<%}%>">
-          <% if(platform.getLogoPath() ) {%>
-            <img src="<%= platform.getLogoPath()%>">
+        <li id="<%= platform.get("id") %>" class="platform <%if ( !platform.isAvailableDelegate()){%> unavailable<%}%>">
+          <% if(platform.getLogoPathDelegate() ) {%>
+            <img src="<%= platform.getLogoPathDelegate()%>">
           <%}else{%>
             <b><%= platform.get("name") %></b>
           <%}%>

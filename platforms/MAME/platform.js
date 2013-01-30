@@ -2,14 +2,16 @@ var mamePath = 'C:/Users/Vincent/Desktop/Emulateur/mame/mame64.exe'
 var romsPaths = ["C:/Users/Vincent/Desktop/Roms/MAME"]
 var history = require('./history')
 
-history.loadHistory()
-
 exports.getName = function(){
   return 'MAME'
 }
 
 exports.getLogoPath = function(){
   return __dirname+'/images/8364-haveac00kie-Mame.png'
+}
+
+exports.onSelected = function(){
+  history.loadHistory()
 }
 
 exports.getRomsPaths = function(){
