@@ -1,0 +1,9 @@
+﻿//config for Dummy MAME
+//used emulator : notepad ;)
+
+exports.config = {
+  displayName : 'Dummy MAME',
+  emulatorPath : 'notepad.exe',
+  romsPaths : [__dirname+'/Roms'],
+  romsExtensions : ['.rom'],
+}

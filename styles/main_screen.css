@@ -27,7 +27,7 @@ body {
   opacity:1;
 }
 
-#dynabody{  
+#dynabody{
   position: fixed;
   z-index:1;
   left: 0%;

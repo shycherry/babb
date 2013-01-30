@@ -1,12 +1,13 @@
-var mamePath = 'notepad.exe'
-var romsPaths = [__dirname+'/Roms']
+var config = require('./config').config
+var emulatorPath = config.emulatorPath
+var romsPaths = config.romsPaths
 
 exports.getName = function(){
-  return 'Dummy'
+  return config.displayName
 }
 
 exports.getLogoPath = function(){
-  return __dirname+'/images/8364-haveac00kie-Mame.png'
+  return __dirname+'/images/logo.png'
 }
 
 exports.getRomsPaths = function(){
@@ -14,23 +15,51 @@ exports.getRomsPaths = function(){
 }
 
 exports.isAvailable = function(){
-  var Fs = require('fs')
   return true
 }
 
-exports.runRom = function (iRom){
-  if(iRom){
-    var selectedRomPath = iRom.get('path')
-    if(selectedRomPath){      
-      var Spawner = global.BABB.Libs.Spawner
-      var Path = require('path')
-      Spawner.spawn(
-        mamePath, 
-        ['-rp', Path.dirname(selectedRomPath), iRom.get('title')],
-        {cwd : Path.dirname(mamePath)}
-      )        
-    }
+exports.romsProvider = function(iReport, ioRomsCollection){
+  var Roms = global.BABB.Libs.Roms  
+  var FilenamesFilter = global.BABB.Libs.FilenamesFilter
+  
+  var filteredFilesMap = new FilenamesFilter(iReport)
+      .keepFilesWithExtensions(config.romsExtensions)
+      .onlyKeepBasename()
+      .removeExtensions()
+      .get()
+
+  for(var locPath in filteredFilesMap){
+    var rom = new Roms.Rom({
+      title : filteredFilesMap[locPath],
+      path : locPath
+    })    
+    ioRomsCollection.add(rom)
   }  
 }
 
+exports.focusRom = function(iRom){
+  var Fs = require('fs')
+  var metadataPath = iRom.get('path')+'.metadata' 
+  if (Fs.existsSync(metadataPath)){
+    var img = $('#picts-container img')
+    var parent = img.parent()
+    img.detach()
+    img.attr('src', metadataPath+'/illustration.jpg')    
+    parent.append(img)
+  }
+}
 
+exports.runRom = function (iRom){  
+  if(iRom){  
+    var selectedRomPath = iRom.get('path')
+    if(selectedRomPath){
+      var Spawner = global.BABB.Libs.Spawner
+      var Path = require('path')
+      Spawner.spawn(
+        emulatorPath, 
+        [selectedRomPath], 
+        {cwd : Path.dirname(emulatorPath)}
+      )      
+    }
+  }  
+}
