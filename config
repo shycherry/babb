@@ -8,10 +8,10 @@ exports.config = {
   },
     
   Controls:{
-    up: 90, //z
-    down: 83, //s
-    back: 81, //q
-    valid: 68 //d    
+    up: ['z', 38], //38 : up arrow
+    down: ['s', 40], // 40 : down arrow
+    back: ['q', 37], // 37 : left arrow
+    valid: ['d', 39] // 39 : right arrow
   },
   
   BandanaConfig:{
