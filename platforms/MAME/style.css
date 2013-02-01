@@ -30,6 +30,7 @@
 }
 
 #info-container{  
+  border-radius:6px;
   left: 10%;
   background-color:rgba(250,250,250,0.9); 
   width:40%;
