@@ -3,20 +3,23 @@ var Fs = require('fs')
 var historyStream = null
 var historyTemplate = _.template(Fs.readFileSync(__dirname+'/history-template.html').toString())
 
-var getHtmlBioEntry = function(romName){
+var getHtmlEntry = function(romName){
   var parsedEntry = parseRawEntry(getRawFullEntry(romName))  
-  
+
   return historyTemplate({
     title:parsedEntry.title, 
     copyright:parsedEntry.copyright,
-    resume:parsedEntry.resume,
-    details:parsedEntry.details    
-  });
+    resumee:parsedEntry.resumee,
+    details:parsedEntry.details     
+  })
+  
 }
 
 var parseRawEntry = function(iRawFull){
-  var cursor = 0
-  var toParse = iRawFull.trim()  
+  
+  //skip header
+  var cursor = iRawFull.indexOf('$bio')
+  var toParse = iRawFull.substring(cursor+4).trim()
   
   //copyright & title
   var oCopyright = ''
@@ -24,32 +27,33 @@ var parseRawEntry = function(iRawFull){
   cursor = toParse.indexOf('(c)')
   if(-1 != cursor){
     oTitle = toParse.substring(0, cursor).trim()
-    toParse = toParse(cursor).trim()
+    toParse = toParse.substring(cursor).trim()
     cursor = toParse.indexOf('\n')
-    oCopyright = toParse.substring(cursor)
+    oCopyright = toParse.substring(0, cursor)
   }else{
     cursor = toParse.indexOf('\n')  
-    oTitle = toParse.substring(0, cursor).trim(    
+    oTitle = toParse.substring(0, cursor).trim()
   }
   
-  //resume & details
+  //resumee & details
   var oDetails = ''
-  var oResume = ''  
+  var oresumee = ''  
   toParse = toParse.substring(cursor, toParse.indexOf('$end')).trim()
   
-  var detailsIndex = toParse.indexOf('--')
+  var detailsIndex = toParse.indexOf('- ')
   if(-1 == detailsIndex){
-    oResume = toParse
+    oresumee = toParse
   }else if (detailsIndex > 0){
-    oResume = toParse.substring(0, detailsIndex).trim()
+    oresumee = toParse.substring(0, detailsIndex).trim()
     oDetails = toParse.substring(detailsIndex).trim()
-  }
-  
+  }else{
+    oDetails = toParse.substring(detailsIndex).trim()
+  }  
   
   return {
     title: oTitle, 
     copyright: oCopyright, 
-    resume: oResume, 
+    resumee: oresumee, 
     details : oDetails
   }
 }
@@ -61,7 +65,7 @@ var getRawBioEntry = function(romName){
   if(bioIndex >= 0){
     return rawEntry.substring(bioIndex+4, rawEntry.length-4)
   }else{
-    return 'no bio'
+    return ''
   }
 }
 
@@ -94,7 +98,6 @@ var loadHistory = function(){
 }
 
 exports.getHtmlEntry = getHtmlEntry
-exports.getHtmlBioEntry = getHtmlBioEntry
 exports.getRawBioEntry = getRawBioEntry
 exports.getRawFullEntry = getRawFullEntry
 exports.loadHistory = loadHistory

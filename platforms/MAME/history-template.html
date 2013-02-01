@@ -1,5 +1,6 @@
-﻿<h1><%= title%></h1>
-<p><%= copyright%></p>
-<p><%= resume%></p>
-<p><%= details%></p>
-
+﻿<h1 class='title'><%= title%></h1>
+<p class='copyright'><%= copyright%></p>
+<p><br/></p>
+<em class='resumee'><%= resumee.replace(/\n/g, "<br/>")%></em>
+<p><br/></p>
+<p class='details'><%= details.replace(/\n/g, "<br/>")%></p>
