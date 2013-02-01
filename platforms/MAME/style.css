@@ -15,27 +15,25 @@
 }
 
 #info-container,#picts-container{
-  margin:auto;  
+  position:fixed;
+  top:10%;
+}
+
+#picts-container{   
+  left:50%;
   width:100%;
-}
-
-#picts-container img{
--webkit-transform: scale(1) rotate(-10deg);
--webkit-animation:pivot-image 2s;
-}
-
-#picts-container{ 
   opacity:1;
-  text-align:center;  
   height:60%;
   overflow:hidden;  
+  -webkit-transform: scale(1) rotate(-10deg);
+  -webkit-animation:pivot-image 2s;
 }
 
 #info-container{  
+  left: 10%;
   background-color:rgba(250,250,250,0.9); 
-  text-align:left;
-  width:80%;
-  height:30%;
+  width:40%;
+  height:80%;
   overflow-y:auto;  
   pointer-events:all;
 }
