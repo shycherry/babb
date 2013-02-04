@@ -11,7 +11,12 @@ exports.getLogoPath = function(){
   return __dirname+'/images/8364-haveac00kie-Mame.png'
 }
 
-exports.onSelected = function(){  
+exports.onSelected = function(){
+  
+  $('#info-container').on("mousewheel", function(event){
+    event.stopPropagation()
+  })    
+  
   history.loadHistory()
 }
 
@@ -30,7 +35,7 @@ exports.focusRom = function(iRom){
     parent.append(img)
   }
   
-  var historyEntry = history.getHtmlEntry(iRom.get('title')+',')
+  var historyEntry = history.getHtmlEntry(iRom.get('title'))
   $('#info-container').html(historyEntry)
 }
 

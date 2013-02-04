@@ -1,6 +1,7 @@
 ﻿var _ = global._
 var Fs = require('fs')
 var historyStream = null
+var indexMap = {}
 var historyTemplate = _.template(Fs.readFileSync(__dirname+'/history-template.html').toString())
 
 var getHtmlEntry = function(romName){
@@ -70,7 +71,7 @@ var getRawBioEntry = function(romName){
 }
 
 var getRawFullEntry = function(romName){  
-  var romNameIndex = historyStream.search(romName);
+  var romNameIndex = indexMap[romName];
     
   //rewind to the '$' of '$info'
   var entryStartIndex = romNameIndex
@@ -91,7 +92,22 @@ var loadHistory = function(){
     console.log('will read history...')
     historyStream = Fs.readFileSync(__dirname+'/history.dat').toString()
     console.log('history...read !')
-    //console.log('history : '+historyStream)
+    console.log('building history index...')
+    
+    var regExp = /[$]info=.*,/mg //$info=game1,game2,...,
+    var indexEntries
+    while ((indexEntries = regExp.exec(historyStream)) !== null){
+      var indexEntry = indexEntries[0]
+      indexEntry = indexEntry.substring(indexEntry.indexOf('=')+1)
+      var entries = indexEntry.split(',')
+      for(var entryIndex in entries){
+        var entry = entries[entryIndex]
+        if(entry != ''){
+          indexMap[entry] = regExp.lastIndex
+        }
+      }
+    }
+    console.log('history index... done !'+indexEntries)
   }else{
     console.log('history already loaded, skipping...')
   }

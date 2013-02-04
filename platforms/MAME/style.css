@@ -2,7 +2,7 @@
 {
   0% {
    -webkit-transform: scale(0) rotate(0deg);
-    opacity:0;
+    opacity:0.5;
   }
   100%{
     -webkit-transform: scale(1) rotate(-10deg);
@@ -51,8 +51,12 @@
   pointer-events:all;
 }
 
-#info-container .title, #info-container .details{
+#info-container .title{
   -webkit-animation:text-appear 0.5s;
+}
+
+#info-container .corpus{
+  -webkit-animation:text-appear 1s;
 }
 
 
