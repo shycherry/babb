@@ -32,17 +32,13 @@ function go(){
   new Controller.FrontendView({el : 'body'})
   //Gui.Window.get().show()
   
-  // try{
-   // var find = global.BABB.Libs.Finder.find
-   // find('c:/NodeWebkit', 'testtofind.db', function(fullpath){
-    // global.BABB.EventEmitter.trigger('info', 'mcbase.db found :'+fullpath)
-   // },
-   // function(){
-    // global.BABB.EventEmitter.trigger('info', 'mcbase.db was not found')
-   // })
-  // }catch(err){
-   // global.BABB.EventEmitter.trigger('error', err.toString())    
-  // }
+  var c = require('coverflow');
+  c = new c.CoverflowView({
+      el:'#coverflow',
+      collection : new Backbone.Collection([{title:'game1'}, {title:'game2'}])
+    })
+  c.render()
+  global.coverflow = c
 }
 
 $(document).ready(go)
