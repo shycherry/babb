@@ -33,9 +33,21 @@ function go(){
   //Gui.Window.get().show()
   
   var c = require('coverflow');
+  var model = new c.CoverflowModel({
+    collection : new Backbone.Collection([
+        {title:'game1'}, 
+        {title:'game2'}, 
+        {title:'game3'},
+        {title:'game4'},
+        {title:'game5'},
+        {title:'game6'}
+      ]),
+      selected:1,
+    })
+      
   c = new c.CoverflowView({
       el:'#coverflow',
-      collection : new Backbone.Collection([{title:'game1'}, {title:'game2'}])
+      model : model
     })
   c.render()
   global.coverflow = c
