@@ -42,7 +42,15 @@ function go(){
         {title:'game5'},
         {title:'game6'}
       ]),
-      selected:1,
+      selectedIndex:1,
+      height: window.innerHeight,      
+      width : window.innerWidth,
+      perspective : window.innerWidth/4,
+      cellWidth : window.innerWidth/4,
+      cellHeight : window.innerWidth/4,
+      coverGap : window.innerWidth/16,
+      coverOffset : window.innerWidth/4,
+      zUnselected : -window.innerWidth/4,
     })
       
   c = new c.CoverflowView({

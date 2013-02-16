@@ -1,11 +1,8 @@
 .coverflow{
   position : relative;
   opacity:1;
-  //overflow:hidden;
+  overflow:hidden;
   z-index:2000;
-  left : 25%;
-  width:500px;
-  height:300px;
   background-color: green;    
 }
 
