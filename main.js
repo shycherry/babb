@@ -51,6 +51,7 @@ function go(){
       coverGap : window.innerWidth/16,
       coverOffset : window.innerWidth/4,
       zUnselected : -window.innerWidth/4,
+      circularSelection : true,
     })
       
   c = new c.CoverflowView({
