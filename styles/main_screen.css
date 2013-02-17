@@ -39,6 +39,7 @@ body {
   opacity:1;
   -webkit-transition-property: -webkit-transform, opacity;
   -webkit-transition-duration: 0.8s;
+  background-color:white;  
 }
 
 #dynabody{
