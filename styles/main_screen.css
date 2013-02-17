@@ -42,6 +42,10 @@ body {
   background-color:white;  
 }
 
+#dynabody.docked{
+  opacity:1;
+}
+
 #dynabody{
   position: fixed;
   z-index:2;

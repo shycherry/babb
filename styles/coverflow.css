@@ -3,6 +3,7 @@
   opacity:1;
   overflow:hidden;
   z-index:10;
+  -webkit-transition: opacity .8s
 }
 
 .coverflow .coverflow-wrap{
@@ -18,8 +19,8 @@
 .coverflow .coverflow-tray,
 .coverflow .coverflow-cell {
   position : absolute;
-  -webkit-backface-visibility: hidden;  
-  -webkit-transition: opacity .8s, -webkit-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
+  -webkit-backface-visibility: hidden;
+  -webkit-transition: width .8s, height .8s, opacity .8s, -webkit-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
 }
 
 .coverflow .coverflow-cell{  
