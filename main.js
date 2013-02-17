@@ -26,40 +26,11 @@ global.BABB.EventEmitter = new Backbone.View()
 
 var Controller = require('controller')
 var Gui = require('nw.gui')
+var BABB = global.BABB
 
 
 function go(){
   new Controller.FrontendView({el : 'body'})
-  //Gui.Window.get().show()
-  
-  var c = require('coverflow');
-  var model = new c.CoverflowModel({
-    collection : new Backbone.Collection([
-        {title:'game1'}, 
-        {title:'game2'}, 
-        {title:'game3'},
-        {title:'game4'},
-        {title:'game5'},
-        {title:'game6'}
-      ]),
-      selectedIndex:1,
-      height: window.innerHeight,      
-      width : window.innerWidth,
-      perspective : window.innerWidth/4,
-      cellWidth : window.innerWidth/4,
-      cellHeight : window.innerWidth/4,
-      coverGap : window.innerWidth/16,
-      coverOffset : window.innerWidth/4,
-      zUnselected : -window.innerWidth/4,
-      circularSelection : true,
-    })
-      
-  c = new c.CoverflowView({
-      el:'#coverflow',
-      model : model
-    })
-  c.render()
-  global.coverflow = c
 }
 
 $(document).ready(go)

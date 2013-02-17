@@ -3,15 +3,15 @@
 }
 
 .platform.unavailable:hover{
-  -webkit-filter: grayscale(100%) blur(2px);  
+  #-webkit-filter: grayscale(100%) blur(2px);  
 }
 
 .platform:hover{
-  -webkit-filter: blur(2px);  
+  #-webkit-filter: blur(2px);  
 }
 
 .platform img{
-  width:75%;
+  width:100%;
   height:auto;  
 }
 
@@ -35,15 +35,8 @@
   -webkit-filter: grayscale(100%);
 }
 
-
 .rom, .platform{
   padding: 2px;
   overflow-x:hidden;
   word-wrap: break-word;  
-}
-
-.rom.focus, .platform.focus{
-  background-color: rgba(0, 136, 204, 0.46);
-  -webkit-border-radius: 4px;
-  color: white;
 }
