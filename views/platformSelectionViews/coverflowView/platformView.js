@@ -41,11 +41,14 @@ var PlatformSelectionView = Backbone.View.extend({
     
     BABB.EventEmitter.on('platformFocused', function(iPlatform){
       self.focusedPlatform = iPlatform
+      
       clearTimeout(self.lastFocusTimeoutId)      
-      self.lastFocusTimeoutId = setTimeout(function(){
-        self.dynabodyPlatform = self.focusedPlatform
-        self.previewPlatform(self.dynabodyPlatform)      
-      },800)
+      if(self.focusedPlatform != self.dynabodyPlatform){
+        self.lastFocusTimeoutId = setTimeout(function(){
+          self.dynabodyPlatform = self.focusedPlatform
+          self.previewPlatform(self.dynabodyPlatform)      
+        },800)
+      }
     })
   },
   
