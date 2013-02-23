@@ -3,11 +3,11 @@ var Backbone = global.Backbone
 var _ = global._
 var BABB = global.BABB
 
-var ItemsCollectionView = require('itemsCollection').ItemsCollectionView
-var BandanaView = require('bandana').BandanaView
-var RomsCollectionView = require('roms').RomsCollectionView
-var KeysView = require('keysController').KeysView
-var PlatformsCollectionView = require('platforms').PlatformsCollectionView
+var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
+var BandanaView = BABB.coreRequire('bandana').BandanaView
+var RomsCollectionView = BABB.coreRequire('roms').RomsCollectionView
+var KeysView = BABB.coreRequire('keysController').KeysView
+var PlatformsCollectionView = BABB.coreRequire('platforms').PlatformsCollectionView
 
 exports.FrontendView = Backbone.View.extend({
   

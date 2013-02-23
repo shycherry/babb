@@ -3,8 +3,8 @@ var Backbone = global.Backbone
 var _ = global._
 var BABB = global.BABB
 
-var Sniffer = require('sniffer')
-var ItemsCollectionView = require('itemsCollection').ItemsCollectionView
+var Sniffer = BABB.coreRequire('sniffer')
+var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 
 var Rom = Backbone.Model.extend({
   defaults: {    

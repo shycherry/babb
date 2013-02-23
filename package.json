@@ -3,7 +3,7 @@
   "description": "Frontend Prototype for BABB Project",
   "version": "0.1",
   "nodejs":true,
-  "main": "index.html",
+  "main": "core/index.html",
   "node-remote":"https://shycherry.fr",
   "window": {
     "show": true,

@@ -1,6 +1,7 @@
 var $ = global.$
 var Backbone = global.Backbone
 var _ = global._
+var BABB = global.BABB
 
 var Fs = require('fs')
 
@@ -8,10 +9,10 @@ var Fs = require('fs')
 exports.ItemsCollectionView = Backbone.View.extend({
    
   bindCoverflow : function(){
-    var Coverflow = require('coverflow')
+    var Coverflow = BABB.coreRequire('coverflow')
     var baseWidth = window.innerWidth/2
     var coverflowModel = new Coverflow.CoverflowModel({
-      template : _.template(Fs.readFileSync('./platform-template.html').toString()),
+      template : _.template(Fs.readFileSync(__dirname+'/platform-template.html').toString()),
       selectedIndex:0,
       height: window.innerHeight,      
       width : window.innerWidth,

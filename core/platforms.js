@@ -5,10 +5,10 @@ var BABB = global.BABB
 
 var Path = require('path')
 var Fs = require('fs')
-var Sniffer = require('sniffer')
-var Roms = require('roms')
+var Sniffer = BABB.coreRequire('sniffer')
+var Roms = BABB.coreRequire('roms')
 
-var ItemsCollectionView = require('itemsCollection').ItemsCollectionView
+var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 
 var Platform = Backbone.Model.extend({
   defaults: {    
@@ -193,16 +193,19 @@ var PlatformsCollectionView = ItemsCollectionView.extend({
       }
       
       //add css ifn
-      var platformCSSPath = Path.normalize(iItem.get('path')+"/style.css")
+      var platformCSSPath = Path.resolve(iItem.get('path')+"/style.css")      
       var css = null
-      if(Fs.existsSync(platformCSSPath)){          
+      if(Fs.existsSync(platformCSSPath)){
+        platformCSSPath = Path.relative('./core/', platformCSSPath)
         css = $(window.document.createElement('link'))
         css.attr('href', platformCSSPath)
         css.attr('rel', 'stylesheet')          
       }
           
-      var platformDynaBodyPath = Path.normalize(iItem.get('path')+"/layout.html")
+      var platformDynaBodyPath = Path.resolve(iItem.get('path')+"/layout.html")      
       if(Fs.existsSync(platformDynaBodyPath)){
+        platformDynaBodyPath = Path.relative('./core/', platformDynaBodyPath)
+        var self = this
         dynabody.load(encodeURI(platformDynaBodyPath), function(){            
           if(css){
             dynabody.append(css)
