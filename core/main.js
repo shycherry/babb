@@ -3,10 +3,18 @@ global.$ = $
 global.Backbone = Backbone
 global._ = _
 
-global.BABB = require('../config').config
+global.BABB = require('../config.cfg').config
 
 global.BABB.coreRequire = function(iModuleName){
   return require(process.cwd()+'/core/'+iModuleName)
+}
+
+global.BABB.viewsRequire = function(iModuleName){
+  return require(process.cwd()+'/views/'+iModuleName)
+}
+
+global.BABB.platformSelectionViewsRequire = function(iModuleName){
+  return require(process.cwd()+'/views/platformSelectionViews/'+iModuleName)
 }
 
 //convert all characters to keycode
@@ -19,11 +27,12 @@ for(control in global.BABB.Controls){
   }
 }
 
-global.BABB.Libs = {
+global.BABB.Utils = {
   Roms : global.BABB.coreRequire('roms'),
   Spawner : global.BABB.coreRequire('spawner'),
   FilenamesFilter : global.BABB.coreRequire('filenamesFilter').FilenamesFilter,
-  Finder : global.BABB.coreRequire('finder')
+  Finder : global.BABB.coreRequire('finder'),
+  CoreServices : global.BABB.coreRequire('coreServices'),
 }  
 
 global.BABB.EventEmitter = new Backbone.View()

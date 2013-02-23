@@ -3,31 +3,87 @@ var Backbone = global.Backbone
 var _ = global._
 var BABB = global.BABB
 
+var Fs = require('fs')
+var Path = require('path')
+var Sniffer = BABB.coreRequire('sniffer')
 var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 var BandanaView = BABB.coreRequire('bandana').BandanaView
 var RomsCollectionView = BABB.coreRequire('roms').RomsCollectionView
 var KeysView = BABB.coreRequire('keysController').KeysView
-var PlatformsCollectionView = BABB.coreRequire('platforms').PlatformsCollectionView
+
+var Platform = BABB.coreRequire('platforms').Platform
+var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
+
 
 exports.FrontendView = Backbone.View.extend({
+  
+  platformsCollection : new PlatformsCollection(),
   
   initialize : function(){        
     this.keysView = new KeysView()
     this.bandanaView = new BandanaView()
-    this.platformsCollectionView = new PlatformsCollectionView()    
+    this.retrievePlatformSelectionView()
     //this.romsCollectionView = new RomsCollectionView( {el : $(BABB.RomsConfig.romsContainerId)} )
-    this.changeCurrentView(this.platformsCollectionView)
+    this.changeCurrentView(this.platformSelectionView)
     this.currentValidatedPlatform = null
     this.initBindings()
+    this.sniffPlatforms()
+  },
+    
+  sniffPlatforms : function(){
+    this.platformsCollection.reset()
+    var pathsToSniff = [BABB.PlatformsConfig.defaultPlatformsPath]
+    Sniffer.stopSniff(pathsToSniff)
+    Sniffer.sniff(pathsToSniff, this.onPlatformsSniffed)
   },
   
-  bindPlatformView : function(){
-    var self = this    
-    this.platformsCollectionView.on('dynabodyLoaded', function(){
-      //self.romsCollectionView.reloadTemplate()
-    })
+  onPlatformsSniffed : function(iReport){
+    if(iReport.isUpdate){
+      this.sniffPlatforms()
+    }else{
+      for(locSniffedPath in iReport){
+        var locSniffedFilesArray = iReport[locSniffedPath]
+
+        for(var i in locSniffedFilesArray){
+          var locFileName = locSniffedFilesArray[i]
+          var pathNormalized = Path.join(locSniffedPath,locFileName)
+          pathNormalized = Path.normalize(pathNormalized)
+          if(Fs.existsSync(pathNormalized+'/platform.js')){
+            var platform = new Platform({path : pathNormalized})            
+            this.platformsCollection.add(platform)
+          }
+        }
+      }
+      // if(!this.getSelected()){
+        // this.selectNext()
+      // }      
+    }    
+  },
+  
+  onPlatformsChanged : function(){
+    BABB.EventEmitter.trigger('platformsCollectionChanged', this.platformsCollection)    
+  },
+  
+  retrievePlatformSelectionView : function(){
+    var viewName = BABB.PlatformSelectionConfig.viewName+'/platformView.js'
+    var PlatformSelectionView = BABB.platformSelectionViewsRequire(viewName).PlatformSelectionView
+    this.platformSelectionView = new PlatformSelectionView()
+  },
+      
+  initBindings : function(){
+    _.bindAll(this, 'onPlatformsSniffed')
+    _.bindAll(this, 'onPlatformsChanged')
+    _.bindAll(this, 'changeCurrentView')    
     
-    this.platformsCollectionView.on('selectionValidated', function(iPlatform){
+    this.platformsCollection.on('change', this.onPlatformsChanged)
+    this.platformsCollection.on('add', _.throttle(this.onPlatformsChanged,100))
+    this.platformsCollection.on('remove', this.onPlatformsChanged)
+    this.platformsCollection.on('reset', this.onPlatformsChanged)
+    
+    
+    var self = this
+    
+    BABB.EventEmitter.on('platformValidated', function(iPlatform){
       console.log('selecion validated :'+iPlatform.get('name'))
       
       if( ! iPlatform){
@@ -50,41 +106,15 @@ exports.FrontendView = Backbone.View.extend({
       $('body').append(dynabody)
       dynabody.addClass('docked')
       //
-      self.changeCurrentView(self.romsCollectionView)      
-    })
-    
-    this.platformsCollectionView.on('back', function(){
-      self.changeCurrentView(self.platformsCollectionView)
+      self.changeCurrentView(self.romsCollectionView) 
     })    
     
-  },
-  
-  unbindPlatformView : function(){
-    this.platformsCollectionView.off('dynabodyLoaded')
-    this.platformsCollectionView.off('selectionValidated')
-    this.platformsCollectionView.off('back')
-  },
-  
-  initBindings : function(){
-    _.bindAll(this, 'changeCurrentView')    
-    var self = this
-    
-    this.bindPlatformView()
-    
     BABB.EventEmitter.on('control-valid', function(){      
-      self.currentView.validSelected()
+      //
     })
     
-    BABB.EventEmitter.on('control-back', function(){      
-      self.currentView.back()
-    })
-    
-    BABB.EventEmitter.on('control-next', function(){      
-      self.currentView.selectNext()
-    })
-    
-    BABB.EventEmitter.on('control-previous', function(){
-      self.currentView.selectPrevious()
+    BABB.EventEmitter.on('control-back', function(){
+      //
     })
   },
   
@@ -110,7 +140,7 @@ exports.FrontendView = Backbone.View.extend({
     this.romsCollectionView.on('selectionValidated', function(parRom){
       if(parRom){
         if($(BABB.RomsConfig.romsContainerId).hasClass('focus')){
-          var selectedPlatform = self.platformsCollectionView.getSelected()
+          var selectedPlatform = self.platformSelectionView.getSelected()
           if(selectedPlatform){
             selectedPlatform.runRomDelegate(parRom)
           }
@@ -123,7 +153,7 @@ exports.FrontendView = Backbone.View.extend({
     })
     
     this.romsCollectionView.on('back', function(){
-      self.changeCurrentView(self.platformsCollectionView)
+      self.changeCurrentView(self.platformSelectionView)
     })
     
   },
@@ -131,7 +161,7 @@ exports.FrontendView = Backbone.View.extend({
   changeCurrentView : function(iNewCurrentView){        
     if(iNewCurrentView && iNewCurrentView != this.currentView){      
       this.currentView = iNewCurrentView
-      if(this.currentView == this.platformsCollectionView){
+      if(this.currentView == this.platformSelectionView){
         $('#dynabody').removeClass('parallax')
         $(BABB.RomsConfig.romsContainerId).addClass('hidden')
         $(BABB.PlatformsConfig.platformsContainerId).removeClass('hidden')
@@ -143,10 +173,8 @@ exports.FrontendView = Backbone.View.extend({
       }
     }
     
-    if(iNewCurrentView){
-      iNewCurrentView.setSelected(iNewCurrentView.getSelected())
-    }
+    // if(iNewCurrentView){
+      // iNewCurrentView.setSelected(iNewCurrentView.getSelected())
+    // }
   }
 })
-
-
