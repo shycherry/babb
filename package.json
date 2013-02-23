@@ -4,7 +4,7 @@
   "version": "0.1",
   "nodejs":true,
   "main": "core/index.html",
-  "node-remote":"https://shycherry.fr",
+  
   "window": {
     "show": true,
     "toolbar": true,

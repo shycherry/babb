@@ -78,13 +78,13 @@ exports.ItemsCollectionView = Backbone.View.extend({
     this.onSelected(iItem)
   },
   
-  selectNext : function(){
-    this.coverflowView.Next()    
-  },
+  // selectNext : function(){
+    // this.coverflowView.Next()    
+  // },
 
-  selectPrevious : function(){
-    this.coverflowView.Previous()
-  },
+  // selectPrevious : function(){
+    // this.coverflowView.Previous()
+  // },
   
   validSelected : function(){
     this.trigger('selectionValidated', this.selectedItem)

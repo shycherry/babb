@@ -14,7 +14,7 @@ var CoverflowModel = Backbone.Model.extend({
     height:270,
     cellWidth:180,
     cellHeight:180,
-    selectedIndex:0,
+    selectedIndex:-1,
     zUnselected:-170,
     perspective:250,
     coverGap:40,
@@ -35,7 +35,7 @@ var CoverflowView = Backbone.View.extend({
     this.createDOM()
     this.recreateFullDOMCollection()
     this.render()   
-    this.initBindings()    
+    this.initBindings()
   },
   
   initFromModel : function(){
