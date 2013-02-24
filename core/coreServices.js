@@ -16,6 +16,27 @@ var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
 
 var renderView = function(iPathToView, iContainer$){
 
+  var viewCSSPath = Path.resolve(iPathToView+"/style.css")      
+  var css = null
+  if(Fs.existsSync(viewCSSPath)){
+    viewCSSPath = Path.relative('./core/', viewCSSPath)
+    css = $(window.document.createElement('link'))
+    css.attr('href', viewCSSPath)
+    css.attr('rel', 'stylesheet')          
+  }
+      
+  var viewLayoutPath = Path.resolve(iPathToView+"/layout.html")      
+  if(Fs.existsSync(viewLayoutPath)){
+    viewLayoutPath = Path.relative('./core/', viewLayoutPath)
+    var self = this
+    iContainer$.load(encodeURI(viewLayoutPath), function(){            
+      if(css){
+        iContainer$.append(css)
+      }      
+    })        
+  }else if(css){
+    iContainer$.append(css)
+  }
 }
 
 exports.renderPlatformSelectionView = function(iContainer$){
@@ -24,31 +45,7 @@ exports.renderPlatformSelectionView = function(iContainer$){
 
 exports.renderPlatform = function(iPlatform, iContainer$){
   if(iPlatform){
-  
-    //add css ifn
-    var platformCSSPath = Path.resolve(iPlatform.get('path')+"/style.css")      
-    var css = null
-    if(Fs.existsSync(platformCSSPath)){
-      platformCSSPath = Path.relative('./core/', platformCSSPath)
-      css = $(window.document.createElement('link'))
-      css.attr('href', platformCSSPath)
-      css.attr('rel', 'stylesheet')          
-    }
-        
-    var platformLayoutPath = Path.resolve(iPlatform.get('path')+"/layout.html")      
-    if(Fs.existsSync(platformLayoutPath)){
-      platformLayoutPath = Path.relative('./core/', platformLayoutPath)
-      var self = this
-      // iContainer$.load(encodeURI(platformLayoutPath), function(){            
-      iContainer$.load(encodeURI(platformLayoutPath), function(){            
-        if(css){
-          iContainer$.append(css)
-        }
-        // self.trigger('dynabodyLoaded')
-      })        
-    }else if(css){
-      iContainer$.append(css)
-    }
-    
+    var basePath = iPlatform.get('path')  
+    renderView(basePath, iContainer$)    
   }
 }

@@ -28,7 +28,7 @@ var PlatformSelectionView = Backbone.View.extend({
     })
     
     BABB.EventEmitter.on('control-valid', function(){      
-      BABB.EventEmitter.trigger('platformValidated', this.focusedPlatform)
+      BABB.EventEmitter.trigger('platformValidated', self.focusedPlatform)
     })
     
     BABB.EventEmitter.on('control-next', function(){
