@@ -14,7 +14,7 @@ var KeysView = BABB.coreRequire('keysController').KeysView
 var Platform = BABB.coreRequire('platforms').Platform
 var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
 
-var renderView = function(iPathToView, iContainer$){
+var renderView = function(iPathToView, iContainer$, iCallback){
 
   var viewCSSPath = Path.resolve(iPathToView+"/style.css")      
   var css = null
@@ -32,20 +32,47 @@ var renderView = function(iPathToView, iContainer$){
     iContainer$.load(encodeURI(viewLayoutPath), function(){            
       if(css){
         iContainer$.append(css)
-      }      
+      }
+      if(iCallback){iCallback()}
     })        
   }else if(css){
     iContainer$.append(css)
+    if(iCallback){iCallback()}
+  }else{
+    if(iCallback){iCallback()}
   }
 }
 
-exports.renderPlatformSelectionView = function(iContainer$){
-  
+exports.renderPlatformSelectionView = function(iContainer$, iCallback){
+  var platformSelectionViewPath = './views/platformSelectionViews/'+BABB.PlatformSelectionConfig.viewName
+  if(!iContainer$){
+    iContainer$ = $('#platformSelectionContainer')
+  }
+  renderView(platformSelectionViewPath, iContainer$, iCallback)
 }
 
-exports.renderPlatform = function(iPlatform, iContainer$){
+exports.renderPlatform = function(iPlatform, iContainer$, iCallback){
   if(iPlatform){
     var basePath = iPlatform.get('path')  
-    renderView(basePath, iContainer$)    
+    if(!iContainer$){
+      iContainer$ = $('#platformContainer')
+    }
+    renderView(basePath, iContainer$, iCallback)    
+  }
+}
+
+exports.setVisiblePlatformSelectionView = function(isVisible){
+  if(isVisible){
+    $('#platformSelectionContainer').show()
+  }else{
+    $('#platformSelectionContainer').hide()
+  }
+}
+
+exports.setVisiblePlatformView = function(isVisible){
+  if(isVisible){
+    $('#platformContainer').show()
+  }else{
+    $('#platformContainer').hide()
   }
 }

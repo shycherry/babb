@@ -2,7 +2,6 @@
 	<head>
 		<title>BABB Frontend Prototype</title>
 		<link href="css/core_style.css" rel="stylesheet">
-    <link id = "CSS-Platform" href="" rel="stylesheet">
 	</head>
 
 	<body>
@@ -13,8 +12,9 @@
     		
     <div id="bandana"></div>
     
+    <div id="platformContainer"></div>
     
-    <ul id="roms-container"></ul>
+    <div id="platformSelectionContainer"></div>
     
     <script type="text/template" id="roms-collection-template">
       <% _.each(collection, function(rom){%>
@@ -24,11 +24,6 @@
       <%})%>
     </script>
     
-    <div id="platformSelectionContainer"></div>
-    
-    <div id="coverflow"></div>
-    
-
 	</body>
 
   <script type="text/javascript" src="./vendor/jquery-1.9.0b1.js"></script>

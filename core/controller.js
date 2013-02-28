@@ -13,6 +13,7 @@ var KeysView = BABB.coreRequire('keysController').KeysView
 
 var Platform = BABB.coreRequire('platforms').Platform
 var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
+var CoreServices = BABB.coreRequire('coreServices')
 
 
 exports.FrontendView = Backbone.View.extend({
@@ -22,12 +23,15 @@ exports.FrontendView = Backbone.View.extend({
   initialize : function(){        
     this.keysView = new KeysView()
     this.bandanaView = new BandanaView()
+    $('#platformSelectionContainer').hide()
+    $('#platformContainer').hide()
+    
     this.retrievePlatformSelectionView()
-    //this.romsCollectionView = new RomsCollectionView( {el : $(BABB.RomsConfig.romsContainerId)} )
-    this.changeCurrentView(this.platformSelectionView)
+    this.currentControledView = this.platformSelectionView
     this.currentValidatedPlatform = null
     this.initBindings()
     this.sniffPlatforms()
+    BABB.EventEmitter.trigger('requestControledViewChange', this.platformSelectionView)
   },
     
   sniffPlatforms : function(){
@@ -54,9 +58,6 @@ exports.FrontendView = Backbone.View.extend({
           }
         }
       }
-      // if(!this.getSelected()){
-        // this.selectNext()
-      // }      
     }    
   },
   
@@ -64,16 +65,15 @@ exports.FrontendView = Backbone.View.extend({
     BABB.EventEmitter.trigger('platformsCollectionChanged', this.platformsCollection)    
   },
   
-  retrievePlatformSelectionView : function(){
-    var viewName = BABB.PlatformSelectionConfig.viewName+'/platformView.js'
+  retrievePlatformSelectionView : function(){    
+    var viewName = BABB.PlatformSelectionConfig.viewName
     var PlatformSelectionView = BABB.platformSelectionViewsRequire(viewName).PlatformSelectionView
-    this.platformSelectionView = new PlatformSelectionView()
+    this.platformSelectionView = new PlatformSelectionView()    
   },
       
   initBindings : function(){
     _.bindAll(this, 'onPlatformsSniffed')
     _.bindAll(this, 'onPlatformsChanged')
-    _.bindAll(this, 'changeCurrentView')    
     
     this.platformsCollection.on('change', this.onPlatformsChanged)
     this.platformsCollection.on('add', _.throttle(this.onPlatformsChanged,100))
@@ -82,6 +82,14 @@ exports.FrontendView = Backbone.View.extend({
     
     
     var self = this
+    
+    BABB.EventEmitter.on('controledViewChanged', function(iView){
+      if( ! self.currentControledView){
+        self.currentControledView = iView
+      }
+      self.lastControledView = self.currentControledView
+      self.currentControledView = iView
+    })
     
     BABB.EventEmitter.on('platformValidated', function(iPlatform){
       console.log('selecion validated :'+iPlatform.get('name'))
@@ -92,21 +100,13 @@ exports.FrontendView = Backbone.View.extend({
       
       if( ! iPlatform.isAvailableDelegate()){
         BABB.EventEmitter.trigger('error', iPlatform+' is not available')
-        return
+      }else{
+        self.currentValidatedPlatform = iPlatform
+        
+        iPlatform.onSelectedDelegate(iPlatform)
+          
+        BABB.EventEmitter.trigger('requestControledViewChange', iPlatform)              
       }
-
-      self.currentValidatedPlatform = iPlatform
-      
-      iPlatform.onSelectedDelegate()
-      
-      //
-      $('#coverflow').css('opacity', '0')
-      var dynabody = $('#dynabody')
-      dynabody.detach()
-      $('body').append(dynabody)
-      dynabody.addClass('docked')
-      //
-      self.changeCurrentView(self.romsCollectionView) 
     })    
     
     BABB.EventEmitter.on('control-valid', function(){      
@@ -114,7 +114,9 @@ exports.FrontendView = Backbone.View.extend({
     })
     
     BABB.EventEmitter.on('control-back', function(){
-      //
+      if(self.lastControledView){
+        BABB.EventEmitter.trigger('requestControledViewChange', self.lastControledView)
+      }
     })
   },
   
@@ -133,7 +135,7 @@ exports.FrontendView = Backbone.View.extend({
     
     this.romsCollectionView.on('selectionChanged', function(){
       if(self.romsCollectionView.getSelected()){
-        self.changeCurrentView(self.romsCollectionView)
+        BABB.EventEmitter.trigger('requestControledViewChange', self.romsCollectionView)        
       }
     })
     
@@ -145,7 +147,7 @@ exports.FrontendView = Backbone.View.extend({
             selectedPlatform.runRomDelegate(parRom)
           }
         }else{
-          self.changeCurrentView(self.romsCollectionView)
+          BABB.EventEmitter.trigger('requestControledViewChange', self.romsCollectionView)
         }
       }else{
         self.romsCollectionView.selectNext()
@@ -153,28 +155,8 @@ exports.FrontendView = Backbone.View.extend({
     })
     
     this.romsCollectionView.on('back', function(){
-      self.changeCurrentView(self.platformSelectionView)
+      BABB.EventEmitter.trigger('requestControledViewChange', self.platformSelectionView)      
     })
     
-  },
-  
-  changeCurrentView : function(iNewCurrentView){        
-    if(iNewCurrentView && iNewCurrentView != this.currentView){      
-      this.currentView = iNewCurrentView
-      if(this.currentView == this.platformSelectionView){
-        $('#dynabody').removeClass('parallax')
-        $(BABB.RomsConfig.romsContainerId).addClass('hidden')
-        $(BABB.PlatformsConfig.platformsContainerId).removeClass('hidden')
-      }
-      else if(this.currentView == this.romsCollectionView){
-        $('#dynabody').addClass('parallax')
-        $(BABB.PlatformsConfig.platformsContainerId).addClass('hidden')
-        $(BABB.RomsConfig.romsContainerId).removeClass('hidden')
-      }
-    }
-    
-    // if(iNewCurrentView){
-      // iNewCurrentView.setSelected(iNewCurrentView.getSelected())
-    // }
-  }
+  },  
 })

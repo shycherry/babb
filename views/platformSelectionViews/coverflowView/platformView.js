@@ -17,27 +17,47 @@ var PlatformSelectionView = Backbone.View.extend({
 	  
   initialize : function() {
     console.log('PlatformsCollectionView initialize')    
-    this.doBindings()
+    var self = this    
+    BABB.EventEmitter.on('requestControledViewChange', function(iView){
+      if(iView != self){
+        self.doUnbindings()
+        CoreServices.renderPlatform(iView, null, function(){
+          CoreServices.setVisiblePlatformView(true)
+          CoreServices.setVisiblePlatformSelectionView(false)
+        })        
+      }else{
+        self.doBindings()
+        CoreServices.renderPlatformSelectionView(null, function(){      
+          CoreServices.setVisiblePlatformView(false)
+          CoreServices.setVisiblePlatformSelectionView(true)
+          self.recreateCoverflow()          
+        })
+        BABB.EventEmitter.trigger('controledViewChanged', self)
+      }
+      
+    })//not this
+    
 	},
   
   doBindings :function(){    
-    var self = this    
     
+    this.doUnbindings()
+    var self = this    
     BABB.EventEmitter.on('platformsCollectionChanged', function(iPlatformsCollection){
       self.recreateCoverflow(iPlatformsCollection)
-    })
+    }, this)
     
     BABB.EventEmitter.on('control-valid', function(){      
       BABB.EventEmitter.trigger('platformValidated', self.focusedPlatform)
-    })
+    }, this)
     
     BABB.EventEmitter.on('control-next', function(){
       self.coverflowView.Next()    
-    })
+    }, this)
     
     BABB.EventEmitter.on('control-previous', function(){
       self.coverflowView.Previous()
-    })
+    }, this)
     
     BABB.EventEmitter.on('platformFocused', function(iPlatform){
       self.focusedPlatform = iPlatform
@@ -49,11 +69,27 @@ var PlatformSelectionView = Backbone.View.extend({
           self.previewPlatform(self.dynabodyPlatform)      
         },800)
       }
-    })
+    }, this)
+    
+    BABB.EventEmitter.on('platformValidated', function(iPlatform){
+      
+        clearTimeout(self.lastFocusTimeoutId)      
+        self.focusedPlatform = iPlatform            
+        self.dynabodyPlatform = iPlatform
+        self.previewPlatform(iPlatform)      
+      
+    }, this)
+    
+  },
+  
+  doUnbindings : function(){
+    BABB.EventEmitter.off(null, null, this)
   },
   
   recreateCoverflow : function(iPlatformsCollection){
-    this.platformsCollection = iPlatformsCollection
+    if(iPlatformsCollection){
+      this.platformsCollection = iPlatformsCollection
+    }
     
     var Coverflow = BABB.coreRequire('coverflow')
     var baseWidth = window.innerWidth/2
@@ -86,6 +122,7 @@ var PlatformSelectionView = Backbone.View.extend({
       BABB.EventEmitter.trigger('platformValidated', iPlatform)
     })
     
+    this.dynabodyPlatform = null
     this.coverflowView.select(0)
     global.coverflow = this.coverflowView
   },

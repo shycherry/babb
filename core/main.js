@@ -14,7 +14,7 @@ global.BABB.viewsRequire = function(iModuleName){
 }
 
 global.BABB.platformSelectionViewsRequire = function(iModuleName){
-  return require(process.cwd()+'/views/platformSelectionViews/'+iModuleName)
+  return require(process.cwd()+'/views/platformSelectionViews/'+iModuleName+'/platformView.js')
 }
 
 //convert all characters to keycode

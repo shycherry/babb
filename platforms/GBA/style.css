@@ -1,4 +1,6 @@
-#dynabody{
+#mybody{
+  height:100%;
+  width:100%;
   background-image: url('images/background.png');
   background-repeat:no-repeat;
 }

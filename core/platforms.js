@@ -82,9 +82,9 @@ var Platform = Backbone.Model.extend({
     }
   },
   
-  onSelectedDelegate : function(){
+  onSelectedDelegate : function(iPlatform){
     if(this.platformModule.onSelected){
-      this.platformModule.onSelected()
+      this.platformModule.onSelected(iPlatform)
     }else{
       console.log('no onSelected method defined for '+this)
     }
