@@ -14,6 +14,7 @@ var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionVie
 
 var PlatformSelectionView = Backbone.View.extend({
 	platformsCollection : new PlatformsCollection(),		
+  lastSelectedPlatformId : 0,
 	  
   initialize : function() {
     console.log('PlatformsCollectionView initialize')    
@@ -76,7 +77,8 @@ var PlatformSelectionView = Backbone.View.extend({
         clearTimeout(self.lastFocusTimeoutId)      
         self.focusedPlatform = iPlatform            
         self.dynabodyPlatform = iPlatform
-        self.previewPlatform(iPlatform)      
+        self.previewPlatform(iPlatform)
+        self.lastSelectedPlatformId = self.platformsCollection.indexOf(iPlatform)
       
     }, this)
     
@@ -123,7 +125,7 @@ var PlatformSelectionView = Backbone.View.extend({
     })
     
     this.dynabodyPlatform = null
-    this.coverflowView.select(0)
+    this.coverflowView.select(this.lastSelectedPlatformId)
     global.coverflow = this.coverflowView
   },
    
