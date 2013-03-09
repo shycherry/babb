@@ -7,7 +7,7 @@ exports.getName = function(){
 }
 
 exports.getLogoPath = function(){
-  return __dirname+'/images/n64_logo_128px_by_breadwrap.png'
+  return __dirname+'/logo.png'
 }
 
 exports.getRomsPaths = function(){

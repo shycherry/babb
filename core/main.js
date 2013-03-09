@@ -5,6 +5,9 @@ global._ = _
 
 global.BABB = require('../config.cfg').config
 
+var basePlatformViewPath = process.cwd()+'/views/platforms/'
+var basePlatformSelectionViewPath = process.cwd()+'/views/platformSelection/'
+
 global.BABB.coreRequire = function(iModuleName){
   return require(process.cwd()+'/core/'+iModuleName)
 }
@@ -13,8 +16,24 @@ global.BABB.viewsRequire = function(iModuleName){
   return require(process.cwd()+'/views/'+iModuleName)
 }
 
+global.BABB.messagesViewsRequire = function(iModuleName){
+  return require(process.cwd()+'/views/messages/'+iModuleName+'/messagesView.js')
+}
+
+global.BABB.platformsViewsRequire = function(iModuleName){
+  return require(basePlatformViewPath+iModuleName+'/platformView.js')
+}
+
+global.BABB.platformViewLayoutPath = function(iPlaformViewName){
+  return basePlatformViewPath+iPlaformViewName
+}
+
+global.BABB.platformSelectionViewLayoutPath = function(iPlatformSelectionViewName){
+  return basePlatformSelectionViewPath+iPlatformSelectionViewName
+}
+
 global.BABB.platformSelectionViewsRequire = function(iModuleName){
-  return require(process.cwd()+'/views/platformSelectionViews/'+iModuleName+'/platformView.js')
+  return require(basePlatformSelectionViewPath+iModuleName+'/PlatformSelectionView.js')
 }
 
 //convert all characters to keycode

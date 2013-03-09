@@ -9,7 +9,6 @@ var Roms = BABB.coreRequire('roms')
 var Platform = BABB.coreRequire('platforms').Platform
 var CoreServices = BABB.coreRequire('coreServices')
 var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
-var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 
 
 var PlatformSelectionView = Backbone.View.extend({
@@ -22,7 +21,7 @@ var PlatformSelectionView = Backbone.View.extend({
     BABB.EventEmitter.on('requestControledViewChange', function(iView){
       if(iView != self){
         self.doUnbindings()
-        CoreServices.renderPlatform(iView, null, function(){
+        CoreServices.renderPlatform(iView.associatedPlatform, null, function(){
           CoreServices.setVisiblePlatformView(true)
           CoreServices.setVisiblePlatformSelectionView(false)
         })        

@@ -1,0 +1,9 @@
+#platformContainer{
+  
+}
+
+#platformBody{
+  background-image : url('./htmlbg.png');
+  width:100%;
+  height:100%;
+}

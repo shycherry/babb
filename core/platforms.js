@@ -27,6 +27,13 @@ var Platform = Backbone.Model.extend({
     if(this.platformModule.getName){
       this.set('name', this.platformModule.getName())
     }
+
+    if(this.platformModule.getViewName){
+      this.set('viewName', this.platformModule.getViewName())
+    }else{
+      this.set('viewName', BABB.PlatformsConfig.defaultViewName)
+    }
+    
   },
 
   loadModule : function(){    

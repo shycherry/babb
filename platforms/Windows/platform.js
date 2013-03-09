@@ -6,7 +6,7 @@ exports.getName = function(){
 }
 
 exports.getLogoPath = function(){
-  return __dirname+'/images/Windows_logo.png'
+  return __dirname+'/logo.png'
 }
 
 exports.getRomsPaths = function(){

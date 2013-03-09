@@ -7,7 +7,6 @@ var Fs = require('fs')
 var Path = require('path')
 var Sniffer = BABB.coreRequire('sniffer')
 var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
-var BandanaView = BABB.coreRequire('bandana').BandanaView
 var RomsCollectionView = BABB.coreRequire('roms').RomsCollectionView
 var KeysView = BABB.coreRequire('keysController').KeysView
 
@@ -44,7 +43,7 @@ var renderView = function(iPathToView, iContainer$, iCallback){
 }
 
 exports.renderPlatformSelectionView = function(iContainer$, iCallback){
-  var platformSelectionViewPath = './views/platformSelectionViews/'+BABB.PlatformSelectionConfig.viewName
+  var platformSelectionViewPath = BABB.platformSelectionViewLayoutPath(BABB.PlatformSelectionConfig.viewName)
   if(!iContainer$){
     iContainer$ = $('#platformSelectionContainer')
   }
@@ -53,7 +52,7 @@ exports.renderPlatformSelectionView = function(iContainer$, iCallback){
 
 exports.renderPlatform = function(iPlatform, iContainer$, iCallback){
   if(iPlatform){
-    var basePath = iPlatform.get('path')  
+    var basePath = BABB.platformViewLayoutPath(iPlatform.get('viewName'))
     if(!iContainer$){
       iContainer$ = $('#platformContainer')
     }

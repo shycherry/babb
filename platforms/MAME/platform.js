@@ -1,6 +1,6 @@
 var mamePath = 'C:/Users/Vincent/Desktop/Emulateur/mame/mame64.exe'
 var romsPaths = ["C:/Users/Vincent/Desktop/Roms/MAME"]
-var history = require('./history')
+//var history = require('./history')
 var $ = global.$
 
 exports.getName = function(){
@@ -8,7 +8,7 @@ exports.getName = function(){
 }
 
 exports.getLogoPath = function(){
-  return __dirname+'/images/8364-haveac00kie-Mame.png'
+  return __dirname+'/logo.png'
 }
 
 exports.onSelected = function(){

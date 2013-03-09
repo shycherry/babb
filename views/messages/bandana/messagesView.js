@@ -3,7 +3,7 @@ var Backbone = global.Backbone
 var _ = global._
 var BABB = global.BABB
 
-exports.BandanaView = Backbone.View.extend({
+exports.MessagesView = Backbone.View.extend({
 
   el : $(BABB.BandanaConfig.bandanaId),
   lastFocusTimeoutId : 0,

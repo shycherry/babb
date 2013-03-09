@@ -7,13 +7,11 @@ var Fs = require('fs')
 var Path = require('path')
 var Sniffer = BABB.coreRequire('sniffer')
 var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
-var BandanaView = BABB.coreRequire('bandana').BandanaView
 var RomsCollectionView = BABB.coreRequire('roms').RomsCollectionView
 var KeysView = BABB.coreRequire('keysController').KeysView
 
 var Platform = BABB.coreRequire('platforms').Platform
 var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
-var CoreServices = BABB.coreRequire('coreServices')
 
 
 exports.FrontendView = Backbone.View.extend({
@@ -22,12 +20,12 @@ exports.FrontendView = Backbone.View.extend({
   
   initialize : function(){        
     this.keysView = new KeysView()
-    this.bandanaView = new BandanaView()
     $('#platformSelectionContainer').hide()
     $('#platformContainer').hide()
+    //$('#bandana').hide()
     
-    this.retrievePlatformSelectionView()
-    this.currentControledView = this.platformSelectionView
+    this.retrieveCfgMessagesView()
+    this.retrieveCfgPlatformSelectionView()
     this.currentValidatedPlatform = null
     this.initBindings()
     this.sniffPlatforms()
@@ -36,7 +34,7 @@ exports.FrontendView = Backbone.View.extend({
     
   sniffPlatforms : function(){
     this.platformsCollection.reset()
-    var pathsToSniff = [BABB.PlatformsConfig.defaultPlatformsPath]
+    var pathsToSniff = [BABB.GlobalConfig.defaultPlatformsPath]
     Sniffer.stopSniff(pathsToSniff)
     Sniffer.sniff(pathsToSniff, this.onPlatformsSniffed)
   },
@@ -65,7 +63,13 @@ exports.FrontendView = Backbone.View.extend({
     BABB.EventEmitter.trigger('platformsCollectionChanged', this.platformsCollection)    
   },
   
-  retrievePlatformSelectionView : function(){    
+  retrieveCfgMessagesView : function(){    
+    var viewName = BABB.MessagesConfig.viewName
+    var MessagesView = BABB.messagesViewsRequire(viewName).MessagesView
+    this.messagesView = new MessagesView()
+  },
+  
+  retrieveCfgPlatformSelectionView : function(){    
     var viewName = BABB.PlatformSelectionConfig.viewName
     var PlatformSelectionView = BABB.platformSelectionViewsRequire(viewName).PlatformSelectionView
     this.platformSelectionView = new PlatformSelectionView()    
@@ -83,14 +87,6 @@ exports.FrontendView = Backbone.View.extend({
     
     var self = this
     
-    BABB.EventEmitter.on('controledViewChanged', function(iView){
-      if( ! self.currentControledView){
-        self.currentControledView = iView
-      }
-      self.lastControledView = self.currentControledView
-      self.currentControledView = iView
-    })
-    
     BABB.EventEmitter.on('platformValidated', function(iPlatform){
       console.log('selecion validated :'+iPlatform.get('name'))
       
@@ -103,20 +99,15 @@ exports.FrontendView = Backbone.View.extend({
       }else{
         self.currentValidatedPlatform = iPlatform
         
-        iPlatform.onSelectedDelegate(iPlatform)
-          
-        BABB.EventEmitter.trigger('requestControledViewChange', iPlatform)              
+        var PlatformView = BABB.platformsViewsRequire(iPlatform.get('viewName')).PlatformView
+        PlatformView = new PlatformView()
+        PlatformView.associatedPlatform = iPlatform
+        BABB.EventEmitter.trigger('requestControledViewChange', PlatformView)
       }
     })    
     
-    BABB.EventEmitter.on('control-valid', function(){      
-      //
-    })
-    
-    BABB.EventEmitter.on('control-back', function(){
-      if(self.lastControledView){
-        BABB.EventEmitter.trigger('requestControledViewChange', self.lastControledView)
-      }
+    BABB.EventEmitter.on('control-back', function(){      
+      BABB.EventEmitter.trigger('requestControledViewChange', self.platformSelectionView)      
     })
   },
   
