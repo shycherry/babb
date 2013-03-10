@@ -2,6 +2,7 @@
 //used emulator : MAME
 
 exports.config = {
+  viewName : 'MAME',
   displayName : 'MAME',
   emulatorPath : 'D:/MAME/mame32.exe',
   romsPaths : ['D:/MAME/ROMS'],

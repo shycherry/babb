@@ -1,13 +1,50 @@
-@-webkit-keyframes pivot-image
-{
-  0% {
-   -webkit-transform: scale(0) rotate(0deg);
-    opacity:0.5;
-  }
-  100%{
-    -webkit-transform: scale(1) rotate(-10deg);
-    opacity:1;
-  }
+#romTitle{
+  position : fixed;
+  z-index:20;
+  width:100%;
+  top:50%;
+  text-align:center;
+  font-weight:bold;
+  font-size : 2em;
+  background-color:white;
+}
+
+.rom img{
+  height:100%;
+}
+
+.rom #title{
+  position:fixed;
+  top : 50%;
+  background-color:rgba(255,255,255,0.9);
+  width :100%;
+}
+
+.rom{
+  font-size : 1.5em;
+  font-weight: bold;
+  width :100%;
+  height:100%;
+  text-align:center;  
+}
+
+
+#platformBody{
+  background-image : url('./htmlbg.png');
+  width:100%;
+  height:100%;
+}
+
+#history-container{  
+  position : fixed;
+  bottom : 10%;
+  border-radius:6px;
+  left: 10%;
+  background-color:rgba(250,250,250,0.9); 
+  width:80%;
+  height:35%;
+  overflow-y:auto;  
+  pointer-events:all;
 }
 
 @-webkit-keyframes text-appear
@@ -22,43 +59,10 @@
   }  
 }
 
-#mybody{
-  height:100%;
-  width:100%;
-  background-image: url('images/mameLogo.png');
-}
-
-#info-container,#picts-container{
-  position:fixed;
-  top:10%;
-}
-
-#picts-container{   
-  left:50%;
-  width:100%;
-  opacity:1;
-  height:60%;
-  overflow:hidden;  
-  -webkit-transform: scale(1) rotate(-10deg);
-  -webkit-animation:pivot-image 2s;
-}
-
-#info-container{  
-  border-radius:6px;
-  left: 10%;
-  background-color:rgba(250,250,250,0.9); 
-  width:40%;
-  height:80%;
-  overflow-y:auto;  
-  pointer-events:all;
-}
-
-#info-container .title{
+#history-container .title{
   -webkit-animation:text-appear 0.5s;
 }
 
-#info-container .corpus{
+#history-container .corpus{
   -webkit-animation:text-appear 1s;
 }
-
-

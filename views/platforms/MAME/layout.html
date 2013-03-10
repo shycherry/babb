@@ -1,17 +1,7 @@
-﻿<div id="mybody">
-  <script type="text/template" id="roms-collection-template">
-    <% _.each(collection, function(rom){%>
-      <li id="<%= rom.get("id") %>" class="rom">
-        <b>~<%= rom.get("title") %>~</b>
-      </li>
-    <%})%>
-  </script>
-    
-  <ul id="picts-container">
-    <img src="../platforms/MAME/images/metalslug.jpg">
-  </ul>
-  
-  <div id="info-container">
-    <h1 class="title">MAME</h1>    
-  </div>
+﻿<div id="platformBody">
+  <div id="romTitle"></div>
+  <div id="romscoverflow"></div>  
+  <div id="history-container">
+    <h1 class='title'>MAME History</h1>
+  </div>  
 </div>

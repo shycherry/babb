@@ -1,5 +1,6 @@
 ﻿var BABB = global.BABB
 var Fs = require('fs')
+var History = require('./history.js')
 var KeysController = BABB.coreRequire('keysController')
 
 exports.PlatformView = Backbone.View.extend({
@@ -57,8 +58,10 @@ exports.PlatformView = Backbone.View.extend({
     BABB.EventEmitter.on('romFocused', function(iRom){
       self.focusedRom = iRom
       self.updateTitle()
+      self.updateHistory()
     }, this)
     
+    History.loadHistory()
   },
   
   addIllustrationProvider : function(iRomsCollection){
@@ -75,6 +78,13 @@ exports.PlatformView = Backbone.View.extend({
           }
         }
       })(currentRom)
+    }
+  },
+  
+  updateHistory : function(){    
+    if(this.focusedRom){     
+      var historyEntry = History.getHtmlEntry(this.focusedRom.get('title'))
+      $('#history-container').html(historyEntry)
     }
   },
   
