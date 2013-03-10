@@ -97,9 +97,9 @@ var Platform = Backbone.Model.extend({
     }
   },
   
-  runRomDelegate : function (parRom){    
+  runRomDelegate : function (parPlatform, parRom){    
     if(this.platformModule.runRom){
-      this.platformModule.runRom(parRom)
+      this.platformModule.runRom(parPlatform, parRom)
     }else{
       console.log('no runRom method defined for '+this)
     }

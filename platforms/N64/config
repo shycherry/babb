@@ -3,7 +3,7 @@
 
 exports.config = {
   displayName : 'Nintendo 64',
-  project64Path : 'C:/Program Files (x86)/Project64 1.6/Project64.exe',
+  emulatorPath : 'C:/Program Files (x86)/Project64 1.6/Project64.exe',
   romsPaths : ['D:/Nintendo 64/roms'],
   romsExtensions : ['.zip'],
 }

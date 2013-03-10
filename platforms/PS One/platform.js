@@ -38,7 +38,7 @@ exports.romsProvider = function(iReport, ioRomsCollection){
   }  
 }
 
-exports.runRom = function (iRom){  
+exports.runRom = function (iPlatform, iRom){  
   if(iRom){  
     var selectedRomPath = iRom.get('path')
     if(selectedRomPath){
@@ -47,7 +47,9 @@ exports.runRom = function (iRom){
       Spawner.spawn(
         emulatorPath, 
         ['-nogui','-loadbin', selectedRomPath], 
-        {cwd : Path.dirname(emulatorPath)}
+        {cwd : Path.dirname(emulatorPath)},
+        iPlatform,
+        iRom
       )      
     }
   }  

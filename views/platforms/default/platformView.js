@@ -85,12 +85,12 @@ exports.PlatformView = Backbone.View.extend({
     })    
     
     var self = this
-    this.coverflowView.on('focus', function(iPlatform){
-      BABB.EventEmitter.trigger('romFocused', iPlatform)      
+    this.coverflowView.on('focus', function(iRom){
+      BABB.EventEmitter.trigger('romFocused', iRom)      
     })
     
-    this.coverflowView.on('clicked', function(iPlatform){
-      BABB.EventEmitter.trigger('romValidated', iPlatform)
+    this.coverflowView.on('clicked', function(iRom){
+      BABB.EventEmitter.trigger('romValidated', iRom)
     })
     
     this.dynabodyPlatform = null

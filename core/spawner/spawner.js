@@ -5,7 +5,7 @@ var spawnerExitTemplate = _.template(Fs.readFileSync(__dirname+'/spawner_exit_te
 var spawnerStartTemplate = _.template(Fs.readFileSync(__dirname+'/spawner_start_template.html').toString())
 var spawnerErrorTemplate = _.template(Fs.readFileSync(__dirname+'/spawner_error_template.html').toString())
 
-function spawnChildProcess(command, args, options, childProcessFunction){	  
+function spawnChildProcess(command, args, options, childProcessFunction, iPlatform, iRom){	  
   if(!command){
     global.BABB.EventEmitter.trigger('error', spawnerErrorTemplate({error : 'no command specified'}))
     return
@@ -14,10 +14,10 @@ function spawnChildProcess(command, args, options, childProcessFunction){
   var cmdProcess = childProcessFunction(command, args, options)
   var killidProcess = ChildProcess.spawn(
     global.BABB.GlobalConfig.killidPath, 
-    [cmdProcess.pid]
+    [cmdProcess.pid, iRom.get('title')]
   )
   console.log(command+' started')
-  global.BABB.EventEmitter.trigger('status', spawnerStartTemplate({command: command, args : args, options : options}))
+  global.BABB.EventEmitter.trigger('status', spawnerStartTemplate({command: command, args : args, options : options, cmdPid: cmdProcess.pid, playitPid : killidProcess.pid}))
   
   cmdProcess.on('exit', function(code){
 		console.log(command+' exited with code '+code)
@@ -29,19 +29,29 @@ function spawnChildProcess(command, args, options, childProcessFunction){
   
 }
 
-function spawn(command, args, options){  
-  spawnChildProcess(command, args, options, 
+function spawn(command, args, options, iPlatform, iRom){  
+  spawnChildProcess(
+    command, 
+    args, 
+    options, 
     function(command, args, options){      
       return ChildProcess.spawn(command, args, options)
-    }
+    }, 
+    iPlatform, 
+    iRom
   )
 }
 
-function exec(command, options){  
-  spawnChildProcess(command, null, options,   
+function exec(command, options, iPlatform, iRom){  
+  spawnChildProcess(
+    command, 
+    null, 
+    options,   
     function(command, args, options){      
       return ChildProcess.exec(command, options)
-    }
+    },
+    iPlatform,
+    iRom
   )
 }
 

@@ -21,7 +21,7 @@
 }
 
 .focus #dynabody{
-  -webkit-animation:previewSubBody 2s;
+  -webkit-animation:previewSubBody 0.5s;
   opacity:1;
   -webkit-transition-property: -webkit-transform, opacity;
   -webkit-transition-duration: 0.8s;
@@ -41,8 +41,6 @@
   height: 100%;  
   background-color:transparent;  
   opacity:0;
-  -webkit-transition-property: -webkit-transform, opacity;
-  -webkit-transition-duration: 0.8s;
 }
 
 img{

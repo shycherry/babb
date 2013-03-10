@@ -1,5 +1,5 @@
 ﻿var config = require('./config').config
-var project64Path = config.project64Path
+var emulatorPath = config.emulatorPath
 var romsPaths = config.romsPaths
 
 exports.getName = function(){
@@ -16,18 +16,22 @@ exports.getRomsPaths = function(){
 
 exports.isAvailable = function(){
   var Fs = require('fs')
-  return Fs.existsSync(project64Path)
+  return Fs.existsSync(emulatorPath)
 }
 
-exports.runRom = function (iRom){  
+exports.runRom = function (iPlatform, iRom){  
   if(iRom){
     var selectedRomPath = iRom.get('path')
     if(selectedRomPath){
       var Spawner = global.BABB.Utils.Spawner
+      var Path = require('path')
       var selectedRomPathArgs = selectedRomPath.trim().split(' ')
       Spawner.spawn(
-        project64Path, 
-        selectedRomPathArgs
+        emulatorPath, 
+        selectedRomPathArgs,
+        {cwd : Path.dirname(emulatorPath)},
+        iPlatform,
+        iRom
       )        
     }
   }  

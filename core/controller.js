@@ -155,7 +155,7 @@ exports.FrontendView = Backbone.View.extend({
   
   runRomIfp : function(){
     if(this.currentValidatedRom && this.currentValidatedPlatform){
-      this.currentValidatedPlatform.runRomDelegate(this.currentValidatedRom)
+      this.currentValidatedPlatform.runRomDelegate(this.currentValidatedPlatform, this.currentValidatedRom)
     }
   },
   
