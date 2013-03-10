@@ -1,5 +1,5 @@
 <div id="<%= item.get("id") %>" class="rom">
-  <% if( item.getLogoPathDelegate() ) {%>
+  <% if( item.getLogoPathDelegate ) {%>
     <img src="<%= item.getLogoPathDelegate()%>">    
   <%}else{%>
     <b><%= item.get("title") %></b>

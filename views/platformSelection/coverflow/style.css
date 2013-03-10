@@ -1,3 +1,14 @@
+#platformTitle{
+  position : fixed;
+  z-index:10;
+  width:100%;
+  bottom:1em;
+  text-align:center;
+  font-weight:bold;
+  font-size : 2em;
+  background-color:white;
+}
+
 @-webkit-keyframes previewSubBody
 {
   0% {

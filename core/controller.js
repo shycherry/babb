@@ -12,11 +12,14 @@ var KeysView = BABB.coreRequire('keysController').KeysView
 
 var Platform = BABB.coreRequire('platforms').Platform
 var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
+var RomsCollection = BABB.coreRequire('roms').RomsCollection
 
 
 exports.FrontendView = Backbone.View.extend({
   
   platformsCollection : new PlatformsCollection(),
+  romsCollection : new RomsCollection(),
+  romsPathsToSniff : null,
   
   initialize : function(){        
     this.keysView = new KeysView()
@@ -63,6 +66,28 @@ exports.FrontendView = Backbone.View.extend({
     BABB.EventEmitter.trigger('platformsCollectionChanged', this.platformsCollection)    
   },
   
+  sniffRoms : function(){  
+    if(this.romsPathsToSniff){
+      Sniffer.stopSniff(this.romsPathsToSniff)
+    }
+    this.romsCollection.reset()
+    this.romsPathsToSniff = this.currentValidatedPlatform.getRomsPaths()
+    Sniffer.sniff(this.romsPathsToSniff, this.onRomsSniffed)
+  },
+  
+  onRomsSniffed : function(iReport){
+    if(iReport.isUpdate){
+      this.sniffRoms()
+    }else{
+      var romsProvider = this.currentValidatedPlatform.getRomsProviderDelegate()
+      romsProvider(iReport, this.romsCollection)
+    }
+  },
+  
+  onRomsChanged : function(){
+    BABB.EventEmitter.trigger('romsCollectionChanged', this.romsCollection)
+  },
+  
   retrieveCfgMessagesView : function(){    
     var viewName = BABB.MessagesConfig.viewName
     var MessagesView = BABB.messagesViewsRequire(viewName).MessagesView
@@ -77,13 +102,18 @@ exports.FrontendView = Backbone.View.extend({
       
   initBindings : function(){
     _.bindAll(this, 'onPlatformsSniffed')
-    _.bindAll(this, 'onPlatformsChanged')
-    
+    _.bindAll(this, 'onPlatformsChanged')    
     this.platformsCollection.on('change', this.onPlatformsChanged)
     this.platformsCollection.on('add', _.throttle(this.onPlatformsChanged,100))
     this.platformsCollection.on('remove', this.onPlatformsChanged)
     this.platformsCollection.on('reset', this.onPlatformsChanged)
     
+    _.bindAll(this, 'onRomsSniffed')
+    _.bindAll(this, 'onRomsChanged')    
+    this.romsCollection.on('change', this.onRomsChanged)
+    this.romsCollection.on('add', _.throttle(this.onRomsChanged,100))
+    this.romsCollection.on('remove', this.onRomsChanged)
+    this.romsCollection.on('reset', this.onRomsChanged)
     
     var self = this
     
@@ -98,25 +128,34 @@ exports.FrontendView = Backbone.View.extend({
         BABB.EventEmitter.trigger('error', iPlatform+' is not available')
       }else{
         self.currentValidatedPlatform = iPlatform
-        
+        self.sniffRoms()        
         var PlatformView = BABB.platformsViewsRequire(iPlatform.get('viewName')).PlatformView
         PlatformView = new PlatformView()
         PlatformView.associatedPlatform = iPlatform
-        BABB.EventEmitter.trigger('requestControledViewChange', PlatformView)
+        BABB.EventEmitter.trigger('requestControledViewChange', PlatformView)        
       }
-    })    
+    })
+
+    BABB.EventEmitter.on('romValidated', function(iRom){
+      console.log('selecion validated :'+iRom.get('title'))
+      
+      if(!iRom){
+        return
+      }
+      
+      self.currentValidatedRom = iRom
+      self.runRomIfp()
+    })
+    
     
     BABB.EventEmitter.on('control-back', function(){      
       BABB.EventEmitter.trigger('requestControledViewChange', self.platformSelectionView)      
     })
   },
   
-  unbindRomsCollection : function(){
-    if(this.romsCollectionView){
-      this.romsCollectionView.off('back')
-      this.romsCollectionView.off('selectionValidated')
-      this.romsCollectionView.off('selectionChanged')
-      this.romsCollectionView.stopSniff()
+  runRomIfp : function(){
+    if(this.currentValidatedRom && this.currentValidatedPlatform){
+      this.currentValidatedPlatform.runRomDelegate(this.currentValidatedRom)
     }
   },
   

@@ -1,0 +1,9 @@
+﻿//config for MAME
+//used emulator : MAME
+
+exports.config = {
+  displayName : 'MAME',
+  emulatorPath : 'D:/MAME/mame32.exe',
+  romsPaths : ['D:/MAME/ROMS'],
+  romsExtensions : ['.zip'],
+}

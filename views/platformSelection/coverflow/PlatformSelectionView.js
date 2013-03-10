@@ -19,17 +19,20 @@ var PlatformSelectionView = Backbone.View.extend({
     console.log('PlatformsCollectionView initialize')    
     var self = this    
     BABB.EventEmitter.on('requestControledViewChange', function(iView){
-      if(iView != self){
+      if(iView != self){        
         self.doUnbindings()
+        CoreServices.clearPlatformSelectionContainer()
         CoreServices.renderPlatform(iView.associatedPlatform, null, function(){
-          CoreServices.setVisiblePlatformView(true)
-          CoreServices.setVisiblePlatformSelectionView(false)
-        })        
+          CoreServices.setVisiblePlatformView(true)                  
+          CoreServices.setVisiblePlatformSelectionView(false)        
+        })
+        
       }else{
         self.doBindings()
+        CoreServices.clearPlatformContainer()
         CoreServices.renderPlatformSelectionView(null, function(){      
-          CoreServices.setVisiblePlatformView(false)
           CoreServices.setVisiblePlatformSelectionView(true)
+          CoreServices.setVisiblePlatformView(false)
           self.recreateCoverflow()          
         })
         BABB.EventEmitter.trigger('controledViewChanged', self)
@@ -61,7 +64,7 @@ var PlatformSelectionView = Backbone.View.extend({
     
     BABB.EventEmitter.on('platformFocused', function(iPlatform){
       self.focusedPlatform = iPlatform
-      
+      self.updateTitle()      
       clearTimeout(self.lastFocusTimeoutId)      
       if(self.focusedPlatform != self.dynabodyPlatform){
         self.lastFocusTimeoutId = setTimeout(function(){
@@ -73,8 +76,7 @@ var PlatformSelectionView = Backbone.View.extend({
     
     BABB.EventEmitter.on('platformValidated', function(iPlatform){
       
-        clearTimeout(self.lastFocusTimeoutId)      
-        self.focusedPlatform = iPlatform            
+        clearTimeout(self.lastFocusTimeoutId)        
         self.dynabodyPlatform = iPlatform
         self.previewPlatform(iPlatform)
         self.lastSelectedPlatformId = self.platformsCollection.indexOf(iPlatform)
@@ -124,12 +126,17 @@ var PlatformSelectionView = Backbone.View.extend({
     })
     
     this.dynabodyPlatform = null
-    this.coverflowView.select(this.lastSelectedPlatformId)
-    global.coverflow = this.coverflowView
+    this.coverflowView.select(this.lastSelectedPlatformId)    
+  },
+  
+  updateTitle : function(){    
+    if(this.focusedPlatform){
+      $('#platformTitle').html(this.focusedPlatform.get('name'))    
+    }
   },
    
   previewPlatform : function(iPlatform){    
-    if(iPlatform){
+    if(iPlatform){      
       $('.coverflow-cell #dynabody').detach()       
       var focusedCell = $('.coverflow-cell.focus')    
       var dynabody = $(window.document.createElement('div'))

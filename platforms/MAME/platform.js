@@ -1,29 +1,47 @@
-var mamePath = 'C:/Users/Vincent/Desktop/Emulateur/mame/mame64.exe'
-var romsPaths = ["C:/Users/Vincent/Desktop/Roms/MAME"]
-//var history = require('./history')
+﻿//var history = require('./history')
 var $ = global.$
 
+var config = require('./config').config
+var emulatorPath = config.emulatorPath
+var romsPaths = config.romsPaths
+
 exports.getName = function(){
-  return 'MAME'
+  return config.displayName
 }
 
 exports.getLogoPath = function(){
   return __dirname+'/logo.png'
 }
 
-exports.onSelected = function(){
-  
-  $('#info-container').on("mousewheel", function(event){
-    event.stopPropagation()
-  })    
-  
-  history.loadHistory()
-}
-
 exports.getRomsPaths = function(){
   return romsPaths
 }
 
+exports.isAvailable = function(){
+  var Fs = require('fs')
+  return Fs.existsSync(emulatorPath)
+}
+
+exports.romsProvider = function(iReport, ioRomsCollection){
+  var Roms = global.BABB.Utils.Roms  
+  var FilenamesFilter = global.BABB.Utils.FilenamesFilter
+  
+  var filteredFilesMap = new FilenamesFilter(iReport)
+      .keepFilesWithExtensions(config.romsExtensions)
+      .onlyKeepBasename()
+      .removeExtensions()
+      .get()
+
+  for(var locPath in filteredFilesMap){
+    var rom = new Roms.Rom({
+      title : filteredFilesMap[locPath],
+      path : locPath
+    })    
+    ioRomsCollection.add(rom)
+  }  
+}
+
+// a migrer
 exports.focusRom = function(iRom){
   var Fs = require('fs')
   var metadataPath = iRom.get('path')+'.metadata' 
@@ -39,24 +57,27 @@ exports.focusRom = function(iRom){
   $('#info-container').html(historyEntry)
 }
 
-exports.isAvailable = function(){
-  var Fs = require('fs')
-  return Fs.existsSync(mamePath)
+exports.onSelected = function(){
+  
+  $('#info-container').on("mousewheel", function(event){
+    event.stopPropagation()
+  })    
+  
+  history.loadHistory()
 }
+// /a migrer
 
 exports.runRom = function (iRom){
   if(iRom){
     var selectedRomPath = iRom.get('path')
     if(selectedRomPath){      
-      var Spawner = global.BABB.Libs.Spawner
+      var Spawner = global.BABB.Utils.Spawner
       var Path = require('path')
       Spawner.spawn(
-        mamePath, 
+        emulatorPath, 
         ['-rp', Path.dirname(selectedRomPath), iRom.get('title')],
-        {cwd : Path.dirname(mamePath)}
+        {cwd : Path.dirname(emulatorPath)}
       )        
     }
   }  
 }
-
-

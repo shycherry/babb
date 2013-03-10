@@ -23,7 +23,7 @@ exports.runRom = function (iRom){
   if(iRom){
     var selectedRomPath = iRom.get('path')
     if(selectedRomPath){
-      var Spawner = global.BABB.Libs.Spawner
+      var Spawner = global.BABB.Utils.Spawner
       var selectedRomPathArgs = selectedRomPath.trim().split(' ')
       Spawner.spawn(
         project64Path, 

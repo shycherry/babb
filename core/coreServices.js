@@ -13,6 +13,9 @@ var KeysView = BABB.coreRequire('keysController').KeysView
 var Platform = BABB.coreRequire('platforms').Platform
 var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
 
+var platformSelectionContainerDOM = null
+var platformContainerDOM = null
+
 var renderView = function(iPathToView, iContainer$, iCallback){
 
   var viewCSSPath = Path.resolve(iPathToView+"/style.css")      
@@ -75,3 +78,37 @@ exports.setVisiblePlatformView = function(isVisible){
     $('#platformContainer').hide()
   }
 }
+
+exports.clearPlatformSelectionContainer = function(){
+  $('body #platformSelectionContainer').children().remove()
+}
+
+exports.clearPlatformContainer = function(){
+  $('body #platformContainer').children().remove()
+}
+
+exports.attachPlatformSelectionContainer = function(){
+  if(platformSelectionContainerDOM){
+    $('body').append(platformSelectionContainerDOM)
+    platformSelectionContainerDOM = null
+  }  
+}
+
+exports.detachPlatformSelectionContainer = function(){
+  platformSelectionContainerDOM = $('body #platformSelectionContainer').toArray()
+  $('body #platformSelectionContainer').detach()  
+}
+
+exports.attachPlatformContainer = function(){
+  if(platformContainerDOM){
+    $('body').append(platformContainerDOM)
+    platformContainerDOM = null
+  }  
+}
+
+exports.detachPlatformContainer = function(){
+  platformContainerDOM = $('body #platformContainer').toArray()
+  $('body #platformContainer').detach()  
+}
+
+

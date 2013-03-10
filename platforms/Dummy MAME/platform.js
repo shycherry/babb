@@ -28,8 +28,8 @@ exports.isAvailable = function(){
 }
 
 exports.romsProvider = function(iReport, ioRomsCollection){
-  var Roms = global.BABB.Libs.Roms  
-  var FilenamesFilter = global.BABB.Libs.FilenamesFilter
+  var Roms = global.BABB.Utils.Roms  
+  var FilenamesFilter = global.BABB.Utils.FilenamesFilter
   
   var filteredFilesMap = new FilenamesFilter(iReport)
       .keepFilesWithExtensions(config.romsExtensions)
@@ -62,7 +62,7 @@ exports.runRom = function (iRom){
   if(iRom){  
     var selectedRomPath = iRom.get('path')
     if(selectedRomPath){
-      var Spawner = global.BABB.Libs.Spawner
+      var Spawner = global.BABB.Utils.Spawner
       var Path = require('path')
       Spawner.spawn(
         emulatorPath, 

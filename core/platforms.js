@@ -65,7 +65,7 @@ var Platform = Backbone.Model.extend({
   },
   
   defaultRomsProvider : function(parReport, oRomsCollection){  
-    var FilenamesFilter = global.BABB.Libs.FilenamesFilter  
+    var FilenamesFilter = global.BABB.Utils.FilenamesFilter  
     var filteredFilesMap = new FilenamesFilter(parReport)        
         .onlyKeepBasename()
         .removeExtensions()

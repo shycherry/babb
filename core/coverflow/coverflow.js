@@ -19,6 +19,8 @@ var CoverflowModel = Backbone.Model.extend({
     perspective:250,
     coverGap:40,
     coverOffset:130,    
+    rotateAngleLeft:70,
+    rotateAngleRight:-70,
     circularSelection:false,
     collection : new Backbone.Collection,
     template: _.template(Fs.readFileSync(__dirname+'/default-template.html').toString())
@@ -53,6 +55,8 @@ var CoverflowView = Backbone.View.extend({
     this.coverGap = this.model.get('coverGap')
     this.coverOffset = this.model.get('coverOffset')
     this.virtualSize = this.model.get('virtualSize')
+    this.rotateAngleLeft = this.model.get('rotateAngleLeft')
+    this.rotateAngleRight = this.model.get('rotateAngleRight')
   },
   
   initBindings : function(){
@@ -190,13 +194,13 @@ var CoverflowView = Backbone.View.extend({
   styliseCell : function(iCell){
     var cellIndex = iCell.attr('index')
     if(cellIndex < this.selectedIndex){
-      iCell.css('-webkit-transform',' translate3d('+(-this.coverOffset+(cellIndex*this.coverGap))+'px, 0px, '+this.zUnselected+'px) rotateY(70deg)')
+      iCell.css('-webkit-transform',' translate3d('+(-this.coverOffset+(cellIndex*this.coverGap))+'px, 0px, '+this.zUnselected+'px) rotateY('+this.rotateAngleLeft+'deg)')
       iCell.removeClass('focus')
     }else if(cellIndex == this.selectedIndex){        
       iCell.css('-webkit-transform','translate3d('+this.coverGap*cellIndex+'px,0px,0px)')
       iCell.addClass('focus')
     }else if(cellIndex > this.selectedIndex){        
-      iCell.css('-webkit-transform','translate3d('+(this.coverOffset+(cellIndex*this.coverGap))+'px, 0px, '+this.zUnselected+'px) rotateY(-70deg)')
+      iCell.css('-webkit-transform','translate3d('+(this.coverOffset+(cellIndex*this.coverGap))+'px, 0px, '+this.zUnselected+'px) rotateY('+this.rotateAngleRight+'deg)')
       iCell.removeClass('focus')
     }     
   },
