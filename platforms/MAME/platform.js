@@ -52,7 +52,7 @@ exports.runRom = function (iPlatform, iRom){
       var Path = require('path')
       Spawner.spawn(
         emulatorPath, 
-        ['-rp', Path.dirname(selectedRomPath), iRom.get('title')],
+        [iRom.get('title'), '-rp', Path.dirname(selectedRomPath)],
         {cwd : Path.dirname(emulatorPath)},
         iPlatform,
         iRom

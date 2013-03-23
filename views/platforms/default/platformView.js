@@ -3,7 +3,7 @@ var Fs = require('fs')
 var KeysController = BABB.coreRequire('keysController')
 
 exports.PlatformView = Backbone.View.extend({
-  lastSelectedPlatformId : 0,
+  lastSelectedRomId : 0,
   
   initialize : function(){
     var self = this
@@ -14,6 +14,7 @@ exports.PlatformView = Backbone.View.extend({
         self.doBindings()
         BABB.EventEmitter.trigger('controledViewChanged', self)
         self.recreateCoverflow()
+        self.recreateStats()
       }
     }) //not this    
   },
@@ -29,6 +30,7 @@ exports.PlatformView = Backbone.View.extend({
     BABB.EventEmitter.on('romsCollectionChanged', function(iRomsCollection){
       self.addIllustrationProvider(iRomsCollection)      
       self.recreateCoverflow(iRomsCollection)
+      self.recreateStats()
     }, this)
     
     BABB.EventEmitter.on('control-valid', function(){      
@@ -57,6 +59,7 @@ exports.PlatformView = Backbone.View.extend({
     BABB.EventEmitter.on('romFocused', function(iRom){
       self.focusedRom = iRom
       self.updateTitle()
+      self.updateStats()
     }, this)
     
   },
@@ -82,6 +85,18 @@ exports.PlatformView = Backbone.View.extend({
     if(this.focusedRom){
       $('#romTitle').html(this.focusedRom.get('title'))
     }
+  },
+  
+  updateStats : function(){
+    if(this.focusedRom && this.associatedPlatform && this.statsView){
+      this.statsView.setPlatform(this.associatedPlatform)
+      this.statsView.setRom(this.focusedRom)
+    }
+  },
+  
+  recreateStats : function(){
+    var StatsView = BABB.coreRequire('stats').StatsView
+    this.statsView = new StatsView({el:'#stats'})
   },
   
   recreateCoverflow : function(iRomsCollection){
@@ -123,6 +138,6 @@ exports.PlatformView = Backbone.View.extend({
     })
     
     this.dynabodyPlatform = null
-    this.coverflowView.select(this.lastSelectedPlatformId)    
+    this.coverflowView.select(this.lastSelectedRomId)    
   },
 })

@@ -118,7 +118,7 @@ exports.FrontendView = Backbone.View.extend({
     var self = this
     
     BABB.EventEmitter.on('platformValidated', function(iPlatform){
-      console.log('selecion validated :'+iPlatform.get('name'))
+      console.log('selection validated :'+iPlatform.get('name'))
       
       if( ! iPlatform){
         return

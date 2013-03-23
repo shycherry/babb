@@ -14,7 +14,7 @@ function spawnChildProcess(command, args, options, childProcessFunction, iPlatfo
   var cmdProcess = childProcessFunction(command, args, options)
   var killidProcess = ChildProcess.spawn(
     global.BABB.GlobalConfig.killidPath, 
-    [cmdProcess.pid, iRom.get('title')]
+    [cmdProcess.pid, iPlatform.get('name'), iRom.get('title')]
   )
   console.log(command+' started')
   global.BABB.EventEmitter.trigger('status', spawnerStartTemplate({command: command, args : args, options : options, cmdPid: cmdProcess.pid, playitPid : killidProcess.pid}))

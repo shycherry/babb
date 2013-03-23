@@ -1,10 +1,10 @@
 ﻿//config for MAME
-//used emulator : MAME
+//used emulator : MAME 0148b
 
 exports.config = {
   viewName : 'MAME',
   displayName : 'MAME',
-  emulatorPath : 'D:/MAME/mame32.exe',
+  emulatorPath : 'Z:/Developpement/BABB/emulateurs/mame/mamepp.exe',
   romsPaths : ['D:/MAME/ROMS'],
   romsExtensions : ['.zip'],
 }
