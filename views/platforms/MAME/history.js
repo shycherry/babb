@@ -1,4 +1,3 @@
-﻿var _ = global._
 var Fs = require('fs')
 var historyStream = null
 var indexMap = {}
@@ -7,13 +6,22 @@ var historyTemplate = _.template(Fs.readFileSync(__dirname+'/history-template.ht
 var getHtmlEntry = function(romName){
   var parsedEntry = parseRawEntry(getRawFullEntry(romName))  
 
-  return historyTemplate({
-    title:parsedEntry.title, 
-    copyright:parsedEntry.copyright,
-    resumee:parsedEntry.resumee,
-    details:parsedEntry.details     
-  })
-  
+  if(parsedEntry.title == ''){
+    return historyTemplate({
+      title:'No history',
+      copyright:'',
+      resumee:'',
+      details:''
+    })
+  }else{
+    return historyTemplate({
+      title:parsedEntry.title, 
+      copyright:parsedEntry.copyright,
+      resumee:parsedEntry.resumee,
+      details:parsedEntry.details     
+    })
+  }
+    
 }
 
 var parseRawEntry = function(iRawFull){
@@ -72,6 +80,10 @@ var getRawBioEntry = function(romName){
 
 var getRawFullEntry = function(romName){  
   var romNameIndex = indexMap[romName];
+  
+  if(!romNameIndex){
+    return ''
+  }
     
   //rewind to the '$' of '$info'
   var entryStartIndex = romNameIndex
