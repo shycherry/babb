@@ -43,12 +43,24 @@ var StatsModel = Backbone.Model.extend({
         console.log('stats exists !')
         statsStream = Fs.readFileSync(statsFilename).toString()
         var statsArray = statsStream.split('\n')
-        this.set('totalTime', statsArray[0])
-        this.set('nbLaunched', statsArray[1])
-        this.set('averageTime', statsArray[2])        
-        this.set('lastLaunchDate', statsArray[3])
-        this.set('firstLaunchDate', statsArray[4])
+        var lastLaunchDate = statsArray[3].substr(6,2)+'-'+statsArray[3].substr(4,2)+'-'+statsArray[3].substr(0,4)
+        var firstLaunchDate = statsArray[4].substr(6,2)+'-'+statsArray[4].substr(4,2)+'-'+statsArray[4].substr(0,4)
+        var averageTime = statsArray[2].substr(0,8)
+        var nbLaunched = statsArray[1].substr(0,8)
+        var totalTime = statsArray[0].substr(0,8)        
+        this.set('totalTime', totalTime)
+        this.set('nbLaunched', nbLaunched)
+        this.set('averageTime', averageTime)
+        this.set('lastLaunchDate', lastLaunchDate)
+        this.set('firstLaunchDate', firstLaunchDate)
+        
       }else{
+      
+        this.set('totalTime', this.defaults.totalTime)
+        this.set('nbLaunched', this.defaults.nbLaunched)
+        this.set('averageTime', this.defaults.averageTime)
+        this.set('lastLaunchDate', this.defaults.lastLaunchDate)
+        this.set('firstLaunchDate', this.defaults.firstLaunchDate)
         console.log('no stats exists :(')
       }
     }

@@ -5,6 +5,18 @@ var KeysController = BABB.coreRequire('keysController')
 exports.PlatformView = Backbone.View.extend({
   lastSelectedRomId : 0,
   
+  recreateStuff : function(iRomsCollection){
+    var self = this
+    self.recreateCoverflow(iRomsCollection)
+    self.recreateStats()
+  },
+  
+  updateStuff : function(){
+    var self = this
+    self.updateTitle()
+    self.updateStats()
+  },
+  
   initialize : function(){
     var self = this
     BABB.EventEmitter.on('requestControledViewChange',function(iView){
@@ -13,8 +25,7 @@ exports.PlatformView = Backbone.View.extend({
       }else{
         self.doBindings()
         BABB.EventEmitter.trigger('controledViewChanged', self)
-        self.recreateCoverflow()
-        self.recreateStats()
+        self.recreateStuff()
       }
     }) //not this    
   },
@@ -29,8 +40,7 @@ exports.PlatformView = Backbone.View.extend({
     
     BABB.EventEmitter.on('romsCollectionChanged', function(iRomsCollection){
       self.addIllustrationProvider(iRomsCollection)      
-      self.recreateCoverflow(iRomsCollection)
-      self.recreateStats()
+      self.recreateStuff(iRomsCollection)
     }, this)
     
     BABB.EventEmitter.on('control-valid', function(){      
@@ -58,8 +68,7 @@ exports.PlatformView = Backbone.View.extend({
     
     BABB.EventEmitter.on('romFocused', function(iRom){
       self.focusedRom = iRom
-      self.updateTitle()
-      self.updateStats()
+      self.updateStuff()
     }, this)
     
   },

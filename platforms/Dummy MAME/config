@@ -2,7 +2,6 @@
 //used emulator : notepad ;)
 
 exports.config = {
-  viewName : 'default',
   displayName : 'Dummy MAME',
   emulatorPath : 'notepad.exe',
   romsPaths : [__dirname+'/Roms'],

@@ -18,20 +18,20 @@ var platformContainerDOM = null
 
 var renderView = function(iPathToView, iContainer$, iCallback){
 
-  var viewCSSPath = Path.resolve(iPathToView+"/style.css")      
+  var viewCSSPath = Path.resolve(iPathToView+Path.sep+"style.css")      
   var css = null
   if(Fs.existsSync(viewCSSPath)){
-    viewCSSPath = Path.relative('./core/', viewCSSPath)
+    viewCSSPath = Path.relative('.'+Path.sep+'core'+Path.sep, viewCSSPath)
     css = $(window.document.createElement('link'))
     css.attr('href', viewCSSPath)
     css.attr('rel', 'stylesheet')          
   }
       
-  var viewLayoutPath = Path.resolve(iPathToView+"/layout.html")      
+  var viewLayoutPath = Path.resolve(iPathToView+Path.sep+"layout.html")      
   if(Fs.existsSync(viewLayoutPath)){
-    viewLayoutPath = Path.relative('./core/', viewLayoutPath)
+    viewLayoutPath = Path.relative('.'+Path.sep+'core'+Path.sep, viewLayoutPath)
     var self = this
-    iContainer$.load(encodeURI(viewLayoutPath), function(){            
+    iContainer$.load(/*encodeURI*/(viewLayoutPath), function(){            
       if(css){
         iContainer$.append(css)
       }
