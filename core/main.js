@@ -62,6 +62,8 @@ var BABB = global.BABB
 
 
 function go(){
+  var gui = require('nw.gui')
+  gui.Window.get().show()
   new Controller.FrontendView({el : 'body'})
 }
 
