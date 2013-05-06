@@ -26,6 +26,19 @@ exports.KeysView = Backbone.View.extend({
       if( -1 != BABB.Controls.back.indexOf(keyEvent.keyCode)){
         BABB.EventEmitter.trigger('control-back')        
       }
+      if( -1 != BABB.Controls.up.indexOf(keyEvent.keyCode)){
+        BABB.EventEmitter.trigger('control-up')        
+      }
+      if( -1 != BABB.Controls.down.indexOf(keyEvent.keyCode)){
+        BABB.EventEmitter.trigger('control-down')        
+      }
+      if( -1 != BABB.Controls.left.indexOf(keyEvent.keyCode)){
+        BABB.EventEmitter.trigger('control-left')        
+      }
+      if( -1 != BABB.Controls.right.indexOf(keyEvent.keyCode)){
+        BABB.EventEmitter.trigger('control-right')        
+      }
+      
       if( -1 != BABB.Controls.speed.indexOf(keyEvent.keyCode)){
         exports.isSpeedDown = true
         BABB.EventEmitter.trigger('control-speed')        

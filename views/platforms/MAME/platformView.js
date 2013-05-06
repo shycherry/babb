@@ -10,6 +10,32 @@ exports.PlatformView = BasePlatformView.extend({
   doBindings : function(){
     BasePlatformView.prototype.doBindings.call(this)
     History.loadHistory()
+    
+    BABB.EventEmitter.on('control-down', function(){
+      var historyContainer = $('#history-container')[0]
+      if(historyContainer){
+        historyContainer.scrollByLines(1)
+      }
+    }, this)
+    BABB.EventEmitter.on('control-up', function(){
+      var historyContainer = $('#history-container')[0]
+      if(historyContainer){
+        historyContainer.scrollByLines(-1)
+      }
+    }, this)
+    BABB.EventEmitter.on('control-next', function(){
+      var historyContainer = $('#history-container')[0]
+      if(historyContainer){
+        historyContainer.scrollByLines(-historyContainer.scrollHeight)
+      }
+    }, this)
+    BABB.EventEmitter.on('control-previous', function(){
+      var historyContainer = $('#history-container')[0]
+      if(historyContainer){
+        historyContainer.scrollByLines(-historyContainer.scrollHeight)
+      }
+    }, this)
+    
   },
   
   updateStuff : function(){
