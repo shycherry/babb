@@ -42,7 +42,7 @@ exports.find = function(start, searchedFilename, onFindCallback, onNotFindCallba
     if(files && files.indexOf(searchedFilename) != -1){
       stop = true
       onFindCallback(path.normalize(path.join(dirPath, searchedFilename)))
-    }else if(deepCounter <= 0){
+    }else if(deepCounter <= 0 && !stop){
       onNotFindCallback()
     }
   })
