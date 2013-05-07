@@ -6,6 +6,7 @@ var BABB = global.BABB
 var Fs = require('fs')
 var Path = require('path')
 var Sniffer = BABB.coreRequire('sniffer')
+var ConfigShadow = BABB.coreRequire('configShadow')
 var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 var RomsCollectionView = BABB.coreRequire('roms').RomsCollectionView
 var KeysView = BABB.coreRequire('keysController').KeysView
@@ -145,12 +146,20 @@ exports.FrontendView = Backbone.View.extend({
       
       self.currentValidatedRom = iRom
       self.runRomIfp()
-    })
-    
+    })    
     
     BABB.EventEmitter.on('control-back', function(){      
       BABB.EventEmitter.trigger('requestControledViewChange', self.platformSelectionView)      
     })
+    
+    BABB.EventEmitter.on('runStarted', function(iRom, iPlatform){
+      ConfigShadow.restore(iRom, iPlatform)
+    })
+    
+    BABB.EventEmitter.on('runEnded', function(iRom, iPlatform){
+      ConfigShadow.save(iRom, iPlatform)
+    })
+    
   },
   
   runRomIfp : function(){
