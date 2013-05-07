@@ -1,6 +1,7 @@
 ﻿var config = require('./config').config
 var emulatorPath = config.emulatorPath
 var romsPaths = config.romsPaths
+var shadowConfig = require('./config').shadowConfig
 
 exports.getName = function(){
   return config.displayName
@@ -36,6 +37,10 @@ exports.romsProvider = function(iReport, ioRomsCollection){
     })    
     ioRomsCollection.add(rom)
   }  
+}
+
+exports.getShadowConfig = function(){
+  return shadowConfig
 }
 
 exports.runRom = function (iPlatform, iRom){  

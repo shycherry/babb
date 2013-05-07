@@ -64,6 +64,13 @@ var Platform = Backbone.Model.extend({
     return this.defaultRomsProvider
   },
   
+  getShadowConfig: function(){
+    if(this.platformModule.getShadowConfig){
+      return this.platformModule.getShadowConfig
+    }
+    return null
+  },
+  
   defaultRomsProvider : function(parReport, oRomsCollection){  
     var FilenamesFilter = global.BABB.Utils.FilenamesFilter  
     var filteredFilesMap = new FilenamesFilter(parReport)        
