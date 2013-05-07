@@ -12,17 +12,19 @@ function invokeChildProcess(command, args, options, childProcessFunction, iPlatf
   }
 	
   var cmdProcess = childProcessFunction(command, args, options)
+  
+  global.BABB.EventEmitter.trigger('prepareRun', iRom, iPlatform)
+  
   var killidProcess = ChildProcess.spawn(
     global.BABB.GlobalConfig.killidPath, 
     [cmdProcess.pid, iPlatform.get('name'), iRom.get('title')]
   )
-  console.log(command+' started')
-  global.BABB.EventEmitter.trigger('runStarted', iRom, iPlatform)
+  console.log(command+' started')  
   global.BABB.EventEmitter.trigger('status', spawnerStartTemplate({command: command, args : args, options : options, cmdPid: cmdProcess.pid, playitPid : killidProcess.pid}))
   
   cmdProcess.on('exit', function(code){
 		console.log(command+' exited with code '+code)
-    global.BABB.EventEmitter.trigger('runEnded', iRom, iPlatform)
+    global.BABB.EventEmitter.trigger('afterRun', iRom, iPlatform)
     global.BABB.EventEmitter.trigger('info', spawnerExitTemplate({command: command, code: code}))
     if(!killidProcess.killed){
       killidProcess.kill()

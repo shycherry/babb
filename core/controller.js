@@ -152,12 +152,14 @@ exports.FrontendView = Backbone.View.extend({
       BABB.EventEmitter.trigger('requestControledViewChange', self.platformSelectionView)      
     })
     
-    BABB.EventEmitter.on('runStarted', function(iRom, iPlatform){
+    BABB.EventEmitter.on('prepareRun', function(iRom, iPlatform){
+      ConfigShadow.save(null, iPlatform)
       ConfigShadow.restore(iRom, iPlatform)
     })
     
-    BABB.EventEmitter.on('runEnded', function(iRom, iPlatform){
+    BABB.EventEmitter.on('afterRun', function(iRom, iPlatform){
       ConfigShadow.save(iRom, iPlatform)
+      ConfigShadow.restore(null, iPlatform)
     })
     
   },
