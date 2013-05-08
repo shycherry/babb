@@ -15,65 +15,68 @@ var Platform = Backbone.Model.extend({
     id : "x",
     name : "unammed platform",
     path : "/default/path",
+    viewName : BABB.PlatformsConfig.defaultViewName,
   },
   
-  platformModule : null,
+  platformConfig : null,
   
   initialize: function Platform(){
     console.log('Platform constructor')
-    this.set('id', this.cid)
-    this.loadModule()
+    this.set('id', this.cid)    
     
-    if(this.platformModule.getName){
-      this.set('name', this.platformModule.getName())
+    _.bindAll(this,'defaultRomsProvider')
+    
+    if(this.getPlatformConfig().displayName){
+      this.set('name', this.getPlatformConfig().displayName)
     }
 
-    if(this.platformModule.getViewName && this.platformModule.getViewName()){
-      this.set('viewName', this.platformModule.getViewName())
-    }else{
-      this.set('viewName', BABB.PlatformsConfig.defaultViewName)
+    if(this.getPlatformConfig().viewName){
+      this.set('viewName', this.getPlatformConfig().viewName)
     }
-    
   },
 
-  loadModule : function(){    
-    var modulePath = Path.normalize(this.get('path')+'/platform.js')
-    if(Fs.existsSync(modulePath)){    
-      this.platformModule = require('../'+modulePath)
+  getPlatformConfig : function(){    
+    if(!this.platformConfig){
+      var configPath = Path.normalize(this.get('path')+'/config')
+      if(Fs.existsSync(configPath)){
+        this.platformConfig = require(configPath).PlatformConfig
+      }else{
+        this.platformConfig = {}
+      }
     }
-    return this.platformModule
+    return this.platformConfig
   },
   
-  getLogoPathDelegate : function(){
-    if(this.platformModule.getLogoPath){
-      return this.platformModule.getLogoPath()
+  getLogoPath : function(){
+    if(this.getPlatformConfig().logoPath){
+      return this.getPlatformConfig().logoPath
+    }else{
+      return this.get('path')+Path.sep+'logo.png'
     }
   },
   
   getRomsPaths : function(){
-    if(this.platformModule.getRomsPaths){
-      return this.platformModule.getRomsPaths()
+    if(this.getPlatformConfig().romsPaths){
+      return this.getPlatformConfig().romsPaths
     }
     return []
   },
   
-  getRomsProviderDelegate: function(){
-    if(this.platformModule.romsProvider){
-      return this.platformModule.romsProvider
-    }
+  getRomsProvider: function(){    
     return this.defaultRomsProvider
   },
   
   getShadowConfig: function(){
-    if(this.platformModule.getShadowConfig){
-      return this.platformModule.getShadowConfig
+    if(this.getPlatformConfig().ShadowConfig){
+      return this.getPlatformConfig().ShadowConfig
     }
     return null
   },
   
-  defaultRomsProvider : function(parReport, oRomsCollection){  
+  defaultRomsProvider : function(parReport, ioRomsCollection){  
     var FilenamesFilter = global.BABB.Utils.FilenamesFilter  
-    var filteredFilesMap = new FilenamesFilter(parReport)        
+    var filteredFilesMap = new FilenamesFilter(parReport)
+        .keepFilesWithExtensions(this.getPlatformConfig().romsExtensions)
         .onlyKeepBasename()
         .removeExtensions()
         .get()
@@ -83,40 +86,33 @@ var Platform = Backbone.Model.extend({
         title : filteredFilesMap[locPath],
         path : locPath
       })    
-      oRomsCollection.add(rom)
+      ioRomsCollection.add(rom)
     }
     
   },
-  
-  focusRomDelegate : function(parRom){
-    if(this.platformModule.focusRom){
-      this.platformModule.focusRom(parRom)
-    }else{
-      console.log('no focusRom method defined for '+this)
-    }
+    
+  runRom : function (iPlatform, iRom){
+    console.log('using default runRom')
+    if(iRom){  
+      var emulatorPath = this.getPlatformConfig().emulatorPath
+      var selectedRomPath = iRom.get('path')
+      if(selectedRomPath){
+        var Spawner = global.BABB.Utils.Spawner
+        var Path = require('path')
+        Spawner.spawn(
+          emulatorPath, 
+          [selectedRomPath], 
+          {cwd : Path.dirname(emulatorPath)},
+          iPlatform,
+          iRom
+        )      
+      }
+    }  
   },
   
-  onSelectedDelegate : function(iPlatform){
-    if(this.platformModule.onSelected){
-      this.platformModule.onSelected(iPlatform)
-    }else{
-      console.log('no onSelected method defined for '+this)
-    }
-  },
-  
-  runRomDelegate : function (parPlatform, parRom){    
-    if(this.platformModule.runRom){
-      this.platformModule.runRom(parPlatform, parRom)
-    }else{
-      console.log('no runRom method defined for '+this)
-    }
-  },
-  
-  isAvailableDelegate : function (){
-    if(this.platformModule.isAvailable){
-      return this.platformModule.isAvailable()
-    }
-    return true;
+  isAvailable : function (){    
+    var emulatorPath = this.platformConfig.emulatorPath
+    return Fs.existsSync(emulatorPath)
   },
   
   toString: function(){

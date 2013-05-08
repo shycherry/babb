@@ -15,6 +15,15 @@ var buildShadowPath = function(iRom, iPlatform){
   return shadowPath
 }
 
+var buildPathesToSave = function(iPlatform){
+  var shadowConfig = iPlatform.getShadowConfig()
+  var pathes = []
+  if(shadowConfig){
+    
+  }
+  return pathes
+}
+
 var preparePath = function(iPath){
   if( ! Fs.existsSync(Config.savePath)){
     Fs.mkdirSync(Config.savePath)
@@ -26,11 +35,18 @@ var preparePath = function(iPath){
 }
 
 exports.save = function(iRom, iPlatform){
+  if(!iPlatform){
+    return
+  }
   var savePath = buildShadowPath(iRom, iPlatform)
+  buildPathesToSave(iPlatform)
   preparePath(savePath)
 }
 
 exports.restore = function(iRom, iPlatform){
+  if(!iPlatform){
+    return
+  }
   var savePath = buildShadowPath(iRom, iPlatform)
   if(Fs.existsSync(savePath)){
     

@@ -13,10 +13,12 @@ function FilenamesFilter(parReport){
 
 FilenamesFilter.prototype.keepFilesWithExtensions = function (parExts){
   
-  for(var path in this.map){    
-    var locExtName = Path.extname(this.map[path])
-    if(parExts.indexOf(locExtName) == -1){
-      delete this.map[path]
+  if(parExts){
+    for(var path in this.map){    
+      var locExtName = Path.extname(this.map[path])
+      if(parExts.indexOf(locExtName) == -1){
+        delete this.map[path]
+      }
     }
   }
   
@@ -25,12 +27,14 @@ FilenamesFilter.prototype.keepFilesWithExtensions = function (parExts){
 
 FilenamesFilter.prototype.removeFilesWithExtensions = function (parExts){
   
-  for(var path in this.map){    
-    var locExtName = Path.extname(this.map[path])
-    if(parExts.indexOf(locExtName) != -1){
-      delete this.map[path]
-    }
-  }  
+  if(parExts){
+    for(var path in this.map){    
+      var locExtName = Path.extname(this.map[path])
+      if(parExts.indexOf(locExtName) != -1){
+        delete this.map[path]
+      }
+    }  
+  }
     
   return this
 }

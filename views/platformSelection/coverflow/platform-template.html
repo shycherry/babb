@@ -1,7 +1,7 @@
 <div id="dynabody"></div>
-<div id="<%= item.get("id") %>" class="platform <%if ( !item.isAvailableDelegate()){%> unavailable<%}%>">
-  <% if( item.getLogoPathDelegate ) {%>
-    <img src="<%= item.getLogoPathDelegate()%>">    
+<div id="<%= item.get("id") %>" class="platform <%if ( !item.isAvailable()){%> unavailable<%}%>">
+  <% if( item.getLogoPath ) {%>
+    <img src="<%= item.getLogoPath()%>">    
   <%}else{%>
     <b><%= item.get("name") %></b>
   <%}%>

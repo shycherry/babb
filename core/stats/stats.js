@@ -40,7 +40,6 @@ var StatsModel = Backbone.Model.extend({
     if(this.rom && this.platform){
       var statsFilename = this.get('baseStatsDirectory')+'/'+this.platform.get('name')+'_'+this.rom.get('title')+'.txt'
       if(Fs.existsSync(statsFilename)){
-        console.log('stats exists !')
         statsStream = Fs.readFileSync(statsFilename).toString()
         var statsArray = statsStream.split('\n')
         var lastLaunchDate = statsArray[3].substr(6,2)+'-'+statsArray[3].substr(4,2)+'-'+statsArray[3].substr(0,4)
@@ -61,7 +60,7 @@ var StatsModel = Backbone.Model.extend({
         this.set('averageTime', this.defaults.averageTime)
         this.set('lastLaunchDate', this.defaults.lastLaunchDate)
         this.set('firstLaunchDate', this.defaults.firstLaunchDate)
-        console.log('no stats exists :(')
+        console.log('no stats db file found :(')
       }
     }
   },

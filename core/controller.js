@@ -52,15 +52,22 @@ exports.FrontendView = Backbone.View.extend({
 
         for(var i in locSniffedFilesArray){
           var locFileName = locSniffedFilesArray[i]
-          var pathNormalized = Path.join(locSniffedPath,locFileName)
-          pathNormalized = Path.normalize(pathNormalized)
-          if(Fs.existsSync(pathNormalized+'/platform.js')){
-            var platform = new Platform({path : pathNormalized})            
-            this.platformsCollection.add(platform)
+          var pathResolved = Path.join(locSniffedPath,locFileName)
+          pathResolved = Path.resolve(pathResolved)
+          var platformFile = require(pathResolved+Path.sep+'platform.js')
+          
+          if(platformFile && platformFile.Platform){
+            var platform = new platformFile.Platform({path:pathResolved})
+            if(platform){
+              //var platform = new Platform({path : pathResolved})            
+              this.platformsCollection.add(platform)
+            }
           }
+          
         }
+        
       }
-    }    
+    }
   },
   
   onPlatformsChanged : function(){
@@ -80,7 +87,7 @@ exports.FrontendView = Backbone.View.extend({
     if(iReport.isUpdate){
       this.sniffRoms()
     }else{
-      var romsProvider = this.currentValidatedPlatform.getRomsProviderDelegate()
+      var romsProvider = this.currentValidatedPlatform.getRomsProvider()
       romsProvider(iReport, this.romsCollection)
     }
   },
@@ -125,7 +132,7 @@ exports.FrontendView = Backbone.View.extend({
         return
       }
       
-      if( ! iPlatform.isAvailableDelegate()){
+      if( ! iPlatform.isAvailable()){
         BABB.EventEmitter.trigger('error', iPlatform+' is not available')
       }else{
         self.currentValidatedPlatform = iPlatform
@@ -166,7 +173,7 @@ exports.FrontendView = Backbone.View.extend({
   
   runRomIfp : function(){
     if(this.currentValidatedRom && this.currentValidatedPlatform){
-      this.currentValidatedPlatform.runRomDelegate(this.currentValidatedPlatform, this.currentValidatedRom)
+      this.currentValidatedPlatform.runRom(this.currentValidatedPlatform, this.currentValidatedRom)
     }
   },
   
@@ -185,7 +192,7 @@ exports.FrontendView = Backbone.View.extend({
         if($(BABB.RomsConfig.romsContainerId).hasClass('focus')){
           var selectedPlatform = self.platformSelectionView.getSelected()
           if(selectedPlatform){
-            selectedPlatform.runRomDelegate(parRom)
+            selectedPlatform.runRom(parRom)
           }
         }else{
           BABB.EventEmitter.trigger('requestControledViewChange', self.romsCollectionView)

@@ -141,7 +141,7 @@ var PlatformSelectionView = Backbone.View.extend({
       var focusedCell = $('.coverflow-cell.focus')    
       var dynabody = $(window.document.createElement('div'))
       dynabody.attr('id', 'dynabody')
-      if(! iPlatform.isAvailableDelegate()){
+      if(! iPlatform.isAvailable()){
         dynabody.addClass('unavailable')
       }
       CoreServices.renderPlatform(iPlatform, dynabody)

@@ -1,7 +1,7 @@
 ﻿//config for MAME
 //used emulator : MAME 0148b
 
-exports.config = {
+exports.PlatformConfig = {
   viewName : 'MAME',
   displayName : 'MAME',
   emulatorPath : 'Z:/Developpement/BABB/emulateurs/mame/mamepp.exe',
