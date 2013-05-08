@@ -13,8 +13,7 @@ var Rom = Backbone.Model.extend({
     path : "/default/path",    
   },
   
-  initialize: function Rom(){
-    console.log('Rom constructor')
+  initialize: function Rom(){    
     this.set('id', this.cid)
   },
   
@@ -25,16 +24,14 @@ var Rom = Backbone.Model.extend({
 
 var RomsCollection = Backbone.Collection.extend({
   model: Rom,
-  initialize: function(){
-    console.log('RomsCollection constructor')
+  initialize: function(){    
   }
 })
 
 var RomsCollectionView = ItemsCollectionView.extend({
   itemsCollection : new RomsCollection(),  
 
-  initialize : function() {
-    console.log('RomsCollectionView initialize')
+  initialize : function() {    
     this.reloadTemplate()
     var self = this    
     

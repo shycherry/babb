@@ -55,7 +55,6 @@ var StatsModel = Backbone.Model.extend({
         
       }else{      
         this.set(this.defaults)        
-        console.log('no stats file found :(')
       }
     }
   },

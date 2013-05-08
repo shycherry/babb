@@ -20,8 +20,7 @@ var Platform = Backbone.Model.extend({
   
   platformConfig : null,
   
-  initialize: function Platform(){
-    console.log('Platform constructor')
+  initialize: function Platform(){    
     this.set('id', this.cid)    
     
     _.bindAll(this,'defaultRomsProvider')
@@ -122,8 +121,7 @@ var Platform = Backbone.Model.extend({
 
 var PlatformsCollection = Backbone.Collection.extend({
   model: Platform,
-  initialize: function(){
-    console.log('PlatformsCollection constructor')    
+  initialize: function(){    
   }
 })
 

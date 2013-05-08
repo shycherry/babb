@@ -1,5 +1,6 @@
 ﻿var BABB = global.BABB
 var Fs = require('fs')
+var Path = require('path')
 var KeysController = BABB.coreRequire('keysController')
 
 exports.PlatformView = Backbone.View.extend({
@@ -80,16 +81,17 @@ exports.PlatformView = Backbone.View.extend({
     for(var i = 0; i<iRomsCollection.size(); i++){
       var currentRom = iRomsCollection.at(i)        
       currentRom.getIllustrationPath = (
-      function(iRom){
+      function(iRom, iPlatform){
         return function(){
-          var illustrationPath = iRom.get('path')+'.metadata/illustration.jpg'
+          var illustrationPath = BABB.CoversProviderConfig.coversPath+Path.sep+iRom.get('title')+'_'+iPlatform.get('name')+Path.sep+'cover2.jpg'
+          //var illustrationPath = iRom.get('path')+'.metadata/illustration.jpg'
           if(Fs.existsSync(illustrationPath)){
-            return illustrationPath
+            return Path.resolve(illustrationPath)
           }else{
             return null
           }
         }
-      })(currentRom)
+      })(currentRom, this.associatedPlatform)
     }
   },
   
