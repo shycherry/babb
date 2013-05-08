@@ -71,6 +71,9 @@ exports.PlatformView = Backbone.View.extend({
       self.updateStuff()
     }, this)
     
+    BABB.EventEmitter.on('afterRun', function(iRom, iPlatform){
+      self.updateStuff()
+    }, this)
   },
   
   addIllustrationProvider : function(iRomsCollection){
@@ -98,8 +101,7 @@ exports.PlatformView = Backbone.View.extend({
   
   updateStats : function(){
     if(this.focusedRom && this.associatedPlatform && this.statsView){
-      this.statsView.setPlatform(this.associatedPlatform)
-      this.statsView.setRom(this.focusedRom)
+      this.statsView.forceUpdate(this.focusedRom, this.associatedPlatform)      
     }
   },
   

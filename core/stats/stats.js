@@ -53,14 +53,9 @@ var StatsModel = Backbone.Model.extend({
         this.set('lastLaunchDate', lastLaunchDate)
         this.set('firstLaunchDate', firstLaunchDate)
         
-      }else{
-      
-        this.set('totalTime', this.defaults.totalTime)
-        this.set('nbLaunched', this.defaults.nbLaunched)
-        this.set('averageTime', this.defaults.averageTime)
-        this.set('lastLaunchDate', this.defaults.lastLaunchDate)
-        this.set('firstLaunchDate', this.defaults.firstLaunchDate)
-        console.log('no stats db file found :(')
+      }else{      
+        this.set(this.defaults)        
+        console.log('no stats file found :(')
       }
     }
   },
@@ -80,18 +75,23 @@ var StatsView = Backbone.View.extend({
   initBindings : function(){
     var self = this
     _.bindAll(this, 'render')        
-    this.model.on('change', this.render)    
+    this.model.on('change', _.throttle(this.render, 100))    
   },
   
   setPlatform : function(iPlatform){
-    this.model.setPlatform(iPlatform)
-    this.render()
+    this.model.setPlatform(iPlatform)    
   },
   
   setRom : function(iRom){
-    this.model.setRom(iRom)
-    this.render()
+    this.model.setRom(iRom)    
   }, 
+  
+  forceUpdate : function(iRom, iPlatform){
+    this.model.setPlatform(iPlatform)
+    this.model.setRom(iRom)
+    this.model.updateStats()
+    this.render()
+  },
   
   render : function(){
     this.$el.html(this.template({stats : this.model}))
