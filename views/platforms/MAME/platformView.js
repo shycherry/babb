@@ -38,6 +38,17 @@ exports.PlatformView = BasePlatformView.extend({
     
   },
   
+  updateTitle : function(){    
+    if(this.focusedRom){
+      var historyEntry = History.getJSONEntry(this.focusedRom.get('title'))      
+      if(historyEntry.title && historyEntry.title !=''){
+        $('#romTitle').html(historyEntry.title)
+      }else{
+        BasePlatformView.prototype.updateTitle.call(this)
+      }
+    }
+  },
+    
   updateStuff : function(){
     BasePlatformView.prototype.updateStuff.call(this)
     this.updateHistory()

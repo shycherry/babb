@@ -3,8 +3,14 @@ var historyStream = null
 var indexMap = {}
 var historyTemplate = _.template(Fs.readFileSync(__dirname+'/history-template.html').toString())
 
-var getHtmlEntry = function(romName){
+
+var getJSONEntry = function(romName){
   var parsedEntry = parseRawEntry(getRawFullEntry(romName))  
+  return parsedEntry
+}
+
+var getHtmlEntry = function(romName){
+  var parsedEntry = getJSONEntry(romName)
 
   if(parsedEntry.title == ''){
     return historyTemplate({
@@ -125,6 +131,7 @@ var loadHistory = function(){
   }
 }
 
+exports.getJSONEntry = getJSONEntry
 exports.getHtmlEntry = getHtmlEntry
 exports.getRawBioEntry = getRawBioEntry
 exports.getRawFullEntry = getRawFullEntry
