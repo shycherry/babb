@@ -3,6 +3,7 @@ var Fs = require('fs')
 var Path = require('path')
 var ChildProcess = require('child_process')
 var EventEmitter = global.BABB.EventEmitter
+var URI = global.BABB.coreRequire('uri')
 var Http = require('http')
 var $ = global.$
 
@@ -19,27 +20,55 @@ var searchGoogleAPI = function(iSearchExpression, iCallback){
 
 var provideCovers = function(iRom, iPlatform, iCallback){
 
-  var coversPath = Config.coversPath
+  var coversRootPath = Config.coversRootPath
   if(iRom && iPlatform){
-    coversPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')
+    coversRootPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')
   }
-  preparePath(coversPath)
   
-  searchGoogleAPI(iRom.get('title')+' '+iPlatform.get('name'), 
-  (function(iCoversPath){
+  var existingCoversPaths = searchLocalCovers(coversRootPath)
+  
+  if(!existingCoversPaths || existingCoversPaths.length <= 0){
+    searchGoogleAndDownload(iRom.get('title')+' '+iPlatform.get('name'), coversRootPath, iCallback)
+    return []
+  }else{
+    return existingCoversPaths
+  }
+  
+}
+
+var searchLocalCovers = function(iCoversRootPath){
+  var result = []
+  if(Fs.existsSync(iCoversRootPath)){    
+    var filesInRoot = Fs.readdirSync(iCoversRootPath)
+    
+    for(iFile in filesInRoot){
+      var currentFileName = filesInRoot[iFile]
+      var currentExtFileName = Path.extname(currentFileName)
+      if(['.jpg', '.png', '.bmp', '.gif', '.jpeg'].indexOf(currentExtFileName.toLowerCase()) != -1){
+        result.push(iCoversRootPath+Path.sep+currentFileName)
+      }
+    }
+  }
+  return result
+}
+
+var searchGoogleAndDownload = function(iSearchExpression, iCoversRootPath, iCallback){
+  preparePath(iCoversRootPath)  
+  searchGoogleAPI(iSearchExpression, 
+  (function(iCoversRootPath){
     return function(iSearchResults){
       if(iSearchResults && iSearchResults.items){
         var imagesEntries = iSearchResults.items
         var nbImagesToRetrive = Math.min(Config.maxSearchResults, imagesEntries.length)
         for(i=0;i<nbImagesToRetrive;i++){
-          var imageURL = imagesEntries[i].link        
-          var localPath = coversPath+Path.sep+'cover'+i+Path.extname(imageURL)
-          downloadImage(imageURL, localPath, iCallback)
+          var imageURL = new URI(imagesEntries[i].link)
+          var imageName = imageURL.path()
+          var localPath = iCoversRootPath+Path.sep+'cover'+i+Path.extname(imageName)
+          downloadImage(imageURL.toString(), localPath, iCallback)
         }
       }
     }
-  })(coversPath))
-  
+  })(iCoversRootPath))
 }
 
 var downloadImage = function(iURL, iLocalPath, iCallback){
@@ -58,7 +87,7 @@ var downloadImage = function(iURL, iLocalPath, iCallback){
         res.on('end', function(){
             Fs.writeFile(iLocalPath, imagedata, 'binary', function(err){
                 if (err) throw err
-                iCallback()
+                if(iCallback) iCallback()
             })
         })
       })
