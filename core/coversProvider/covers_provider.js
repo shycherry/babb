@@ -23,6 +23,7 @@ var provideCovers = function(iRom, iPlatform, iCallback){
   var coversRootPath = Config.coversRootPath
   if(iRom && iPlatform){
     coversRootPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')
+    coversRootPath = coversRootPath.replace('\'', ' ').replace('"',' ') //fix the buggy url when injecting in template
   }
   
   var existingCoversPaths = searchLocalCovers(coversRootPath)
