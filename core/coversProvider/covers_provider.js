@@ -20,21 +20,24 @@ var searchGoogleAPI = function(iSearchExpression, iCallback){
 
 var provideCovers = function(iRom, iPlatform, iCallback){
 
-  var coversRootPath = Config.coversRootPath
-  if(iRom && iPlatform){
-    coversRootPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')
-    coversRootPath = coversRootPath.replace('\'', ' ').replace('"',' ') //fix the buggy url when injecting in template
-  }
-  
-  var existingCoversPaths = searchLocalCovers(coversRootPath)
-  
-  if(!existingCoversPaths || existingCoversPaths.length <= 0){
-    searchGoogleAndDownload(iRom.get('title')+' '+iPlatform.get('name'), coversRootPath, iCallback)
+  try{
+    var coversRootPath = Config.coversRootPath
+    if(iRom && iPlatform){
+      coversRootPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')
+      coversRootPath = coversRootPath.replace('\'', ' ').replace('"',' ') //fix the buggy url when injecting in template
+    }
+    
+    var existingCoversPaths = searchLocalCovers(coversRootPath)
+    
+    if(!existingCoversPaths || existingCoversPaths.length <= 0){
+      searchGoogleAndDownload(iRom.get('title')+' '+iPlatform.get('name'), coversRootPath, iCallback)
+      return []
+    }else{
+      return existingCoversPaths
+    }
+  }catch(exception){
     return []
-  }else{
-    return existingCoversPaths
-  }
-  
+  }  
 }
 
 var searchLocalCovers = function(iCoversRootPath){
