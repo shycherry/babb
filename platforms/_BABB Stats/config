@@ -1,0 +1,6 @@
+﻿//config for BABBStats
+
+exports.PlatformConfig = {
+  displayName : 'BABB Stats',
+  viewName : 'BABBStats',
+}

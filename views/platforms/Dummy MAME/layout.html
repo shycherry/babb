@@ -1,0 +1,21 @@
+﻿<div id="mybody">
+  <script type="text/template" id="roms-collection-template">
+    <% _.each(collection, function(rom){%>
+      <li id="<%= rom.get("id") %>" class="rom">
+        <b>~<%= rom.get("title") %>~</b>
+      </li>
+    <%})%>
+  </script>
+    
+  <ul id="picts-container">
+    <img src="../views/platforms/MAME/images/metalslug.jpg">
+  </ul>
+  
+  <div id="info-container">
+    <h1>Début de l'âge d'or de l'arcade</h1>
+    Article détaillé : Âge d'or des jeux d'arcade.
+    L'industrie du jeu d'arcade entre dans un âge d'or en 1978 avec la sortie de Space Invaders de Taito. Le jeu connaît un tel succès qu'il convainc des dizaines de constructeurs de pénétrer le marché en produisant leurs propres jeux vidéo.
+    Les premiers jeux d'arcade à succès en couleurs apparaissent en 1979.
+    En 1979, Atari publie Asteroids, son plus grand succès commercial. Parmi les autres classiques de cette époque, on peut citer Lunar Lander, Night Driver, Missile Command, Berzerk, Breakout ou Battlezone.
+  </div>
+</div>

@@ -1,7 +1,7 @@
 ﻿//config for SNES
 //used emulator : zsnesw
 
-exports.config = {
+exports.PlatformConfig = {
   displayName : 'SNES',
   emulatorPath : 'D:/SNES/zsnesw.exe',
   romsPaths : ['D:/SNES/rom'],

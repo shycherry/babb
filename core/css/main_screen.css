@@ -1,0 +1,24 @@
+/* no selection by user*/
+* {
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  cursor:default;
+  padding:0;
+  margin:0;
+  font-family: Consolas;
+}
+
+input {
+  -webkit-user-select: text;
+}
+
+html{
+	height: 100%;
+}
+
+body {    
+  background-image: url('../images/htmlbg.png');
+  margin: 0px;
+  height: 100%;    
+  overflow:hidden;
+}

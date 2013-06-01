@@ -1,3 +1,7 @@
+stats/*.txt
+covers/*
+media/*
+
 #################
 ## Eclipse
 #################

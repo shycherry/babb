@@ -1,34 +1,22 @@
-﻿var config = require('./config').config
-var project64Path = config.project64Path
-var romsPaths = config.romsPaths
+﻿var BABBPlatform = global.BABB.coreRequire('platforms').Platform
 
-exports.getName = function(){
-  return config.displayName
-}
-
-exports.getLogoPath = function(){
-  return __dirname+'/images/n64_logo_128px_by_breadwrap.png'
-}
-
-exports.getRomsPaths = function(){
-  return romsPaths
-}
-
-exports.isAvailable = function(){
-  var Fs = require('fs')
-  return Fs.existsSync(project64Path)
-}
-
-exports.runRom = function (iRom){  
-  if(iRom){
-    var selectedRomPath = iRom.get('path')
-    if(selectedRomPath){
-      var Spawner = global.BABB.Libs.Spawner
-      var selectedRomPathArgs = selectedRomPath.trim().split(' ')
-      Spawner.spawn(
-        project64Path, 
-        selectedRomPathArgs
-      )        
-    }
-  }  
-}
+exports.Platform = BABBPlatform.extend({
+  runRom : function (iPlatform, iRom){  
+    if(iRom){
+      var emulatorPath = this.getPlatformConfig().emulatorPath
+      var selectedRomPath = iRom.get('path')
+      if(selectedRomPath){
+        var Spawner = global.BABB.Utils.Spawner
+        var Path = require('path')
+        var selectedRomPathArgs = selectedRomPath.trim().split(' ')
+        Spawner.spawn(
+          emulatorPath, 
+          selectedRomPathArgs,
+          {cwd : Path.dirname(emulatorPath)},
+          iPlatform,
+          iRom
+        )        
+      }
+    }  
+  },
+})
