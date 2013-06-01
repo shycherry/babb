@@ -1,0 +1,43 @@
+@-webkit-keyframes pivot-image
+{
+  0% {
+   -webkit-transform: scale(0) rotate(0deg);
+    opacity:0;
+  }
+  100%{
+    -webkit-transform: scale(1) rotate(-10deg);
+    opacity:1;
+  }
+}
+
+#mybody{
+  height:100%;
+  width:100%;
+  background-image: url('images/mameLogo.png');
+}
+
+#info-container,#picts-container{
+  margin:auto;  
+  width:100%;
+}
+
+#picts-container img{
+-webkit-transform: scale(1) rotate(-10deg);
+-webkit-animation:pivot-image 2s;
+}
+
+#picts-container{ 
+  opacity:1;
+  text-align:center;  
+  height:60%;
+  overflow:hidden;  
+}
+
+#info-container{  
+  background-color:rgba(250,250,250,0.9); 
+  text-align:left;
+  width:80%;
+  height:30%;
+  overflow-y:auto;  
+  pointer-events:all;
+}

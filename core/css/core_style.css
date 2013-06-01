@@ -1,0 +1,26 @@
+/* Style ecran principal */
+@import url("main_screen.css");
+
+/*bandana info error box*/
+@import url("bandana.css");
+
+/* Style boutons */
+@import url("buttons.css");
+
+/* TODO explorateur de fichiers */
+@import url("files.css");
+
+/* scroll */
+@import url("scroll.css");
+
+/* stroll */
+@import url("stroll.css");
+
+/* finderCpnt */
+@import url("finder.css");
+
+/*intro animation*/
+@import url("intro.css");
+
+/*coverflow*/
+@import url("coverflow.css");
