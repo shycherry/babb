@@ -4,6 +4,7 @@ var Path = require('path')
 var ChildProcess = require('child_process')
 var EventEmitter = global.BABB.EventEmitter
 var URI = global.BABB.coreRequire('uri')
+var Async = global.BABB.coreRequire('async')
 var Http = require('http')
 var $ = global.$
 
@@ -18,26 +19,37 @@ var searchGoogleAPI = function(iSearchExpression, iCallback){
   })  
 }
 
+
+var _searchGoogleAndDownloadWorker_ = function(iTask, iCallback){
+  searchGoogleAndDownload(iTask.romTitle+' '+iTask.platformName, iTask.coversRootPath, iCallback)
+}
+
+var searchGoogleAndDownloadWorkerQueue = Async.queue(_searchGoogleAndDownloadWorker_, 1)
+searchGoogleAndDownloadWorkerQueue.drain = function(){console.log('end calling google')}
+searchGoogleAndDownloadWorkerQueue.saturated = function(){console.log('a remote call is pending... queueing !')}
+
 var provideCovers = function(iRom, iPlatform, iCallback){
 
-  try{
-    var coversRootPath = Config.coversRootPath
-    if(iRom && iPlatform){
-      coversRootPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')
-      coversRootPath = coversRootPath.replace('\'', ' ').replace('"',' ') //fix the buggy url when injecting in template
-    }
-    
-    var existingCoversPaths = searchLocalCovers(coversRootPath)
-    
-    if(!existingCoversPaths || existingCoversPaths.length <= 0){
-      searchGoogleAndDownload(iRom.get('title')+' '+iPlatform.get('name'), coversRootPath, iCallback)
-      return []
-    }else{
-      return existingCoversPaths
-    }
-  }catch(exception){
+  var coversRootPath = Config.coversRootPath
+  if(iRom && iPlatform){
+    coversRootPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')
+    coversRootPath = coversRootPath.replace('\'', ' ').replace('"',' ') //fix the buggy url when injecting in template
+  }
+  
+  var existingCoversPaths = searchLocalCovers(coversRootPath)
+  
+  if(!existingCoversPaths || existingCoversPaths.length <= 0){    
+    //searchGoogleAndDownload(iRom.get('title')+' '+iPlatform.get('name'), coversRootPath, iCallback)
+    searchGoogleAndDownloadWorkerQueue.push({
+      romTitle: iRom.get('title'),
+      platformName: iPlatform.get('name'),
+      coversRootPath: coversRootPath
+    })
     return []
-  }  
+  }else{
+    return existingCoversPaths
+  }
+
 }
 
 var searchLocalCovers = function(iCoversRootPath){
@@ -102,8 +114,8 @@ var downloadImage = function(iURL, iLocalPath, iCallback){
 }
 
 var preparePath = function(iPath){
-  if( ! Fs.existsSync(Config.coversPath)){
-    Fs.mkdirSync(Config.coversPath)
+  if( ! Fs.existsSync(Config.coversRootPath)){
+    Fs.mkdirSync(Config.coversRootPath)
   }
   if( ! Fs.existsSync(iPath)){
     Fs.mkdirSync(iPath)
