@@ -16,7 +16,10 @@ var searchGoogleAPI = function(iSearchExpression, iCallback){
     if(iCallback){
       iCallback(data)
     }
-  })  
+  }).fail(function(){
+    console.log('failure on GET : '+searchURI)
+    if(iCallback) iCallback()
+  })
 }
 
 
@@ -44,7 +47,7 @@ var provideCovers = function(iRom, iPlatform, iCallback){
       romTitle: iRom.get('title'),
       platformName: iPlatform.get('name'),
       coversRootPath: coversRootPath
-    })
+    }, iCallback)
     return []
   }else{
     return existingCoversPaths
@@ -71,20 +74,32 @@ var searchLocalCovers = function(iCoversRootPath){
 var searchGoogleAndDownload = function(iSearchExpression, iCoversRootPath, iCallback){
   preparePath(iCoversRootPath)  
   searchGoogleAPI(iSearchExpression, 
-  (function(iCoversRootPath){
+  (function(iCoversRootPath, iCallback){
     return function(iSearchResults){
       if(iSearchResults && iSearchResults.items){
         var imagesEntries = iSearchResults.items
         var nbImagesToRetrive = Math.min(Config.maxSearchResults, imagesEntries.length)
+        var downloadArray = []
         for(i=0;i<nbImagesToRetrive;i++){
           var imageURL = new URI(imagesEntries[i].link)
           var imageName = imageURL.path()
           var localPath = iCoversRootPath+Path.sep+'cover'+i+Path.extname(imageName)
-          downloadImage(imageURL.toString(), localPath, iCallback)
+          downloadArray.push({url: imageURL.toString(), localPath: localPath})
+          //downloadImage(imageURL.toString(), localPath, iCallback)
         }
+        Async.each(downloadArray, downloadImageIterator, function(){
+          if(iCallback) iCallback()
+        })
+      }else{
+        console.log('error : no search result items')
+        if(iCallback) iCallback()
       }
     }
-  })(iCoversRootPath))
+  })(iCoversRootPath, iCallback))
+}
+
+var downloadImageIterator = function(iData, iCallback){
+  return downloadImage(iData.url, iData.localPath, iCallback)
 }
 
 var downloadImage = function(iURL, iLocalPath, iCallback){
@@ -106,6 +121,9 @@ var downloadImage = function(iURL, iLocalPath, iCallback){
                 if(iCallback) iCallback()
             })
         })
+      }).on('error', function(err){
+        console.log('error when downloading image from '+iURL)
+        if(iCallback) iCallback()
       })
     
     })(iURL, iLocalPath)
