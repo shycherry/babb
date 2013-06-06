@@ -47,7 +47,7 @@ var provideCovers = function(iRom, iPlatform, iCallback){
     }, iCallback)
     return []
   }else{
-    iCallback(null, existingCoversPaths)
+    if(iCallback) iCallback(null, existingCoversPaths)
     return existingCoversPaths
   }
 
