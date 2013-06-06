@@ -4,6 +4,7 @@ var Path = require('path')
 var ChildProcess = require('child_process')
 var EventEmitter = global.BABB.EventEmitter
 var URI = global.BABB.coreRequire('uri')
+var Https = require('https')
 var Async = global.BABB.coreRequire('async')
 var Http = require('http')
 var $ = global.$
@@ -103,8 +104,11 @@ var downloadImage = function(iURL, iLocalPath, iCallback){
   if(iURL && iLocalPath){
   
     (function(iURL, iLocalPath){
-    
-      var request = Http.get(iURL, function(res){
+      var getter = Http
+      if(/https/.exec(iURL) != null){
+        getter = Https
+      }
+      var request = getter.get(iURL, function(res){
         var imagedata = ''
         res.setEncoding('binary')
 
