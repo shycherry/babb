@@ -13,12 +13,9 @@ var searchGoogleAPI = function(iSearchExpression, iCallback){
   var searchURI  = 'https://www.googleapis.com/customsearch/v1?key='+Config.googleAPIKey+'&cx='+Config.googleCustomSearchId+'&imgSize=medium&searchType=image&q='+encodedQuery
   
   $.get(searchURI, function(data){
-    if(iCallback){
-      iCallback(data)
-    }
-  }).fail(function(){
-    console.log('failure on GET : '+searchURI)
-    if(iCallback) iCallback()
+    if(iCallback) iCallback(null, data)
+  }).fail(function(){    
+    if(iCallback) iCallback('failure on GET : '+searchURI, null)
   })
 }
 
@@ -50,6 +47,7 @@ var provideCovers = function(iRom, iPlatform, iCallback){
     }, iCallback)
     return []
   }else{
+    iCallback(null, existingCoversPaths)
     return existingCoversPaths
   }
 
@@ -75,7 +73,7 @@ var searchGoogleAndDownload = function(iSearchExpression, iCoversRootPath, iCall
   preparePath(iCoversRootPath)  
   searchGoogleAPI(iSearchExpression, 
   (function(iCoversRootPath, iCallback){
-    return function(iSearchResults){
+    return function(err, iSearchResults){
       if(iSearchResults && iSearchResults.items){
         var imagesEntries = iSearchResults.items
         var nbImagesToRetrive = Math.min(Config.maxSearchResults, imagesEntries.length)
@@ -88,11 +86,10 @@ var searchGoogleAndDownload = function(iSearchExpression, iCoversRootPath, iCall
           //downloadImage(imageURL.toString(), localPath, iCallback)
         }
         Async.each(downloadArray, downloadImageIterator, function(){
-          if(iCallback) iCallback()
+          if(iCallback) iCallback(null, searchLocalCovers(iCoversRootPath))
         })
-      }else{
-        console.log('error : no search result items')
-        if(iCallback) iCallback()
+      }else{        
+        if(iCallback) iCallback(err, null)
       }
     }
   })(iCoversRootPath, iCallback))

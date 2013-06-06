@@ -79,19 +79,35 @@ exports.PlatformView = Backbone.View.extend({
   },
   
   addIllustrationProvider : function(iRomsCollection){
+    
+    var getResolvedPath = function(iPaths){
+      var illustrationPath = iPaths[0]          
+      if(Fs.existsSync(illustrationPath)){
+        return Path.resolve(illustrationPath)
+      }
+      return null
+    }
+    
     for(var i = 0; i<iRomsCollection.size(); i++){
       var currentRom = iRomsCollection.at(i)        
       currentRom.getIllustrationPath = (
       function(iRom, iPlatform){
         return function(){
-          var illustrationPathes = CoversProvider.provideCovers(iRom, iPlatform)
-          var illustrationPath = illustrationPathes[0]
-          //var illustrationPath = BABB.CoversProviderConfig.coversPath+Path.sep+iRom.get('title')+'_'+iPlatform.get('name')+Path.sep+'cover2.jpg'          
-          if(Fs.existsSync(illustrationPath)){
-            return Path.resolve(illustrationPath)
-          }else{
-            return null
-          }
+          var illustrationPathes = CoversProvider.provideCovers(iRom, iPlatform, function(err, iPaths){
+            if(err){
+              console.log(err)
+              return
+            }
+            process.nextTick(function(){
+              var htmlCoverElement = $('#'+iRom.get('id'))
+              if(htmlCoverElement){
+                var illustrationPath = getResolvedPath(iPaths)                
+                htmlCoverElement.css("background-image", "url('"+encodeURI(illustrationPath)+"')")
+              }             
+            })            
+          })
+          
+          return getResolvedPath(illustrationPathes)
         }
       })(currentRom, this.associatedPlatform)
     }
