@@ -1,0 +1,6 @@
+﻿//config for System
+
+exports.PlatformConfig = {
+  displayName : 'System',
+  romsPaths : [__dirname+'/Execs'],
+}

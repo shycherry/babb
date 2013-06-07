@@ -16,7 +16,8 @@ exports.Platform = BABBPlatform.extend({
           var Spawner = global.BABB.Utils.Spawner      
           Spawner.exec(
             selectedRomPath,
-            null,            
+            null,
+            null,
             iPlatform,
             iRom
           )
