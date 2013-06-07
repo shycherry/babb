@@ -82,12 +82,20 @@ var searchGoogleAndDownload = function(iSearchExpression, iCoversRootPath, iCall
         for(i=0;i<nbImagesToRetrive;i++){
           var imageURL = new URI(imagesEntries[i].link)
           var imageName = imageURL.path()
-          var localPath = iCoversRootPath+Path.sep+'cover'+i+Path.extname(imageName)
+          var imageExtension = Path.extname(imageName)
+          if(!imageExtension || imageExtension == '')
+            imageExtension = '.jpg'
+          var localPath = iCoversRootPath+Path.sep+'cover'+i+imageExtension
           downloadArray.push({url: imageURL.toString(), localPath: localPath})
-          //downloadImage(imageURL.toString(), localPath, iCallback)
         }
-        Async.each(downloadArray, downloadImageIterator, function(){
-          if(iCallback) iCallback(null, searchLocalCovers(iCoversRootPath))
+        Async.each(downloadArray, downloadImageIterator, function(err){          
+          if(iCallback){
+            if(err){
+              iCallback(err, null)
+            }else{
+              iCallback(null, searchLocalCovers(iCoversRootPath))
+            }
+          }
         })
       }else{        
         if(iCallback) iCallback(err, null)
