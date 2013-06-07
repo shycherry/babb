@@ -51,8 +51,23 @@ function exec(command, options, iPlatform, iRom){
     command, 
     null, 
     options,   
-    function(command, args, options){      
+    function(command, options, options){      
       return ChildProcess.exec(command, options)
+    },
+    iPlatform,
+    iRom
+  )
+}
+
+function execFile(command, args, options, iPlatform, iRom){  
+  invokeChildProcess(
+    command, 
+    null, 
+    options,   
+    function(command, args, options){      
+      return ChildProcess.execFile(command, args, options, function(err, stdout, stderr){
+        console.log('err:'+err+' stdout:'+stdout+' stderr:'+stderr)
+      })
     },
     iPlatform,
     iRom
@@ -61,3 +76,4 @@ function exec(command, options, iPlatform, iRom){
 
 exports.spawn = spawn
 exports.exec = exec
+exports.execFile = execFile

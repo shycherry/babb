@@ -1,4 +1,6 @@
 var BABBPlatform = global.BABB.coreRequire('platforms').Platform
+var Fs = require('fs')
+var Path = require('path')
 
 exports.Platform = BABBPlatform.extend({
   
@@ -11,12 +13,15 @@ exports.Platform = BABBPlatform.extend({
       if(iRom.get('title') == 'Retourner A Windows'){
         process.exit()
       }else{    
-        var selectedRomPath = iRom.get('path')
-        if(selectedRomPath){
-          var Spawner = global.BABB.Utils.Spawner      
-          Spawner.exec(
-            selectedRomPath,
-            null,            
+        var selectedLNKRomPath = iRom.get('path')        
+        if(selectedLNKRomPath){
+          var absolutePathToExe = /.:\\.+\.exe/.exec(Fs.readFileSync(selectedLNKRomPath).toString())[0]
+          
+          var Spawner = global.BABB.Utils.Spawner
+          Spawner.spawn(
+            absolutePathToExe,
+            null,
+            {cwd : Path.dirname(absolutePathToExe)},
             iPlatform,
             iRom
           )
