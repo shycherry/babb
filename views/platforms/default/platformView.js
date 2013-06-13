@@ -181,6 +181,8 @@ exports.PlatformView = Backbone.View.extend({
       template : _.template(Fs.readFileSync(__dirname+'/item-template.html').toString()),
       height: window.innerHeight/2,      
       width : window.innerWidth,
+      left : window.innerWidth/2,
+      top : window.innerHeight/4,
       perspective : baseWidth,
       cellWidth : baseWidth,
       cellHeight : baseWidth*1.5,

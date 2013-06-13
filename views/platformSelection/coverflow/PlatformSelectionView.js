@@ -100,6 +100,8 @@ var PlatformSelectionView = Backbone.View.extend({
       template : _.template(Fs.readFileSync(__dirname+'/platform-template.html').toString()),
       height: window.innerHeight,      
       width : window.innerWidth,
+      left : window.innerWidth/2,
+      top : window.innerHeight/2,
       perspective : baseWidth,
       cellWidth : baseWidth,
       cellHeight : baseWidth,

@@ -9,6 +9,9 @@ var Fs = require('fs')
 
 var CoverflowModel = Backbone.Model.extend({
   defaults:{
+    orientation:'vertical',    
+    left: 240,
+    top: 135,
     virtualSize:2,
     width:480,
     height:270,
@@ -41,6 +44,9 @@ var CoverflowView = Backbone.View.extend({
   },
   
   initFromModel : function(){
+    this.left = this.model.get('left')
+    this.top = this.model.get('top')
+    this.orientation = this.model.get('orientation')
     this.template = this.model.get('template')
     this.collection = this.model.get('collection')
     this.circularSelection = this.model.get('circularSelection')
@@ -156,8 +162,8 @@ var CoverflowView = Backbone.View.extend({
     this.$divTray.addClass('coverflow-tray')
     this.$divWrap.append(this.$divTray)
     this.$divWrap.css('-webkit-perspective', this.perspective+'px')
-    this.$divWrap.css('left', (this.width/2)+'px')
-    this.$divWrap.css('top', (this.height/2)+'px')
+    this.$divWrap.css('left', this.left+'px')
+    this.$divWrap.css('top', this.top+'px')
     this.$el.html(this.$divWrap)
     this.$el.addClass('coverflow')
     this.$el.css('width', this.width)
