@@ -9,7 +9,7 @@ var Fs = require('fs')
 
 var CoverflowModel = Backbone.Model.extend({
   defaults:{
-    orientation:'vertical',    
+    orientation:'horizontal',    
     left: 240,
     top: 135,
     virtualSize:2,
@@ -200,13 +200,25 @@ var CoverflowView = Backbone.View.extend({
   styliseCell : function(iCell){
     var cellIndex = iCell.attr('index')
     if(cellIndex < this.selectedIndex){
-      iCell.css('-webkit-transform',' translate3d('+(-this.coverOffset+(cellIndex*this.coverGap))+'px, 0px, '+this.zUnselected+'px) rotateY('+this.rotateAngleLeft+'deg)')
+      if('horizontal' == this.orientation){
+        iCell.css('-webkit-transform',' translate3d('+(-this.coverOffset+(cellIndex*this.coverGap))+'px, 0px, '+this.zUnselected+'px) rotateY('+this.rotateAngleLeft+'deg)')
+      }else{
+        iCell.css('-webkit-transform',' translate3d(0px,'+(this.coverOffset+(cellIndex*this.coverGap))+'px, '+this.zUnselected+'px) rotateX('+this.rotateAngleLeft+'deg)')
+      }
       iCell.removeClass('focus')
-    }else if(cellIndex == this.selectedIndex){        
-      iCell.css('-webkit-transform','translate3d('+this.coverGap*cellIndex+'px,0px,0px)')
+    }else if(cellIndex == this.selectedIndex){
+      if('horizontal' == this.orientation){
+        iCell.css('-webkit-transform','translate3d('+this.coverGap*cellIndex+'px,0px,0px)')
+      }else{
+        iCell.css('-webkit-transform','translate3d(0px,'+this.coverGap*cellIndex+'px,0px)')
+      }
       iCell.addClass('focus')
-    }else if(cellIndex > this.selectedIndex){        
-      iCell.css('-webkit-transform','translate3d('+(this.coverOffset+(cellIndex*this.coverGap))+'px, 0px, '+this.zUnselected+'px) rotateY('+this.rotateAngleRight+'deg)')
+    }else if(cellIndex > this.selectedIndex){
+      if('horizontal' == this.orientation){
+        iCell.css('-webkit-transform','translate3d('+(this.coverOffset+(cellIndex*this.coverGap))+'px, 0px, '+this.zUnselected+'px) rotateY('+this.rotateAngleRight+'deg)')
+      }else{
+        iCell.css('-webkit-transform','translate3d(0px, '+(this.coverOffset+(cellIndex*this.coverGap))+'px, '+this.zUnselected+'px) rotateX('+this.rotateAngleRight+'deg)')
+      }
       iCell.removeClass('focus')
     }     
   },
@@ -279,7 +291,11 @@ var CoverflowView = Backbone.View.extend({
     
   },
   renderFull : function(){
-    this.$divTray.css('-webkit-transform', 'translate3d(-'+(this.coverGap*this.selectedIndex)+'px , 0px, 0px)')
+    if('horizontal' == this.orientation){
+      this.$divTray.css('-webkit-transform', 'translate3d(-'+(this.coverGap*this.selectedIndex)+'px , 0px, 0px)')
+    }else{
+      this.$divTray.css('-webkit-transform', 'translate3d(0px , -'+(this.coverGap*this.selectedIndex)+'px, 0px)')
+    }
     var collectionLength = this.collection.length            
     for(var i = 0; i< collectionLength; i++){
       var element = $(this.$divTray.children()[i])
@@ -290,7 +306,11 @@ var CoverflowView = Backbone.View.extend({
   },
   
   renderFast : function(){  
-    this.$divTray.css('-webkit-transform', 'translate3d(-'+(this.coverGap*this.selectedIndex)+'px , 0px, 0px)')
+    if('horizontal' == this.orientation){
+      this.$divTray.css('-webkit-transform', 'translate3d(-'+(this.coverGap*this.selectedIndex)+'px , 0px, 0px)')
+    }else{
+      this.$divTray.css('-webkit-transform', 'translate3d(0px , -'+(this.coverGap*this.selectedIndex)+'px, 0px)')
+    }
     
     var selectedElement = $(this.$divTray.children('[index='+this.selectedIndex+']'))
     this.styliseCell(selectedElement)
