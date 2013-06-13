@@ -38,6 +38,10 @@ exports.PlatformView = BasePlatformView.extend({
     
   },
   
+  getCoverflowTemplatePath : function(){
+    return __dirname+'/item-template.html'
+  },
+  
   updateTitle : function(){    
     if(this.focusedRom){
       var historyEntry = History.getJSONEntry(this.focusedRom.get('title'))      
