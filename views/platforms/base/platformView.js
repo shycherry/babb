@@ -108,11 +108,16 @@ exports.PlatformView = Backbone.View.extend({
     }, this)
   },
   
+  getHtmlCoverElement : function(iRom){
+    throw 'must be overriden'
+  },
+  
   updateCover : function(iRom, iResolvedCoverPath){
+    var self = this
     console.log('before updating '+iRom+' with '+iResolvedCoverPath)
     if(!iResolvedCoverPath) return
     process.nextTick(function(){      
-      var htmlCoverElement = $('#'+iRom.get('id'))
+      var htmlCoverElement = self.getHtmlCoverElement(iRom)
       console.log('updating '+htmlCoverElement)
       if(htmlCoverElement){        
         htmlCoverElement.css("background-image", "url('"+encodeURI(iResolvedCoverPath)+"')")        

@@ -1,16 +1,15 @@
 ﻿var BABB = global.BABB
 var Fs = require('fs')
-var Path = require('path')
-var Uuid = BABB.coreRequire('uuid')
-var KeysController = BABB.coreRequire('keysController')
-var CoversProvider = BABB.coreRequire('coversProvider')
-
 var BasePlatformView = BABB.platformsViewsRequire('base').PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
   
   getCoverflowTemplatePath : function(){
     return __dirname+'/item-template.html'
+  },
+  
+  getHtmlCoverElement : function(iRom){
+    return $('#'+iRom.get('id'))
   },
   
   recreateGraphicalRomList : function(iRomsCollection){
