@@ -31,15 +31,14 @@ exports.PlatformView = Backbone.View.extend({
         BABB.EventEmitter.trigger('controledViewChanged', self)
         self.recreateStuff()
       }
-    }) //not this    
+    }, this)
   },
   
   doUnbindings : function(){
     BABB.EventEmitter.off(null, null, this)
   },
 
-  doBindings : function(){
-    this.doUnbindings()
+  doBindings : function(){    
     var self = this
     
     BABB.EventEmitter.on('romsCollectionChanged', function(iRomsCollection){
@@ -107,6 +106,10 @@ exports.PlatformView = Backbone.View.extend({
     BABB.EventEmitter.on('afterRun', function(iRom, iPlatform){
       self.updateStuff()
     }, this)
+  },
+  
+  getPlatform : function(){
+    return this.associatedPlatform
   },
   
   getHtmlCoverElement : function(iRom){
