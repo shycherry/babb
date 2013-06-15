@@ -116,6 +116,10 @@ exports.PlatformView = Backbone.View.extend({
     throw 'must be overriden'
   },
   
+  getNoCoverPath : function(){
+    return Path.join(__dirname, '..','shared','no_cover.png')
+  },
+  
   updateCover : function(iRom, iResolvedCoverPath){
     var self = this
     if(iRom && iResolvedCoverPath){
@@ -148,12 +152,12 @@ exports.PlatformView = Backbone.View.extend({
   addIllustrationProvider : function(iRomsCollection){
     var self = this
     var getFirstResolvedPath = function(iPaths){
-      if(!iPaths) return null
+      if(!iPaths) return Path.resolve(self.getNoCoverPath())
       var illustrationPath = iPaths[0]          
       if(Fs.existsSync(illustrationPath)){
         return Path.resolve(illustrationPath)
       }
-      return null
+      return Path.resolve(self.getNoCoverPath())
     }
     
     for(var i = 0; i<iRomsCollection.size(); i++){
