@@ -130,14 +130,18 @@ exports.PlatformView = Backbone.View.extend({
         }             
       })
       
-    }else{     
-      var coverPathes = CoversProvider.provideCovers(self.focusedRom, self.associatedPlatform)
-      if(coverPathes){
-        var firstCoverPath = coverPathes[0]
-        if(firstCoverPath){
-          self.updateCover(self.focusedRom, Path.resolve(firstCoverPath))
-        }
-      }      
+    }else if(iRom && typeof(iResolvedCoverPath) == 'undefined'){
+    
+      if(iRom.getIllustrationPath){
+        self.updateCover(iRom, iRom.getIllustrationPath())
+      }
+      
+    }else if(typeof(iRom) == 'undefined' && typeof(iResolvedCoverPath) == 'undefined'){
+    
+      if(self.focusedRom && self.focusedRom.getIllustrationPath){
+        self.updateCover(self.focusedRom, self.focusedRom.getIllustrationPath())
+      }
+      
     }    
   },
   
