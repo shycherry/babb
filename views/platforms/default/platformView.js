@@ -4,6 +4,13 @@ var BasePlatformView = BABB.platformsViewsRequire('base').PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
   
+  doUnbindings : function(){
+    BasePlatformView.prototype.doUnbindings.call(this)    
+    if(this.coverflowView){
+      this.coverflowView.unbindModel()
+    }
+  },
+  
   getCoverflowTemplatePath : function(){
     return __dirname+'/item-template.html'
   },
@@ -15,6 +22,10 @@ exports.PlatformView = BasePlatformView.extend({
   recreateGraphicalRomList : function(iRomsCollection){
     if(iRomsCollection){
       this.romsCollection = iRomsCollection
+    }
+    
+    if(this.coverflowView){
+      this.coverflowView.unbindModel()
     }
     
     var Coverflow = BABB.coreRequire('coverflow')
@@ -42,6 +53,8 @@ exports.PlatformView = BasePlatformView.extend({
       el:'#romscoverflow',
       model : coverflowModel
     })    
+    
+    BABB.d = this.coverflowView
     
     var self = this
     this.coverflowView.on('focus', function(iRom){

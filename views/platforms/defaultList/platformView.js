@@ -4,9 +4,16 @@ var BasePlatformView = BABB.platformsViewsRequire('base').PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
   
-  recreateStuff : function(iRomsCollection){
-    BasePlatformView.prototype.recreateStuff.call(this, iRomsCollection)    
+  doBindings : function(){
+    BasePlatformView.prototype.doBindings.call(this)    
     $('#logoPlatform').css("background-image", "url('"+encodeURI(this.getPlatform().getLogoPath())+"')")  
+  },
+  
+  doUnbindings : function(){
+    BasePlatformView.prototype.doUnbindings.call(this)    
+    if(this.coverflowView){
+      this.coverflowView.unbindModel()
+    }
   },
   
   getCoverflowTemplatePath : function(){
@@ -20,6 +27,10 @@ exports.PlatformView = BasePlatformView.extend({
   recreateGraphicalRomList : function(iRomsCollection){
     if(iRomsCollection){
       this.romsCollection = iRomsCollection
+    }
+    
+    if(this.coverflowView){
+      this.coverflowView.unbindModel()
     }
     
     var Coverflow = BABB.coreRequire('coverflow')
@@ -49,6 +60,8 @@ exports.PlatformView = BasePlatformView.extend({
       model : coverflowModel
     })    
     
+    BABB.l = this.coverflowView
+    
     var self = this
     this.coverflowView.on('focus', function(iRom){
       BABB.EventEmitter.trigger('romFocused', iRom)      
@@ -60,5 +73,6 @@ exports.PlatformView = BasePlatformView.extend({
     
     this.dynabodyPlatform = null
     this.coverflowView.select(this.lastSelectedRomId)    
-  },
+  }, 
+  
 })

@@ -69,11 +69,11 @@ var CoverflowView = Backbone.View.extend({
     var self = this
     _.bindAll(this, 'render')    
     _.bindAll(this, 'recreateFullDOMCollection')
-    this.collection.on('change', this.recreateFullDOMCollection)
-    this.collection.on('add', _.throttle(this.recreateFullDOMCollection,100))
-    this.collection.on('remove', this.recreateFullDOMCollection)
-    this.collection.on('reset', this.recreateFullDOMCollection)
-    this.on('focus', this.render)
+    this.collection.on('change', this.recreateFullDOMCollection, this)
+    this.collection.on('add', _.throttle(this.recreateFullDOMCollection,100), this)
+    this.collection.on('remove', this.recreateFullDOMCollection, this)
+    this.collection.on('reset', this.recreateFullDOMCollection, this)
+    this.on('focus', this.render, this)
     this.$el.on("mousewheel", function(event, delta){
     
       var delta = event.originalEvent.wheelDelta
@@ -84,6 +84,10 @@ var CoverflowView = Backbone.View.extend({
       }
 
     })
+  },
+  
+  unbindModel : function(){    
+    this.collection.off(null, null, this)
   },
   
   add : function(iItem){
