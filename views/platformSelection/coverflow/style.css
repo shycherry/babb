@@ -46,3 +46,15 @@
 img{
   height:100%;
 }
+
+.coverflow .coverflow-cell{
+  opacity:.9;
+}
+
+.coverflow .coverflow-cell.focus{
+  opacity:1;
+}
+
+.coverflow .coverflow-cell:hover{
+  opacity:1;
+}
