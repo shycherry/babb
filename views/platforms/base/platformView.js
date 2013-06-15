@@ -18,6 +18,7 @@ exports.PlatformView = Backbone.View.extend({
     var self = this
     self.updateTitle()
     self.updateStats()
+    self.updateCover()
   },
   
   initialize : function(){
@@ -114,15 +115,27 @@ exports.PlatformView = Backbone.View.extend({
   
   updateCover : function(iRom, iResolvedCoverPath){
     var self = this
-    console.log('before updating '+iRom+' with '+iResolvedCoverPath)
-    if(!iResolvedCoverPath) return
-    process.nextTick(function(){      
-      var htmlCoverElement = self.getHtmlCoverElement(iRom)
-      console.log('updating '+htmlCoverElement)
-      if(htmlCoverElement){        
-        htmlCoverElement.css("background-image", "url('"+encodeURI(iResolvedCoverPath)+"')")        
-      }             
-    })
+    if(iRom && iResolvedCoverPath){
+    
+      console.log('before updating '+iRom+' with '+iResolvedCoverPath)
+      if(!iResolvedCoverPath) return
+      process.nextTick(function(){      
+        var htmlCoverElement = self.getHtmlCoverElement(iRom)
+        console.log('updating '+htmlCoverElement)
+        if(htmlCoverElement){        
+          htmlCoverElement.css("background-image", "url('"+encodeURI(iResolvedCoverPath)+"')")        
+        }             
+      })
+      
+    }else{     
+      var coverPathes = CoversProvider.provideCovers(self.focusedRom, self.associatedPlatform)
+      if(coverPathes){
+        var firstCoverPath = coverPathes[0]
+        if(firstCoverPath){
+          self.updateCover(self.focusedRom, Path.resolve(firstCoverPath))
+        }
+      }      
+    }    
   },
   
   addIllustrationProvider : function(iRomsCollection){
