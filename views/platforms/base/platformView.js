@@ -199,11 +199,8 @@ exports.PlatformView = Backbone.View.extend({
     this.statsView = new StatsView({el:'#stats'})
   },
   
-  getCoverflowTemplatePath : function(){
-    throw 'must be overriden'
-  },
-  
   recreateGraphicalRomList : function(iRomsCollection){
     throw 'must be overriden'
   },
+  
 })

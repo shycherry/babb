@@ -4,18 +4,18 @@ var BasePlatformView = BABB.platformsViewsRequire('base').PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
   
-  doBindings : function(){
-    BasePlatformView.prototype.doBindings.call(this)    
+  recreateStuff : function(iRomsCollection){
+    BasePlatformView.prototype.recreateStuff.call(this, iRomsCollection)    
     $('#logoPlatform').css("background-image", "url('"+encodeURI(this.getPlatform().getLogoPath())+"')")  
   },
-  
+   
   doUnbindings : function(){
     BasePlatformView.prototype.doUnbindings.call(this)    
     if(this.coverflowView){
       this.coverflowView.unbindModel()
     }
   },
-  
+    
   getCoverflowTemplatePath : function(){
     return __dirname+'/item-template.html'
   },
