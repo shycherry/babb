@@ -14,7 +14,7 @@ var StatsModel = Backbone.Model.extend({
     averageTime : "-",
     lastLaunchDate : "-",
     firstLaunchDate : "-",    
-    baseStatsDirectory : "./stats",
+    baseStatsDirectory : "./native_tools/stats",
   },
   
   initialize: function(){

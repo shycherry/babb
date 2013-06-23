@@ -1,5 +1,6 @@
 var _ = global._
 var Fs = require('fs')
+var Path = require('path')
 var ChildProcess = require('child_process')
 var spawnerExitTemplate = _.template(Fs.readFileSync(__dirname+'/spawner_exit_template.html').toString())
 var spawnerStartTemplate = _.template(Fs.readFileSync(__dirname+'/spawner_start_template.html').toString())
@@ -17,7 +18,8 @@ function invokeChildProcess(command, args, options, childProcessFunction, iPlatf
   
   var killidProcess = ChildProcess.spawn(
     global.BABB.GlobalConfig.killidPath, 
-    [cmdProcess.pid, iPlatform.get('name'), iRom.get('title')]
+    [cmdProcess.pid, iPlatform.get('name'), iRom.get('title')],
+    {cwd:Path.dirname(global.BABB.GlobalConfig.killidPath)}
   )
   console.log(command+' started')  
   global.BABB.EventEmitter.trigger('status', spawnerStartTemplate({command: command, args : args, options : options, cmdPid: cmdProcess.pid, playitPid : killidProcess.pid}))
