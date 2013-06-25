@@ -4,6 +4,11 @@ var BasePlatformView = BABB.platformsViewsRequire('base').PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
   
+  recreateStuff : function(iRomsCollection){
+    BasePlatformView.prototype.recreateStuff.call(this, iRomsCollection)    
+    $('#logoPlatform').css("background-image", "url('"+encodeURI(this.getPlatform().getLogoPath())+"')")  
+  },
+  
   doUnbindings : function(){
     BasePlatformView.prototype.doUnbindings.call(this)    
     if(this.coverflowView){

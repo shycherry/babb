@@ -48,6 +48,19 @@
   overflow:auto;
 }
 
+#logoPlatform{
+  z-index:99;
+  position:fixed;
+  width:12%;
+  height:12%;
+  top:0%;
+  left:0%;  
+  overflow:auto;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:center;
+}
+
 
 #history-container{  
   position : fixed;
