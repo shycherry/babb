@@ -130,18 +130,15 @@ exports.FrontendView = Backbone.View.extend({
       
       if( ! iPlatform){
         return
-      }
+      }      
       
-      if( ! iPlatform.isAvailable()){
-        BABB.EventEmitter.trigger('error', iPlatform+' is not available')
-      }else{
-        self.currentValidatedPlatform = iPlatform
-        self.sniffRoms()        
-        var PlatformView = BABB.platformsViewsRequire(iPlatform.get('viewName')).PlatformView
-        PlatformView = new PlatformView()
-        PlatformView.associatedPlatform = iPlatform
-        BABB.EventEmitter.trigger('requestControledViewChange', PlatformView)        
-      }
+      self.currentValidatedPlatform = iPlatform
+      self.sniffRoms()        
+      var PlatformView = BABB.platformsViewsRequire(iPlatform.get('viewName')).PlatformView
+      PlatformView = new PlatformView()
+      PlatformView.associatedPlatform = iPlatform
+      BABB.EventEmitter.trigger('requestControledViewChange', PlatformView)        
+      
     })
 
     BABB.EventEmitter.on('romValidated', function(iRom){
@@ -172,9 +169,11 @@ exports.FrontendView = Backbone.View.extend({
   },
   
   runRomIfp : function(){
-    if(this.currentValidatedRom && this.currentValidatedPlatform){
+    if( this.currentValidatedPlatform && !this.currentValidatedPlatform.isAvailable()){
+      BABB.EventEmitter.trigger('error', this.currentValidatedPlatform+' is not available')
+    }else if(this.currentValidatedRom && this.currentValidatedPlatform){
       this.currentValidatedPlatform.runRom(this.currentValidatedPlatform, this.currentValidatedRom)
-    }
+    }    
   },
   
   bindRomsCollection : function(iPlatform){
