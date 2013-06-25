@@ -46,8 +46,7 @@ for(control in global.BABB.Controls){
   }
 }
 
-global.BABB.Utils = {
-  Roms : global.BABB.coreRequire('roms'),
+global.BABB.Utils = { 
   Spawner : global.BABB.coreRequire('spawner'),
   FilenamesFilter : global.BABB.coreRequire('filenamesFilter').FilenamesFilter,
   Finder : global.BABB.coreRequire('finder'),
