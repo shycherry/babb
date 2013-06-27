@@ -111,4 +111,6 @@ exports.detachPlatformContainer = function(){
   $('body #platformContainer').detach()  
 }
 
-
+exports.sniffPlatformsRoms = function(iPlatforms, iCallback){
+  
+}
