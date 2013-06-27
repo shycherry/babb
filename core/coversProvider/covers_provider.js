@@ -13,11 +13,15 @@ var searchGoogleAPI = function(iSearchExpression, iCallback){
   var encodedQuery = encodeURI(iSearchExpression)
   var searchURI  = 'https://www.googleapis.com/customsearch/v1?key='+Config.googleAPIKey+'&cx='+Config.googleCustomSearchId+'&imgSize=medium&searchType=image&q='+encodedQuery
   
-  $.get(searchURI, function(data){
-    if(iCallback) iCallback(null, data)
-  }).fail(function(){    
-    if(iCallback) iCallback('failure on GET : '+searchURI, null)
-  })
+  if(Config.enableGoogleSearchAPI){
+    $.get(searchURI, function(data){
+      if(iCallback) iCallback(null, data)
+    }).fail(function(){    
+      if(iCallback) iCallback('failure on GET : '+searchURI, null)
+    })
+  }else{
+    iCallback('googleSearchAPI disabled', null)
+  }
 }
 
 
@@ -39,8 +43,7 @@ var provideCovers = function(iRom, iPlatform, iCallback){
   
   var existingCoversPaths = searchLocalCovers(coversRootPath)
   
-  if(!existingCoversPaths || existingCoversPaths.length <= 0){    
-    //searchGoogleAndDownload(iRom.get('title')+' '+iPlatform.get('name'), coversRootPath, iCallback)
+  if(!existingCoversPaths || existingCoversPaths.length <= 0){
     searchGoogleAndDownloadWorkerQueue.push({
       romTitle: iRom.get('title'),
       platformName: iPlatform.get('name'),
