@@ -58,6 +58,47 @@ FilenamesFilter.prototype.onlyKeepBasename = function(){
   return this
 }
 
+FilenamesFilter.prototype.removeTags = function(){
+  for(var path in this.map){        
+     this.map[path] = this.map[path].replace(/(\(.*?\))|(\[.*?])/g,'')
+  }
+  
+  return this
+}
+
+FilenamesFilter.prototype.customNaming = function(iCallback){
+  if(iCallback){
+    for(var path in this.map){
+       this.map[path] = iCallback(this.map[path])
+    }  
+  }
+  return this
+}
+
+FilenamesFilter.prototype.trim = function(){
+  for(var path in this.map){        
+     this.map[path] = this.map[path].trim()
+  }
+  
+  return this
+}
+
+FilenamesFilter.prototype.tileCase = function(){
+  for(var path in this.map){        
+     this.map[path] = this.map[path].replace(/\b[^A-Z]/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()})
+  }
+  
+  return this
+}
+
+FilenamesFilter.prototype.smartSpaces = function(){
+  for(var path in this.map){        
+     this.map[path] = this.map[path].replace(/( +?)|(_+?)|(\.+?)/g, ' ')
+  }
+  
+  return this
+}
+
 FilenamesFilter.prototype.get = function(){
   return this.map
 }
