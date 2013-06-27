@@ -85,7 +85,7 @@ var getRawBioEntry = function(romName){
 }
 
 var getRawFullEntry = function(romName){  
-  var romNameIndex = indexMap[romName];
+  var romNameIndex = indexMap[romName.toLowerCase()];
   
   if(!romNameIndex){
     return ''
