@@ -4,6 +4,7 @@ global.Backbone = Backbone
 global._ = _
 
 global.BABB = require('../config.cfg').config
+global.BABB.EventEmitter = new Backbone.View()
 
 var basePlatformViewPath = process.cwd()+'/views/platforms/'
 var basePlatformSelectionViewPath = process.cwd()+'/views/platformSelection/'
@@ -51,9 +52,7 @@ global.BABB.Utils = {
   FilenamesFilter : global.BABB.coreRequire('filenamesFilter').FilenamesFilter,
   Finder : global.BABB.coreRequire('finder'),
   CoreServices : global.BABB.coreRequire('coreServices'),
-}  
-
-global.BABB.EventEmitter = new Backbone.View()
+}
 
 var Controller = global.BABB.coreRequire('controller')
 var Gui = require('nw.gui')
