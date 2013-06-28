@@ -69,7 +69,7 @@ exports.PlatformView = Backbone.View.extend({
     }, this)    
     
     BABB.EventEmitter.on('control-right', function(){
-      var covers = CoversProvider.provideCovers(self.focusedRom, self.associatedPlatform)
+      var covers = CoversProvider.provideCovers(self.focusedRom, self.getPlatform(self.focusedRom))
       var nbCovers = covers.length
       if(nbCovers>1){
         var lastGeneratedName
@@ -82,7 +82,7 @@ exports.PlatformView = Backbone.View.extend({
     }, this)
     
     BABB.EventEmitter.on('control-left', function(){
-      var covers = CoversProvider.provideCovers(self.focusedRom, self.associatedPlatform)
+      var covers = CoversProvider.provideCovers(self.focusedRom, self.getPlatform(self.focusedRom))
       var nbCovers = covers.length
       if(nbCovers>1){
         var firstGeneratedName
@@ -108,7 +108,7 @@ exports.PlatformView = Backbone.View.extend({
     }, this)
   },
   
-  getPlatform : function(){
+  getPlatform : function(iRom){
     return this.associatedPlatform
   },
   
@@ -178,7 +178,7 @@ exports.PlatformView = Backbone.View.extend({
           
           return getFirstResolvedPath(illustrationPathes)
         }
-      })(currentRom, this.associatedPlatform)
+      })(currentRom, this.getPlatform(currentRom))
     }
   },
   
@@ -189,8 +189,8 @@ exports.PlatformView = Backbone.View.extend({
   },
   
   updateStats : function(){
-    if(this.focusedRom && this.associatedPlatform && this.statsView){
-      this.statsView.forceUpdate(this.focusedRom, this.associatedPlatform)      
+    if(this.focusedRom && this.getPlatform(this.focusedRom) && this.statsView){
+      this.statsView.forceUpdate(this.focusedRom, this.getPlatform(this.focusedRom))      
     }
   },
   

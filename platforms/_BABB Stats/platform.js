@@ -105,12 +105,16 @@ exports.Platform = BABBPlatform.extend({
   },
   
   runRom : function (iPlatform, iRom){    
+    var romPlatform = iRom.get('platform')
+    if(iRom && romPlatform){
+      romPlatform.runRom(romPlatform, iRom)
+    }
   },
   
   getRomsProvider : function(){
     return statsBasedRomsProvider
   },
-  
+    
   getRomsPaths : function(){
     updateInternals()
     
