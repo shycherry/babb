@@ -15,7 +15,7 @@ exports.Platform = BABBPlatform.extend({
       }else{    
         var selectedLNKRomPath = iRom.get('path')        
         if(selectedLNKRomPath){
-          var absolutePathToExe = /.:\\.+\.exe/.exec(Fs.readFileSync(selectedLNKRomPath).toString())[0]
+          var absolutePathToExe = /.:\\[\w\\ \/]+?\..{3}/.exec(Fs.readFileSync(selectedLNKRomPath).toString())[0]
           
           var Spawner = global.BABB.Utils.Spawner
           Spawner.spawn(
