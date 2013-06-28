@@ -7,7 +7,7 @@ var Path = require('path')
 var Fs = require('fs')
 var Sniffer = BABB.coreRequire('sniffer')
 var Roms = BABB.coreRequire('roms')
-
+var FilenamesFilter = BABB.Utils.FilenamesFilter  
 
 var _platformsCollection = null
 
@@ -72,16 +72,8 @@ var Platform = Backbone.Model.extend({
     return this.defaultRomsProvider
   },
   
-  getShadowConfig: function(){
-    if(this.getPlatformConfig().ShadowConfig){
-      return this.getPlatformConfig().ShadowConfig
-    }
-    return null
-  },
-  
-  defaultRomsProvider : function(parReport, ioRomsCollection){  
-    var FilenamesFilter = global.BABB.Utils.FilenamesFilter  
-    var filteredFilesMap = new FilenamesFilter(parReport)
+  getFilteredFilesMap: function(parReport){
+    return new FilenamesFilter(parReport)
         .keepFilesWithExtensions(this.getPlatformConfig().romsExtensions)
         .onlyKeepBasename()
         .removeExtensions()
@@ -90,6 +82,18 @@ var Platform = Backbone.Model.extend({
         .trim()
         .smartSpaces()
         .get()
+  },
+  
+  getShadowConfig: function(){
+    if(this.getPlatformConfig().ShadowConfig){
+      return this.getPlatformConfig().ShadowConfig
+    }
+    return null
+  },
+    
+  defaultRomsProvider : function(parReport, ioRomsCollection){  
+    
+    var filteredFilesMap = this.getFilteredFilesMap(parReport)
 
     for(var locPath in filteredFilesMap){
       var rom = new Roms.Rom({
@@ -154,8 +158,16 @@ var getAllPlatformsRomsPathes = function(iFilterNonPlayableOnes){
   return platformsRomsPathes
 }
 
+var getAllSniffedPlatforms = function(){
+  return _platformsCollection
+}
 
+var getPlatformFromName = function(iName){
+  return _platformsCollection.where({name: iName})[0]
+}
 
+exports.getPlatformFromName = getPlatformFromName
+exports.getAllSniffedPlatforms = getAllSniffedPlatforms
 exports.getAllPlatformsRomsPathes = getAllPlatformsRomsPathes
 exports.Platform = Platform
 exports.PlatformsCollection = PlatformsCollection

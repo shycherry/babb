@@ -97,4 +97,14 @@ var StatsView = Backbone.View.extend({
   }
 })
 
+var getAllStatsFiles = function(){
+  var baseStatsDirectory = StatsModel.prototype.defaults.baseStatsDirectory
+  if(Fs.existsSync(baseStatsDirectory))
+    return Fs.readdirSync(baseStatsDirectory)
+  else
+    return []
+}
+
+exports.getAllStatsFiles = getAllStatsFiles
 exports.StatsView = StatsView
+exports.StatsModel = StatsModel
