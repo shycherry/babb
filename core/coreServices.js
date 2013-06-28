@@ -10,9 +10,6 @@ var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionVie
 var RomsCollectionView = BABB.coreRequire('roms').RomsCollectionView
 var KeysView = BABB.coreRequire('keysController').KeysView
 
-var Platform = BABB.coreRequire('platforms').Platform
-var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
-
 var platformSelectionContainerDOM = null
 var platformContainerDOM = null
 

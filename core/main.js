@@ -37,6 +37,13 @@ global.BABB.platformSelectionViewsRequire = function(iModuleName){
   return require(basePlatformSelectionViewPath+iModuleName+'/PlatformSelectionView.js')
 }
 
+global.BABB.Utils = { 
+  Spawner : global.BABB.coreRequire('spawner'),
+  FilenamesFilter : global.BABB.coreRequire('filenamesFilter').FilenamesFilter,
+  Finder : global.BABB.coreRequire('finder'),
+  CoreServices : global.BABB.coreRequire('coreServices'),
+}
+
 //convert all characters to keycode
 for(control in global.BABB.Controls){
   var keys = global.BABB.Controls[control]
@@ -45,13 +52,6 @@ for(control in global.BABB.Controls){
       keys[key] = keys[key].toUpperCase().charCodeAt(0)
     }
   }
-}
-
-global.BABB.Utils = { 
-  Spawner : global.BABB.coreRequire('spawner'),
-  FilenamesFilter : global.BABB.coreRequire('filenamesFilter').FilenamesFilter,
-  Finder : global.BABB.coreRequire('finder'),
-  CoreServices : global.BABB.coreRequire('coreServices'),
 }
 
 var Controller = global.BABB.coreRequire('controller')
