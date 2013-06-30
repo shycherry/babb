@@ -7,14 +7,15 @@ var Fs = require('fs')
 * events : none
 */
 
+var baseStatsDirectory = "./native_tools/stats"
+
 var StatsModel = Backbone.Model.extend({
   defaults: {    
     totalTime : "-",
     nbLaunched : "-",
     averageTime : "-",
     lastLaunchDate : "-",
-    firstLaunchDate : "-",    
-    baseStatsDirectory : "./native_tools/stats",
+    firstLaunchDate : "-",        
   },
   
   initialize: function(){
@@ -38,7 +39,7 @@ var StatsModel = Backbone.Model.extend({
   
   updateStats : function(){
     if(this.rom && this.platform){
-      var statsFilename = this.get('baseStatsDirectory')+'/'+this.platform.get('name')+'_'+this.rom.get('title')+'.txt'
+      var statsFilename = baseStatsDirectory+'/'+this.platform.get('name')+'_'+this.rom.get('title')+'.txt'
       if(Fs.existsSync(statsFilename)){
         statsStream = Fs.readFileSync(statsFilename).toString()
         var statsArray = statsStream.split('\n')
@@ -97,8 +98,7 @@ var StatsView = Backbone.View.extend({
   }
 })
 
-var getAllStatsFiles = function(){
-  var baseStatsDirectory = StatsModel.prototype.defaults.baseStatsDirectory
+var getAllStatsFiles = function(){  
   if(Fs.existsSync(baseStatsDirectory))
     return Fs.readdirSync(baseStatsDirectory)
   else
