@@ -133,12 +133,18 @@ exports.FrontendView = Backbone.View.extend({
       }      
       
       self.currentValidatedPlatform = iPlatform
-      self.sniffRoms()        
-      var PlatformView = BABB.platformsViewsRequire(iPlatform.get('viewName')).PlatformView
-      PlatformView = new PlatformView()
-      PlatformView.associatedPlatform = iPlatform
-      BABB.EventEmitter.trigger('requestControledViewChange', PlatformView)        
+      self.sniffRoms()
+      BABB.EventEmitter.trigger('requestRenderPlatform', iPlatform)
       
+    })
+    
+    BABB.EventEmitter.on('platformRendered', function(iPlatform){
+      if(self.currentValidatedPlatform == iPlatform){        
+        var PlatformView = BABB.platformsViewsRequire(iPlatform.get('viewName')).PlatformView
+        PlatformView = new PlatformView()
+        PlatformView.associatedPlatform = iPlatform        
+        BABB.EventEmitter.trigger('requestControledViewChange', PlatformView)        
+      }
     })
 
     BABB.EventEmitter.on('romValidated', function(iRom){

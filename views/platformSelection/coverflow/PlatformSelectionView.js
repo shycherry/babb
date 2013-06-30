@@ -22,10 +22,8 @@ var PlatformSelectionView = Backbone.View.extend({
       if(iView != self){        
         self.doUnbindings()
         CoreServices.clearPlatformSelectionContainer()
-        CoreServices.renderPlatform(iView.associatedPlatform, null, function(){
-          CoreServices.setVisiblePlatformView(true)                  
-          CoreServices.setVisiblePlatformSelectionView(false)        
-        })
+        CoreServices.setVisiblePlatformView(true)                  
+        CoreServices.setVisiblePlatformSelectionView(false)
         
       }else{
         self.doBindings()
@@ -80,6 +78,16 @@ var PlatformSelectionView = Backbone.View.extend({
         self.dynabodyPlatform = iPlatform
         self.previewPlatform(iPlatform)
         self.lastSelectedPlatformId = self.platformsCollection.indexOf(iPlatform)
+      
+    }, this)
+    
+    BABB.EventEmitter.on('requestRenderPlatform', function(iPlatform){
+      
+        CoreServices.renderPlatform(iPlatform, null, (function(iPlatform){
+          return function(){            
+            BABB.EventEmitter.trigger('platformRendered',iPlatform)
+          }
+        })(iPlatform))
       
     }, this)
     
