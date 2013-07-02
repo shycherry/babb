@@ -37,9 +37,23 @@ var StatsModel = Backbone.Model.extend({
     }
   }, 
   
+  getFilename : function(){
+    if(this.rom && this.platform){
+      return baseStatsDirectory+'/'+this.platform.get('name')+'_'+this.rom.get('title')+'.txt'
+    }
+    return ''
+  },
+  
+  getModificationTime : function(){
+    var filename = this.getFilename()
+    if(Fs.existsSync(filename)){
+      return Fs.lstatSync(filename).mtime
+    }
+  },
+  
   updateStats : function(){
     if(this.rom && this.platform){
-      var statsFilename = baseStatsDirectory+'/'+this.platform.get('name')+'_'+this.rom.get('title')+'.txt'
+      var statsFilename = this.getFilename()
       if(Fs.existsSync(statsFilename)){
         statsStream = Fs.readFileSync(statsFilename).toString()
         var statsArray = statsStream.split('\n')
