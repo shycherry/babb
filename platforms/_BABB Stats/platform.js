@@ -3,7 +3,7 @@ var Platforms = BABB.coreRequire('platforms')
 var Roms = BABB.coreRequire('roms')
 var BABBPlatform = Platforms.Platform
 var Stats = BABB.coreRequire('stats')
-var FilenamesFilter = BABB.Utils.FilenamesFilter  
+var FilenamesFilter = BABB.Utils.FilenamesFilter
 
 var _statsFiles = null
 var _playedPlatforms = null
@@ -27,7 +27,7 @@ var getPlatformNameFromStatFile = function(iStatFile){
 
 
 var updateInternals = function(){
-  _statsFiles = Stats.getAllStatsFiles()  
+  _statsFiles = Stats.getAllStatsFiles()
   _playedPlatforms = []
   _playedPlatformsPathes = []
   _playedPlatformsRomsMap = {}
@@ -38,18 +38,18 @@ var updateInternals = function(){
     var matchedPlatform = Platforms.getPlatformFromName(platformName)
     if(matchedPlatform){
       if( -1 == _playedPlatforms.lastIndexOf(matchedPlatform)){
-        _playedPlatforms.push(matchedPlatform)      
+        _playedPlatforms.push(matchedPlatform)
       }
-      
+
       if(!_playedPlatformsRomsMap[platformName]){
         _playedPlatformsRomsMap[platformName] = []
       }
-      
+
       var romName = getRomNameFromStatFile(statFile)
       _playedPlatformsRomsMap[platformName].push(romName)
     }
-  })  
-  
+  })
+
   _playedPlatforms.forEach(function(platform){
     platform.getRomsPaths().forEach(function(romPath){
       _playedPlatformsPathes.push(romPath)
@@ -58,11 +58,11 @@ var updateInternals = function(){
       }
       _playedPathesPlatformsMap[romPath].push(platform)
     })
-  })  
+  })
 }
 
-var statsBasedRomsProvider = function(parReport, ioRomsCollection){  
-  
+var statsBasedRomsProvider = function(parReport, ioRomsCollection){
+
   for(var romPath in parReport){
     var matchedPlatform = _playedPathesPlatformsMap[romPath][0]
     if(matchedPlatform){
@@ -72,10 +72,10 @@ var statsBasedRomsProvider = function(parReport, ioRomsCollection){
         namedRomsIndexed.push(platformFilteredFilesMap[iPath])
       }
       var playedRoms = _playedPlatformsRomsMap[matchedPlatform.get('name')]
-      
+
       for(var iNamedRom in namedRomsIndexed){
         if( -1 !== playedRoms.lastIndexOf(namedRomsIndexed[iNamedRom])){
-          
+
           var romPath = null
           var iLoop = 0
           for(var locPath in platformFilteredFilesMap){
@@ -91,34 +91,34 @@ var statsBasedRomsProvider = function(parReport, ioRomsCollection){
             platform : matchedPlatform
           })
           ioRomsCollection.add(rom)
-          
+
         }
       }
     }
-  }  
+  }
 }
 
 exports.Platform = BABBPlatform.extend({
-  
+
   isAvailable : function(){
     return true
   },
-  
-  runRom : function (iPlatform, iRom){    
+
+  runRom : function (iPlatform, iRom){
     var romPlatform = iRom.get('platform')
     if(iRom && romPlatform){
       romPlatform.runRom(romPlatform, iRom)
     }
   },
-  
+
   getRomsProvider : function(){
     return statsBasedRomsProvider
   },
-    
+
   getRomsPaths : function(){
     updateInternals()
-    
+
     return _playedPlatformsPathes
   },
-  
+
 })

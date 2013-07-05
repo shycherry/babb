@@ -7,16 +7,16 @@ var Sniffer = BABB.coreRequire('sniffer')
 var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 
 var Rom = Backbone.Model.extend({
-  defaults: {    
+  defaults: {
     id : "x",
     title : "Rom title",
-    path : "/default/path",    
+    path : "/default/path"
   },
-  
-  initialize: function Rom(){    
+
+  initialize: function Rom(){
     this.set('id', this.cid)
   },
-  
+
   toString: function(){
     return this.get('title')+' '+this.get('path')
   }
@@ -24,25 +24,25 @@ var Rom = Backbone.Model.extend({
 
 var RomsCollection = Backbone.Collection.extend({
   model: Rom,
-  initialize: function(){    
+  initialize: function(){
   }
 })
 
 var RomsCollectionView = ItemsCollectionView.extend({
-  itemsCollection : new RomsCollection(),  
+  itemsCollection : new RomsCollection(),
 
-  initialize : function() {    
+  initialize : function() {
     this.reloadTemplate()
-    var self = this    
-    
+    var self = this
+
     this.doBindings()
     this.$el.on("click", ".rom", function(event){
       self.setSelected(self.itemsCollection.get(this.id))
       event.stopPropagation()
-    })    
+    })
     this.$el.on("dblclick", ".rom", function(){
       self.validSelected()
-    })    
+    })
   },
 
   doSniff: function(iPlatform){
@@ -51,18 +51,18 @@ var RomsCollectionView = ItemsCollectionView.extend({
     this.romsProvider = iPlatform.getRomsProviderDelegate()
     this.currentPathsToSniff = iPlatform.getRomsPaths()
     this.stopSniff()
-    Sniffer.sniff(iPlatform.getRomsPaths(), this.onSniffed)    
+    Sniffer.sniff(iPlatform.getRomsPaths(), this.onSniffed)
   },
-  
+
   stopSniff : function(){
     Sniffer.stopSniff(this.currentPathsToSniff)
   },
 
   reloadTemplate : function(){
-    this.template = _.template( $(BABB.RomsConfig.romsCollectionTemplateId).html() )  
+    this.template = _.template( $(BABB.RomsConfig.romsCollectionTemplateId).html() )
   },
-  
-  reset : function(){          
+
+  reset : function(){
     this.itemsCollection.reset()
     this.setSelected(null)
   },
@@ -75,19 +75,19 @@ var RomsCollectionView = ItemsCollectionView.extend({
     }
     if(!this.getSelected()){
       this.selectNext()
-    }    
+    }
   },
 
   onSelectedChange : function (iRom){
-    this.$el.children('.focus').removeClass('focus')    
+    this.$el.children('.focus').removeClass('focus')
     if(iRom){
-      this.temporaryFocusContainer()      
+      this.temporaryFocusContainer()
       //highlight
       $('#'+iRom.id).addClass('focus')
     }
-    this.trigger('selectionChanged', iRom)    
+    this.trigger('selectionChanged', iRom)
   },
-  
+
   onSelected : function(iRom){
     //delegate focus to platform
     if(this.platform && this.getSelected()){
@@ -95,7 +95,7 @@ var RomsCollectionView = ItemsCollectionView.extend({
     }
   },
 
-  toString : function() {    
+  toString : function() {
     return 'RomsCollectionView'
   }
 })

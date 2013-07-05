@@ -5,17 +5,17 @@ exports.Platform = BABBPlatform.extend({
     if(iRom){
       var emulatorPath = this.getPlatformConfig().emulatorPath
       var selectedRomPath = iRom.get('path')
-      if(selectedRomPath){      
+      if(selectedRomPath){
         var Spawner = global.BABB.Utils.Spawner
         var Path = require('path')
         Spawner.spawn(
-          emulatorPath, 
+          emulatorPath,
           [iRom.get('title'), '-rp', Path.dirname(selectedRomPath)],
           {cwd : Path.dirname(emulatorPath)},
           iPlatform,
           iRom
-        )        
+        )
       }
-    }  
-  },
+    }
+  }
 })

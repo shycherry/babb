@@ -1,4 +1,4 @@
-﻿//global definitions
+//global definitions
 global.$ = $
 global.Backbone = Backbone
 global._ = _
@@ -37,17 +37,17 @@ global.BABB.platformSelectionViewsRequire = function(iModuleName){
   return require(basePlatformSelectionViewPath+iModuleName+'/PlatformSelectionView.js')
 }
 
-global.BABB.Utils = { 
+global.BABB.Utils = {
   Spawner : global.BABB.coreRequire('spawner'),
   FilenamesFilter : global.BABB.coreRequire('filenamesFilter').FilenamesFilter,
   Finder : global.BABB.coreRequire('finder'),
-  CoreServices : global.BABB.coreRequire('coreServices'),
+  CoreServices : global.BABB.coreRequire('coreServices')
 }
 
 //convert all characters to keycode
-for(control in global.BABB.Controls){
+for(var control in global.BABB.Controls){
   var keys = global.BABB.Controls[control]
-  for(key in keys){
+  for(var key in keys){
     if ( _.isString(keys[key]) ){
       keys[key] = keys[key].toUpperCase().charCodeAt(0)
     }
@@ -62,7 +62,7 @@ var BABB = global.BABB
 function go(){
   var gui = require('nw.gui')
   gui.Window.get().show()
-  new Controller.FrontendView({el : 'body'})
+  (new Controller.FrontendView({el : 'body'}))
 }
 
 $(document).ready(go)

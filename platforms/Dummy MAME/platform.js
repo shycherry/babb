@@ -4,6 +4,6 @@ exports.Platform = BABBPlatform.extend({
 
   isAvailable : function(){
     return true
-  },
-  
+  }
+
 })

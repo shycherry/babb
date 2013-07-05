@@ -9,7 +9,7 @@ var Fs = require('fs')
 
 var CoverflowModel = Backbone.Model.extend({
   defaults:{
-    orientation:'horizontal',    
+    orientation:'horizontal',
     left: 240,
     top: 135,
     virtualSize:2,
@@ -21,11 +21,11 @@ var CoverflowModel = Backbone.Model.extend({
     zUnselected:-170,
     perspective:250,
     coverGap:40,
-    coverOffset:130,    
+    coverOffset:130,
     rotateAngleLeft:70,
     rotateAngleRight:-70,
     circularSelection:false,
-    collection : new Backbone.Collection,
+    collection : new Backbone.Collection(),
     template: _.template(Fs.readFileSync(__dirname+'/default-template.html').toString())
   }
 })
@@ -39,10 +39,10 @@ var CoverflowView = Backbone.View.extend({
     this.initFromModel()
     this.createDOM()
     this.recreateFullDOMCollection()
-    this.render()   
+    this.render()
     this.initBindings()
   },
-  
+
   initFromModel : function(){
     this.left = this.model.get('left')
     this.top = this.model.get('top')
@@ -64,10 +64,10 @@ var CoverflowView = Backbone.View.extend({
     this.rotateAngleLeft = this.model.get('rotateAngleLeft')
     this.rotateAngleRight = this.model.get('rotateAngleRight')
   },
-  
+
   initBindings : function(){
     var self = this
-    _.bindAll(this, 'render')    
+    _.bindAll(this, 'render')
     _.bindAll(this, 'recreateFullDOMCollection')
     this.collection.on('change', this.recreateFullDOMCollection, this)
     this.collection.on('add', _.throttle(this.recreateFullDOMCollection,100), this)
@@ -75,9 +75,9 @@ var CoverflowView = Backbone.View.extend({
     this.collection.on('reset', this.recreateFullDOMCollection, this)
     this.on('focus', this.render, this)
     this.$el.on("mousewheel", function(event, delta){
-    
-      var delta = event.originalEvent.wheelDelta
-      if(delta < 0){
+
+      var locDelta = event.originalEvent.wheelDelta
+      if(locDelta < 0){
         self.Next()
       }else{
         self.Previous()
@@ -85,39 +85,39 @@ var CoverflowView = Backbone.View.extend({
 
     })
   },
-  
-  unbindModel : function(){    
+
+  unbindModel : function(){
     this.collection.off(null, null, this)
   },
-  
+
   add : function(iItem){
     this.collection.add(iItem)
     this.recreateFullDOMCollection()
-    this.render()    
+    this.render()
   },
-  
+
   addAll : function(iArray){
     this.collection.add(iArray)
     this.recreateFullDOMCollection()
-    this.render()    
+    this.render()
   },
-  
+
   setCollection : function(iArray){
     this.collection.reset()
     this.collection.add(iArray)
     this.recreateFullDOMCollection()
-    this.render()  
+    this.render()
   },
-  
+
   getSelected : function(){
     return this.collection.at(this.selectedIndex)
   },
-  
+
   select : function(iIndex){
     if(iIndex >= 0 && iIndex < this.collection.length){
       this.previousSelectedIndex = this.selectedIndex
-      this.selectedIndex = iIndex      
-      if(this.selectedIndex != this.previousSelectedIndex){        
+      this.selectedIndex = iIndex
+      if(this.selectedIndex != this.previousSelectedIndex){
         if(Math.abs(this.selectedIndex - this.previousSelectedIndex) >1){
           this.needFullRender = true
         }
@@ -126,23 +126,23 @@ var CoverflowView = Backbone.View.extend({
       }
     }
   },
-  
-  Next : function(){    
+
+  Next : function(){
     if(this.selectedIndex < 0){
       this.select(0)
-    }else{      
+    }else{
       this.select( this.getNextIndex(this.selectedIndex) )
     }
   },
 
-  Previous : function(){    
+  Previous : function(){
     if(this.selected < 0){
       this.select(0)
-    }else{      
+    }else{
       this.select( this.getPreviousIndex(this.selectedIndex) )
-    }    
+    }
   },
-  
+
   getNextIndex : function(baseIndex){
     if(this.circularSelection){
       return (baseIndex + 1) % this.collection.size()
@@ -150,15 +150,15 @@ var CoverflowView = Backbone.View.extend({
       return this.selectedIndex+1
     }
   },
-  
+
   getPreviousIndex : function(baseIndex){
     if(this.circularSelection){
-      return (baseIndex + this.collection.size() - 1) % this.collection.size() 
+      return (baseIndex + this.collection.size() - 1) % this.collection.size()
     }else{
       return this.selectedIndex-1
     }
-  },  
-  
+  },
+
   createDOM : function(){
     this.$divWrap = $(window.document.createElement('div'))
     this.$divTray = $(window.document.createElement('div'))
@@ -174,33 +174,33 @@ var CoverflowView = Backbone.View.extend({
     this.$el.css('height', this.height)
     this.recreateFullDOMCollection()
   },
-  
+
   createCellDOM : function(iItem, iCellIndex){
     var self = this
     var $div = $(window.document.createElement('div'))
     $div.on('click', function(){
       var clickedIndex = this.getAttribute('index') - 0
       if(clickedIndex != self.selectedIndex){
-        self.select(clickedIndex)        
+        self.select(clickedIndex)
       }else{
         self.trigger('clicked', self.getSelected())
       }
     })
-    
+
     $div.css('height',self.cellHeight+'px')
     $div.css('width',self.cellWidth+'px')
     $div.css('left',-self.cellWidth/2+'px')
     $div.css('top',-self.cellHeight/2+'px')
     $div.html(self.template({item:iItem}))
-    $div.addClass('coverflow-cell')        
-    
+    $div.addClass('coverflow-cell')
+
     $div.attr('index',iCellIndex)
-    
+
     this.styliseCell($div)
-    
+
     return $div
   },
-  
+
   styliseCell : function(iCell){
     var cellIndex = iCell.attr('index')
     if(cellIndex < this.selectedIndex){
@@ -224,105 +224,113 @@ var CoverflowView = Backbone.View.extend({
         iCell.css('-webkit-transform','translate3d(0px, '+(this.coverOffset+(cellIndex*this.coverGap))+'px, '+this.zUnselected+'px) rotateX('+this.rotateAngleRight+'deg)')
       }
       iCell.removeClass('focus')
-    }     
+    }
   },
-  
+
   recreateFullDOMCollection: function(){
-    var self = this    
+    var self = this
     this.$divTray.empty()
     var startIndex = Math.max((this.selectedIndex-this.virtualSize), 0)
     var endIndex = Math.min((this.selectedIndex+this.virtualSize),this.collection.length -1)
-    
+
     for(var i = startIndex; i<= endIndex; i++){
       var $div = self.createCellDOM(this.collection.at(i), i)
       self.$divTray.append($div)
-    }    
+    }
     this.needFullRender = true
   },
-  
-  virtualizeDOM : function(){    
-    var flow = this.selectedIndex - this.previousSelectedIndex    
+
+  virtualizeDOM : function(){
+    var flow = this.selectedIndex - this.previousSelectedIndex
     var domCells = this.$divTray.children()
     var domCellsCount = domCells.size()
     var domCellFirst = domCells.first()
     var domCellLast = domCells.last()
     var domCellsFirstIdx = domCellFirst.attr('index') - 0
     var domCellsLastIdx = domCellLast.attr('index') - 0
-    
+
     if(Math.abs(flow) > this.virtualSize){
-      
+
       this.recreateFullDOMCollection()
-      
-    }else{    
-      
+
+    }else{
+
+      var nbCellsToRemove
+      var nbCellsToAdd
+      var itemToAdd
+      var divToAdd
+      var indexToAdd
+      var idx
+
       if(flow<0){
         // on recule
-        var nbCellsToRemove = (domCellsLastIdx - this.selectedIndex) - this.virtualSize
-        for(var i=0; i< nbCellsToRemove; i++){
-          domCells[domCellsCount-i-1].remove()
+        nbCellsToRemove = (domCellsLastIdx - this.selectedIndex) - this.virtualSize
+        for(idx=0; idx< nbCellsToRemove; idx++){
+          domCells[domCellsCount-idx-1].remove()
         }
-        
-        var nbCellsToAdd = this.virtualSize - (this.selectedIndex - domCellsFirstIdx)
-        for(var i=0; i<nbCellsToAdd; i++){
-          var indexToAdd = domCellsFirstIdx-i-1
+
+        nbCellsToAdd = this.virtualSize - (this.selectedIndex - domCellsFirstIdx)
+        for(idx=0; idx<nbCellsToAdd; idx++){
+          indexToAdd = domCellsFirstIdx-idx-1
           if(indexToAdd >= 0){
-            var itemToAdd = this.collection.at(indexToAdd)
-            var divToAdd = this.createCellDOM(itemToAdd, indexToAdd)
+            itemToAdd = this.collection.at(indexToAdd)
+            divToAdd = this.createCellDOM(itemToAdd, indexToAdd)
             divToAdd.insertBefore(domCellFirst)
             domCellFirst = divToAdd
           }
         }
       }else{
         //on avance
-        var nbCellsToRemove = (this.selectedIndex - domCellsFirstIdx) - this.virtualSize
-        for(var i=0; i< nbCellsToRemove; i++){
-          domCells[i].remove()
+        nbCellsToRemove = (this.selectedIndex - domCellsFirstIdx) - this.virtualSize
+        for(idx=0; idx< nbCellsToRemove; idx++){
+          domCells[idx].remove()
         }
-        
-        var nbCellsToAdd = this.virtualSize - (domCellsLastIdx - this.selectedIndex)
-        for(var i=0; i<nbCellsToAdd; i++){
-          var indexToAdd = domCellsLastIdx+i+1
+
+        nbCellsToAdd = this.virtualSize - (domCellsLastIdx - this.selectedIndex)
+        for(idx=0; idx<nbCellsToAdd; idx++){
+          indexToAdd = domCellsLastIdx+idx+1
           if(indexToAdd < this.collection.length){
-            var itemToAdd = this.collection.at(indexToAdd)
-            var divToAdd = this.createCellDOM(itemToAdd, indexToAdd)
+            itemToAdd = this.collection.at(indexToAdd)
+            divToAdd = this.createCellDOM(itemToAdd, indexToAdd)
             divToAdd.insertAfter(domCellLast)
             domCellLast = divToAdd
           }
         }
       }
-      
+
     }
-    
+
   },
+
   renderFull : function(){
     if('horizontal' == this.orientation){
       this.$divTray.css('-webkit-transform', 'translate3d(-'+(this.coverGap*this.selectedIndex)+'px , 0px, 0px)')
     }else{
       this.$divTray.css('-webkit-transform', 'translate3d(0px , -'+(this.coverGap*this.selectedIndex)+'px, 0px)')
     }
-    var collectionLength = this.collection.length            
+    var collectionLength = this.collection.length
     for(var i = 0; i< collectionLength; i++){
       var element = $(this.$divTray.children()[i])
       this.styliseCell(element)
     }
-    
+
     this.needFullRender = false
   },
-  
-  renderFast : function(){  
+
+  renderFast : function(){
     if('horizontal' == this.orientation){
       this.$divTray.css('-webkit-transform', 'translate3d(-'+(this.coverGap*this.selectedIndex)+'px , 0px, 0px)')
     }else{
       this.$divTray.css('-webkit-transform', 'translate3d(0px , -'+(this.coverGap*this.selectedIndex)+'px, 0px)')
     }
-    
+
     var selectedElement = $(this.$divTray.children('[index='+this.selectedIndex+']'))
     this.styliseCell(selectedElement)
-    
+
     var previousSelectedElement = $(this.$divTray.children('[index='+this.previousSelectedIndex+']'))
     this.styliseCell(previousSelectedElement)
-  }, 
-  
+  },
+
   render : function(){
     this.virtualizeDOM()
     if(this.needFullRender){

@@ -7,7 +7,7 @@ var Path = require('path')
 var Fs = require('fs')
 var Sniffer = BABB.coreRequire('sniffer')
 var Roms = BABB.coreRequire('roms')
-var FilenamesFilter = BABB.Utils.FilenamesFilter  
+var FilenamesFilter = BABB.Utils.FilenamesFilter
 
 var _platformsCollection = null
 
@@ -18,20 +18,20 @@ BABB.EventEmitter.on('platformsCollectionChanged', function(iPlatformsCollection
 var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 
 var Platform = Backbone.Model.extend({
-  defaults: {    
+  defaults: {
     id : "x",
     name : "unammed platform",
     path : "/default/path",
-    viewName : BABB.PlatformsConfig.defaultViewName,
+    viewName : BABB.PlatformsConfig.defaultViewName
   },
-  
+
   _platformConfig : null,
-  
-  initialize: function Platform(){    
-    this.set('id', this.cid)    
-    
+
+  initialize: function Platform(){
+    this.set('id', this.cid)
+
     _.bindAll(this,'defaultRomsProvider')
-    
+
     if(this.getPlatformConfig().displayName){
       this.set('name', this.getPlatformConfig().displayName)
     }
@@ -41,7 +41,7 @@ var Platform = Backbone.Model.extend({
     }
   },
 
-  getPlatformConfig : function(){    
+  getPlatformConfig : function(){
     if(!this._platformConfig){
       var configPath = Path.normalize(this.get('path')+'/config')
       if(Fs.existsSync(configPath)){
@@ -52,7 +52,7 @@ var Platform = Backbone.Model.extend({
     }
     return this._platformConfig
   },
-  
+
   getLogoPath : function(){
     if(this.getPlatformConfig().logoPath){
       return this.getPlatformConfig().logoPath
@@ -60,18 +60,18 @@ var Platform = Backbone.Model.extend({
       return this.get('path')+Path.sep+'logo.png'
     }
   },
-  
+
   getRomsPaths : function(){
     if(this.getPlatformConfig().romsPaths){
       return this.getPlatformConfig().romsPaths
     }
     return []
   },
-  
-  getRomsProvider: function(){    
+
+  getRomsProvider: function(){
     return this.defaultRomsProvider
   },
-  
+
   getFilteredFilesMap: function(parReport){
     return new FilenamesFilter(parReport)
         .keepFilesWithExtensions(this.getPlatformConfig().romsExtensions)
@@ -83,52 +83,52 @@ var Platform = Backbone.Model.extend({
         .smartSpaces()
         .get()
   },
-  
+
   getShadowConfig: function(){
     if(this.getPlatformConfig().ShadowConfig){
       return this.getPlatformConfig().ShadowConfig
     }
     return null
   },
-    
-  defaultRomsProvider : function(parReport, ioRomsCollection){  
-    
+
+  defaultRomsProvider : function(parReport, ioRomsCollection){
+
     var filteredFilesMap = this.getFilteredFilesMap(parReport)
 
     for(var locPath in filteredFilesMap){
       var rom = new Roms.Rom({
         title : filteredFilesMap[locPath],
         path : locPath
-      })    
+      })
       ioRomsCollection.add(rom)
     }
-    
+
   },
-    
+
   runRom : function (iPlatform, iRom){
     console.log('using default runRom')
-    if(iRom){  
+    if(iRom){
       var emulatorPath = this.getPlatformConfig().emulatorPath
       var selectedRomPath = iRom.get('path')
       if(selectedRomPath){
         var Spawner = global.BABB.Utils.Spawner
         var Path = require('path')
         Spawner.spawn(
-          emulatorPath, 
-          [selectedRomPath], 
+          emulatorPath,
+          [selectedRomPath],
           {cwd : Path.dirname(emulatorPath)},
           iPlatform,
           iRom
-        )      
+        )
       }
-    }  
+    }
   },
-  
-  isAvailable : function (){    
+
+  isAvailable : function (){
     var emulatorPath = this.getPlatformConfig().emulatorPath
     return Fs.existsSync(emulatorPath)
   },
-  
+
   toString: function(){
     return this.get('name')+' ('+this.get('path')+')'
   }
@@ -136,11 +136,11 @@ var Platform = Backbone.Model.extend({
 
 var PlatformsCollection = Backbone.Collection.extend({
   model: Platform,
-  initialize: function(){    
+  initialize: function(){
   }
 })
 
-var getAllPlatformsRomsPathes = function(iFilterNonPlayableOnes){  
+var getAllPlatformsRomsPathes = function(iFilterNonPlayableOnes){
   var platformsRomsPathes = []
   if(_platformsCollection){
     _platformsCollection.each(function(platform){
@@ -151,7 +151,7 @@ var getAllPlatformsRomsPathes = function(iFilterNonPlayableOnes){
         var platformRomsPathes = platform.getRomsPaths()
         platformRomsPathes.forEach(function(romsPath){
           platformsRomsPathes.push(romsPath)
-        })        
+        })
       }
     })
   }

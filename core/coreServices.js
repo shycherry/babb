@@ -15,25 +15,25 @@ var platformContainerDOM = null
 
 var renderView = function(iPathToView, iContainer$, iCallback){
 
-  var viewCSSPath = Path.resolve(iPathToView+Path.sep+"style.css")      
+  var viewCSSPath = Path.resolve(iPathToView+Path.sep+"style.css")
   var css = null
   if(Fs.existsSync(viewCSSPath)){
     viewCSSPath = Path.relative('.'+Path.sep+'core'+Path.sep, viewCSSPath)
     css = $(window.document.createElement('link'))
     css.attr('href', viewCSSPath)
-    css.attr('rel', 'stylesheet')          
+    css.attr('rel', 'stylesheet')
   }
-      
-  var viewLayoutPath = Path.resolve(iPathToView+Path.sep+"layout.html")      
+
+  var viewLayoutPath = Path.resolve(iPathToView+Path.sep+"layout.html")
   if(Fs.existsSync(viewLayoutPath)){
     viewLayoutPath = Path.relative('.'+Path.sep+'core'+Path.sep, viewLayoutPath)
     var self = this
-    iContainer$.load(/*encodeURI*/(viewLayoutPath), function(){            
+    iContainer$.load(/*encodeURI*/(viewLayoutPath), function(){
       if(css){
         iContainer$.append(css)
       }
       if(iCallback){iCallback()}
-    })        
+    })
   }else if(css){
     iContainer$.append(css)
     if(iCallback){iCallback()}
@@ -56,7 +56,7 @@ exports.renderPlatform = function(iPlatform, iContainer$, iCallback){
     if(!iContainer$){
       iContainer$ = $('#platformContainer')
     }
-    renderView(basePath, iContainer$, iCallback)    
+    renderView(basePath, iContainer$, iCallback)
   }
 }
 
@@ -88,26 +88,26 @@ exports.attachPlatformSelectionContainer = function(){
   if(platformSelectionContainerDOM){
     $('body').append(platformSelectionContainerDOM)
     platformSelectionContainerDOM = null
-  }  
+  }
 }
 
 exports.detachPlatformSelectionContainer = function(){
   platformSelectionContainerDOM = $('body #platformSelectionContainer').toArray()
-  $('body #platformSelectionContainer').detach()  
+  $('body #platformSelectionContainer').detach()
 }
 
 exports.attachPlatformContainer = function(){
   if(platformContainerDOM){
     $('body').append(platformContainerDOM)
     platformContainerDOM = null
-  }  
+  }
 }
 
 exports.detachPlatformContainer = function(){
   platformContainerDOM = $('body #platformContainer').toArray()
-  $('body #platformContainer').detach()  
+  $('body #platformContainer').detach()
 }
 
 exports.sniffPlatformsRoms = function(iPlatforms, iCallback){
-  
+
 }
