@@ -38,6 +38,7 @@ exports.FrontendView = Backbone.View.extend({
 
   sniffPlatforms : function(){
     this.platformsCollection.reset()
+    delete this.platformsCollection.comparator
     var pathsToSniff = [BABB.GlobalConfig.defaultPlatformsPath]
     Sniffer.stopSniff(pathsToSniff)
     Sniffer.sniff(pathsToSniff, this.onPlatformsSniffed)

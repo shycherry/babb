@@ -5,6 +5,8 @@ var BABBPlatform = Platforms.Platform
 var Stats = BABB.coreRequire('stats')
 var FilenamesFilter = BABB.Utils.FilenamesFilter
 
+var _statsModel = new Stats.StatsModel();
+
 var _statsFiles = null
 var _playedPlatforms = null
 var _playedPlatformsPathes = null
@@ -61,7 +63,27 @@ var updateInternals = function(){
   })
 }
 
+var modificationTimeComparator = function(iRom1, iRom2){
+  var modificationTime1 = iRom1.get('modificationTime')
+  var modificationTime2 = iRom2.get('modificationTime')
+  if( modificationTime1 < modificationTime2){
+    return 1
+  }else if ( modificationTime1 == modificationTime2 ){
+    return 0
+  }else{
+    return -1
+  }
+}
+
+var updateRomModificationTime = function(ioRom){
+  _statsModel.setPlatform(ioRom.get('platform'))
+  _statsModel.setRom(ioRom)
+  ioRom.set('modificationTime', _statsModel.getModificationTime())
+}
+
 var statsBasedRomsProvider = function(parReport, ioRomsCollection){
+
+  ioRomsCollection.comparator = modificationTimeComparator
 
   for(var romPath in parReport){
     var matchedPlatform = _playedPathesPlatformsMap[romPath][0]
@@ -71,10 +93,10 @@ var statsBasedRomsProvider = function(parReport, ioRomsCollection){
       for(var iPath in platformFilteredFilesMap){
         namedRomsIndexed.push(platformFilteredFilesMap[iPath])
       }
-      var playedRoms = _playedPlatformsRomsMap[matchedPlatform.get('name')]
+      var playedPlatformRoms = _playedPlatformsRomsMap[matchedPlatform.get('name')]
 
       for(var iNamedRom in namedRomsIndexed){
-        if( -1 !== playedRoms.lastIndexOf(namedRomsIndexed[iNamedRom])){
+        if( -1 !== playedPlatformRoms.lastIndexOf(namedRomsIndexed[iNamedRom])){
 
           var romPath = null
           var iLoop = 0
@@ -85,13 +107,16 @@ var statsBasedRomsProvider = function(parReport, ioRomsCollection){
             }
             iLoop++
           }
+
           var rom = new Roms.Rom({
             title : namedRomsIndexed[iNamedRom],
             path : romPath,
             platform : matchedPlatform
           })
-          ioRomsCollection.add(rom)
 
+          updateRomModificationTime(rom)
+
+          ioRomsCollection.add(rom)
         }
       }
     }
