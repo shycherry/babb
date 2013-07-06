@@ -80,6 +80,7 @@ exports.FrontendView = Backbone.View.extend({
       Sniffer.stopSniff(this.romsPathsToSniff)
     }
     this.romsCollection.reset()
+    delete this.romsCollection.comparator
     this.romsPathsToSniff = this.currentValidatedPlatform.getRomsPaths()
     Sniffer.sniff(this.romsPathsToSniff, this.onRomsSniffed)
   },
