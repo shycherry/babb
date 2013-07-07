@@ -7,20 +7,21 @@ var CoversProvider = BABB.coreRequire('coversProvider')
 
 exports.PlatformView = Backbone.View.extend({
   lastSelectedRomId : 0,
-  
+
   recreateStuff : function(iRomsCollection){
     var self = this
     self.recreateGraphicalRomList(iRomsCollection)
     self.recreateStats()
   },
-  
+
   updateStuff : function(){
     var self = this
     self.updateTitle()
     self.updateStats()
     self.updateCover()
+    self.updateLogo()
   },
-  
+
   initialize : function(){
     var self = this
     BABB.EventEmitter.on('requestControledViewChange',function(iView){
@@ -33,23 +34,23 @@ exports.PlatformView = Backbone.View.extend({
       }
     }, this)
   },
-  
+
   doUnbindings : function(){
     BABB.EventEmitter.off(null, null, this)
   },
 
-  doBindings : function(){    
+  doBindings : function(){
     var self = this
-    
+
     BABB.EventEmitter.on('romsCollectionChanged', function(iRomsCollection){
-      self.addIllustrationProvider(iRomsCollection)      
+      self.addIllustrationProvider(iRomsCollection)
       self.recreateStuff(iRomsCollection)
     }, this)
-    
-    BABB.EventEmitter.on('control-valid', function(){      
+
+    BABB.EventEmitter.on('control-valid', function(){
       BABB.EventEmitter.trigger('romValidated', self.focusedRom)
     }, this)
-    
+
     BABB.EventEmitter.on('control-next',function(){
       self.coverflowView.Next()
       if(KeysController.isSpeedDown){
@@ -58,7 +59,7 @@ exports.PlatformView = Backbone.View.extend({
         }
       }
     }, this)
-    
+
     BABB.EventEmitter.on('control-previous', function(){
       self.coverflowView.Previous()
       if(KeysController.isSpeedDown){
@@ -66,29 +67,29 @@ exports.PlatformView = Backbone.View.extend({
           self.coverflowView.Previous()
         }
       }
-    }, this)    
-    
+    }, this)
+
     BABB.EventEmitter.on('control-right', function(){
       var covers = CoversProvider.provideCovers(self.focusedRom, self.getPlatform(self.focusedRom))
       var nbCovers = covers.length
       if(nbCovers>1){
         var lastGeneratedName
         for(var i=0; i< nbCovers; i++){
-          lastGeneratedName = Path.dirname(covers[i])+Path.sep+((i+1)%nbCovers)+Uuid.v1()+Path.extname(covers[i])          
+          lastGeneratedName = Path.dirname(covers[i])+Path.sep+((i+1)%nbCovers)+Uuid.v1()+Path.extname(covers[i])
           Fs.renameSync(covers[i], lastGeneratedName)
         }
         self.updateCover(self.focusedRom, Path.resolve(lastGeneratedName))
       }
     }, this)
-    
+
     BABB.EventEmitter.on('control-left', function(){
       var covers = CoversProvider.provideCovers(self.focusedRom, self.getPlatform(self.focusedRom))
       var nbCovers = covers.length
       if(nbCovers>1){
         var firstGeneratedName
         var lastGeneratedName
-        for(var i=0; i< nbCovers; i++){          
-          lastGeneratedName = Path.dirname(covers[i])+Path.sep+((i+nbCovers-1)%nbCovers)+Uuid.v1()+Path.extname(covers[i])          
+        for(var i=0; i< nbCovers; i++){
+          lastGeneratedName = Path.dirname(covers[i])+Path.sep+((i+nbCovers-1)%nbCovers)+Uuid.v1()+Path.extname(covers[i])
           Fs.renameSync(covers[i], lastGeneratedName)
           if(i==1){
             firstGeneratedName = lastGeneratedName
@@ -97,71 +98,71 @@ exports.PlatformView = Backbone.View.extend({
         self.updateCover(self.focusedRom, Path.resolve(firstGeneratedName))
       }
     }, this)
-    
+
     BABB.EventEmitter.on('romFocused', function(iRom){
       self.focusedRom = iRom
       self.updateStuff()
     }, this)
-    
+
     BABB.EventEmitter.on('afterRun', function(iRom, iPlatform){
       self.updateStuff()
     }, this)
   },
-  
+
   getPlatform : function(iRom){
     return this.associatedPlatform
   },
-  
+
   getHtmlCoverElement : function(iRom){
     throw 'must be overriden'
   },
-  
+
   getNoCoverPath : function(){
     return Path.join(__dirname, '..','shared','no_cover.png')
   },
-  
+
   updateCover : function(iRom, iResolvedCoverPath){
     var self = this
     if(iRom && iResolvedCoverPath){
-    
+
       console.log('before updating '+iRom+' with '+iResolvedCoverPath)
       if(!iResolvedCoverPath) return
-      process.nextTick(function(){      
+      process.nextTick(function(){
         var htmlCoverElement = self.getHtmlCoverElement(iRom)
         console.log('updating '+htmlCoverElement)
-        if(htmlCoverElement){        
-          htmlCoverElement.css("background-image", "url('"+encodeURI(iResolvedCoverPath)+"')")        
-        }             
+        if(htmlCoverElement){
+          htmlCoverElement.css("background-image", "url('"+encodeURI(iResolvedCoverPath)+"')")
+        }
       })
-      
+
     }else if(iRom && typeof(iResolvedCoverPath) == 'undefined'){
-    
+
       if(iRom.getIllustrationPath){
         self.updateCover(iRom, iRom.getIllustrationPath())
       }
-      
+
     }else if(typeof(iRom) == 'undefined' && typeof(iResolvedCoverPath) == 'undefined'){
-    
+
       if(self.focusedRom && self.focusedRom.getIllustrationPath){
         self.updateCover(self.focusedRom, self.focusedRom.getIllustrationPath())
       }
-      
-    }    
+
+    }
   },
-  
+
   addIllustrationProvider : function(iRomsCollection){
     var self = this
     var getFirstResolvedPath = function(iPaths){
       if(!iPaths) return Path.resolve(self.getNoCoverPath())
-      var illustrationPath = iPaths[0]          
+      var illustrationPath = iPaths[0]
       if(Fs.existsSync(illustrationPath)){
         return Path.resolve(illustrationPath)
       }
       return Path.resolve(self.getNoCoverPath())
     }
-    
+
     for(var i = 0; i<iRomsCollection.size(); i++){
-      var currentRom = iRomsCollection.at(i)        
+      var currentRom = iRomsCollection.at(i)
       currentRom.getIllustrationPath = (
       function(iRom, iPlatform){
         return function(){
@@ -175,32 +176,39 @@ exports.PlatformView = Backbone.View.extend({
             console.log('before call updateCover, illustrationPath='+illustrationPath)
             self.updateCover(iRom, illustrationPath)
           })
-          
+
           return getFirstResolvedPath(illustrationPathes)
         }
       })(currentRom, this.getPlatform(currentRom))
     }
   },
-  
-  updateTitle : function(){    
+
+  updateTitle : function(){
     if(this.focusedRom){
       $('#romTitle').html(this.focusedRom.get('title'))
     }
   },
-  
+
   updateStats : function(){
     if(this.focusedRom && this.getPlatform(this.focusedRom) && this.statsView){
-      this.statsView.forceUpdate(this.focusedRom, this.getPlatform(this.focusedRom))      
+      this.statsView.forceUpdate(this.focusedRom, this.getPlatform(this.focusedRom))
     }
   },
-  
+
+  updateLogo : function(){
+    var logoElement = $('#logoPlatform')
+    if(logoElement){
+      logoElement.css("background-image", "url('"+encodeURI(this.getPlatform(this.focusedRom).getLogoPath())+"')")
+    }
+  },
+
   recreateStats : function(){
     var StatsView = BABB.coreRequire('stats').StatsView
     this.statsView = new StatsView({el:'#stats'})
   },
-  
+
   recreateGraphicalRomList : function(iRomsCollection){
     throw 'must be overriden'
-  },
-  
+  }
+
 })

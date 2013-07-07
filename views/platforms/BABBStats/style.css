@@ -55,7 +55,11 @@
 }
 
 #platformBody{
-  background-image : url('../shared/htmlbg.png');
+  background-image : url('./clock_reversed.gif');
+  background-color: white;
+  background-repeat:no-repeat;
+  background-size: auto 100%;
+  background-position-x: -400;
   width:100%;
   height:100%;
 }
