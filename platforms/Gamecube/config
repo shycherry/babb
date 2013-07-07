@@ -1,0 +1,9 @@
+﻿//config for Gamecube platform
+//used emulator : Dolphin 3.5
+
+exports.PlatformConfig = {
+  displayName : 'Gamecube',
+  emulatorPath : 'Z:/Developpement/BABB/emulateurs/Dolphin/Dolphin.exe',
+  romsPaths : ['Z:/ISOs/ISOs GC'],
+  romsExtensions : ['.iso', '.gcm'],
+}
