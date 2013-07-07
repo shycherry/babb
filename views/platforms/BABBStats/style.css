@@ -16,6 +16,13 @@
   width :100%;
 }
 
+.rom #platformLogo{
+  position: fixed;
+  top: 0;
+  width: 50%;
+  height: auto;
+}
+
 .rom{
   font-size : 1.5em;
   font-weight: bold;

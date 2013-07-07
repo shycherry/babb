@@ -4,4 +4,9 @@
   <%}%> 
 >
   <div id="title"><%= item.get("title") %></div>
+  <div id="platformLogo" 
+  	<% if(item.get('platform')) {%>
+  	  style="background-image:url('<%= encodeURI(item.get('platform').getLogoPath())%>')"
+  	<%}%>
+  >
 </div>
