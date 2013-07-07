@@ -5,5 +5,5 @@ exports.PlatformConfig = {
   displayName : 'Dreamcast',
   emulatorPath : 'Z:/Developpement/BABB/emulateurs/nullDC 1.04/nullDC_Win32_Release-NoTrace.exe',
   romsPaths : ['Z:/ISOs/ISOs DC'],
-  romsExtensions : ['.iso', '.cdi'],
+  romsExtensions : ['.iso', '.cdi', '.mds'],
 }
