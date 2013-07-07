@@ -64,7 +64,7 @@ function exec(command, options, iPlatform, iRom){
 function execFile(command, args, options, iPlatform, iRom){
   invokeChildProcess(
     command,
-    null,
+    args,
     options,
     function(command, args, options){
       return ChildProcess.execFile(command, args, options, function(err, stdout, stderr){

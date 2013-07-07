@@ -3,6 +3,7 @@
 exports.Platform = BABBPlatform.extend({
   runRom : function (iPlatform, iRom){
     if(iRom){
+      var emulatorPath = this.getPlatformConfig().emulatorPath
       var selectedRomPath = iRom.get('path')
       if(selectedRomPath){
         var Spawner = global.BABB.Utils.Spawner
