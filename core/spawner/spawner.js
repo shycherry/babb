@@ -17,7 +17,7 @@ function invokeChildProcess(command, args, options, childProcessFunction, iPlatf
   global.BABB.EventEmitter.trigger('prepareRun', iRom, iPlatform)
 
   var killidProcess = ChildProcess.spawn(
-    global.BABB.GlobalConfig.killidPath,
+    Path.basename(global.BABB.GlobalConfig.killidPath),
     [cmdProcess.pid, iPlatform.get('name'), iRom.get('title')],
     {cwd:Path.dirname(global.BABB.GlobalConfig.killidPath)}
   )
