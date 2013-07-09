@@ -19,8 +19,10 @@
 .rom #platformLogo{
   position: fixed;
   top: 0;
-  width: 50%;
-  height: auto;
+  width: 25%;
+  height: 25%;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .rom{
