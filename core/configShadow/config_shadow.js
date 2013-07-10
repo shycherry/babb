@@ -1,7 +1,6 @@
 ﻿var Config = global.BABB.ConfigShadowConfig
 var Fs = require('fs')
 var Path = require('path')
-var ChildProcess = require('child_process')
 var EventEmitter = global.BABB.EventEmitter
 
 
