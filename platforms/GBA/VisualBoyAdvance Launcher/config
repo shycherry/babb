@@ -1,0 +1,6 @@
+﻿//config for VisualBoyAdvance
+
+exports.LauncherConfig = {
+  name : 'VisualBoyAdvance',
+  emulatorPath : 'D:/Gameboy Advance/GameBoy Advance VisualBoyAdvance.exe'
+}

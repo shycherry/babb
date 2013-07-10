@@ -1,0 +1,6 @@
+﻿//config for nullDC 1.04
+
+exports.LauncherConfig = {
+  name : 'nullDC 1.04',
+  emulatorPath : 'Z:/Developpement/BABB/emulateurs/nullDC 1.04/nullDC_Win32_Release-NoTrace.exe'
+}

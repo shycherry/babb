@@ -1,0 +1,6 @@
+﻿//config for ePSXe 1.8
+
+exports.LauncherConfig = {
+  name : 'ePSXe 1.8',
+  emulatorPath : 'C:/Users/Vincent/Desktop/emulators/ePSXe/epsxe.exe'
+}

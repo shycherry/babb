@@ -59,7 +59,6 @@ exports.FrontendView = Backbone.View.extend({
           if(platformFile && platformFile.Platform){
             var platform = new platformFile.Platform({path:pathResolved})
             if(platform){
-              //var platform = new Platform({path : pathResolved})
               this.platformsCollection.add(platform)
             }
           }

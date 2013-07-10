@@ -144,6 +144,6 @@ exports.Platform = BABBPlatform.extend({
     updateInternals()
 
     return _playedPlatformsPathes
-  },
+  }
 
 })

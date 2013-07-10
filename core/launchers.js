@@ -18,8 +18,8 @@ var Launcher = Backbone.Model.extend({
   initialize: function(){
     this.set('id', this.cid)
 
-    if(this.getLauncherConfig().displayName){
-      this.set('name', this.getLauncherConfig().displayName)
+    if(this.getLauncherConfig().name){
+      this.set('name', this.getLauncherConfig().name)
     }
   },
 

@@ -1,0 +1,5 @@
+﻿//config for history
+
+exports.LauncherConfig = {
+  name : 'history'
+}

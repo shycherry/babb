@@ -7,15 +7,15 @@ var EventEmitter = global.BABB.EventEmitter
 var buildShadowPath = function(iRom, iPlatform){
   var shadowPath = Config.savePath
   if(iRom && iPlatform){
-    shadowPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')
+    shadowPath += Path.sep+iRom.get('title')+'_'+iPlatform.get('name')+'_'+iPlatform.getLauncher(iRom).get('name')
   }else if(iPlatform){
-    shadowPath += Path.sep+'_last_config_'+iPlatform.get('name')
+    shadowPath += Path.sep+'_last_config_'+iPlatform.get('name')+'_'+iPlatform.getLauncher(iRom).get('name')
   }
   return shadowPath
 }
 
-var buildPathesToSave = function(iPlatform){
-  var shadowConfig = iPlatform.getShadowConfig()
+var buildPathesToSave = function(iRom, iPlatform){
+  var shadowConfig = iPlatform.getLauncher(iRom).getShadowConfig()
   var pathes = []
   if(shadowConfig){
 
@@ -38,7 +38,7 @@ exports.save = function(iRom, iPlatform){
     return
   }
   var savePath = buildShadowPath(iRom, iPlatform)
-  buildPathesToSave(iPlatform)
+  buildPathesToSave(iRom, iPlatform)
   preparePath(savePath)
 }
 

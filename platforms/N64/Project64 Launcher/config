@@ -1,0 +1,6 @@
+﻿//config for Project64
+
+exports.LauncherConfig = {
+  name : 'Project64',
+  emulatorPath : 'C:/Program Files (x86)/Project64 1.6/Project64.exe'
+}

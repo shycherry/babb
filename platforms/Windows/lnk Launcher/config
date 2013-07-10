@@ -1,0 +1,5 @@
+﻿//config for LNKLauncher
+
+exports.LauncherConfig = {
+  name : 'LNKLauncher'
+}

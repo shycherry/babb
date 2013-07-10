@@ -1,0 +1,6 @@
+﻿//config for zsnesw
+
+exports.LauncherConfig = {
+  name : 'zsnesw',
+  emulatorPath : 'D:/SNES/zsnesw.exe'
+}

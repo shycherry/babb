@@ -1,0 +1,6 @@
+﻿//config for Kega Fusion
+
+exports.LauncherConfig = {
+  name : 'Kega Fusion',
+  emulatorPath : 'D:/Sega Mega Drive (Sega Genesis)/Sega Mega Drive Fusion.exe',
+}

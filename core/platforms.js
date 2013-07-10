@@ -7,7 +7,10 @@ var Path = require('path')
 var Fs = require('fs')
 var Sniffer = BABB.coreRequire('sniffer')
 var Roms = BABB.coreRequire('roms')
+var Launchers = BABB.coreRequire('launchers')
+var LauncherMapper = BABB.coreRequire('launcherMapper')
 var FilenamesFilter = BABB.Utils.FilenamesFilter
+
 
 var _platformsCollection = null
 
@@ -24,11 +27,14 @@ var Platform = Backbone.Model.extend({
   },
 
   _platformConfig : null,
+  _launchers : null,
 
   initialize: function Platform(){
     this.set('id', this.cid)
 
     _.bindAll(this,'_defaultRomsProvider')
+
+    this.findLaunchers();
 
     if(this.getPlatformConfig().platformName){
       this.set('name', this.getPlatformConfig().platformName)
@@ -37,6 +43,32 @@ var Platform = Backbone.Model.extend({
     if(this.getPlatformConfig().viewName){
       this.set('viewName', this.getPlatformConfig().viewName)
     }
+  },
+
+  findLaunchers : function(){
+    var self = this
+    self._launchers = new Launchers.LaunchersCollection()
+    var platformDir = self.get('path')
+    var localEntries = Fs.readdirSync(platformDir)
+
+    localEntries.forEach(function(iDirectoryEntryName){
+      var pathResolved = Path.join(platformDir, iDirectoryEntryName)
+      var requireLauncherPath = pathResolved+Path.sep+'launcher.js'
+
+      if(Fs.existsSync(requireLauncherPath)){
+        var launcherFile = require(pathResolved+Path.sep+'launcher.js')
+
+        if(launcherFile && launcherFile.Launcher){
+          var launcher = new launcherFile.Launcher({path:pathResolved})
+          if(launcher){
+            self._launchers.add(launcher)
+          }
+        }
+
+      }
+
+    })
+
   },
 
   getPlatformConfig : function(){
@@ -103,28 +135,43 @@ var Platform = Backbone.Model.extend({
 
   },
 
-  runRom : function (iPlatform, iRom){
-    console.log('using default runRom')
-    if(iRom){
-      var emulatorPath = this.getPlatformConfig().emulatorPath
-      var selectedRomPath = iRom.get('path')
-      if(selectedRomPath){
-        var Spawner = global.BABB.Utils.Spawner
-        var Path = require('path')
-        Spawner.spawn(
-          emulatorPath,
-          [selectedRomPath],
-          {cwd : Path.dirname(emulatorPath)},
-          iPlatform,
-          iRom
-        )
-      }
+  getLauncherFromName : function(iRunnerName){
+    return this._launchers.where({name:iRunnerName})[0]
+  },
+
+  getNextLauncher : function(iRom){
+    var currentLauncher = this.getLauncher(iRom)
+    var currentLauncherIdx = this._launchers.lastIndexOf(currentLauncher)
+    var nextLauncherIdx = (currentLauncherIdx+1) % this._launchers.size()
+    return this._launchers.at(nextLauncherIdx)
+  },
+
+  getLauncher : function(iRom){
+    var mappedLauncher = LauncherMapper.getLauncher(iRom, this)
+
+    if(!mappedLauncher){
+      var defaultLauncherName = this.getPlatformConfig().defaultLauncherName
+      if(defaultLauncherName)
+        mappedLauncher = this.getLauncherFromName(defaultLauncherName)
     }
+
+    if(!mappedLauncher)
+      mappedLauncher = this._launchers.at(0)
+
+    return mappedLauncher
   },
 
   isAvailable : function (){
-    var emulatorPath = this.getPlatformConfig().emulatorPath
-    return Fs.existsSync(emulatorPath)
+    var isThereAtLeastOneLauncherAvailable = false
+
+    for(var i = 0; i<= this._launchers.length; i++){
+      if(this._launchers.at(i).isAvailable){
+        isThereAtLeastOneLauncherAvailable = true
+        break
+      }
+    }
+
+    return isThereAtLeastOneLauncherAvailable
   },
 
   toString: function(){

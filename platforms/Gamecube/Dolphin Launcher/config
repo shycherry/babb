@@ -1,0 +1,6 @@
+﻿//config for Dolphin
+
+exports.LauncherConfig = {
+  name : 'Dolphin',
+  emulatorPath : 'Z:/Developpement/BABB/emulateurs/Dolphin/Dolphin.exe'
+}

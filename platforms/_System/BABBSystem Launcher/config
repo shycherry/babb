@@ -1,0 +1,5 @@
+﻿//config for BABBSystem
+
+exports.LauncherConfig = {
+  name : 'BABBSystem'
+}
