@@ -1,6 +1,6 @@
 ﻿//config for Windows
 
 exports.PlatformConfig = {
-  displayName : 'Windows',
+  platformName : 'Windows',
   romsPaths : [__dirname+'/Execs'],
 }

@@ -1,7 +1,7 @@
 ﻿//config for BABBStats
 
 exports.PlatformConfig = {
-  displayName : 'BABB Stats',
+  platformName : 'BABB Stats',
   viewName : 'BABBStats',
   nonPlayable: true,
 }

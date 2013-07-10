@@ -30,8 +30,8 @@ var Platform = Backbone.Model.extend({
 
     _.bindAll(this,'_defaultRomsProvider')
 
-    if(this.getPlatformConfig().displayName){
-      this.set('name', this.getPlatformConfig().displayName)
+    if(this.getPlatformConfig().platformName){
+      this.set('name', this.getPlatformConfig().platformName)
     }
 
     if(this.getPlatformConfig().viewName){

@@ -2,7 +2,7 @@
 //used emulator : zsnesw
 
 exports.PlatformConfig = {
-  displayName : 'SNES',
+  platformName : 'SNES',
   emulatorPath : 'D:/SNES/zsnesw.exe',
   romsPaths : ['D:/SNES/rom'],
   romsExtensions : ['.zip'],

@@ -2,7 +2,7 @@
 //used emulator : epsxe 1.8
 
 exports.PlatformConfig = {
-  displayName : 'PSOne',
+  platformName : 'PSOne',
   emulatorPath : 'C:/Users/Vincent/Desktop/emulators/ePSXe/epsxe.exe',
   romsPaths : ['Z:/ISOs/ISOs PSX', 'Z:/ISOs/ISOs PSX/Crash Bandicoot 3' ],
   romsExtensions : ['.iso', '.bin'],

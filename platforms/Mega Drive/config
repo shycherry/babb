@@ -2,7 +2,7 @@
 //used emulator : Kega Fusion 3.6
 
 exports.PlatformConfig = {
-  displayName : 'Mega Drive',
+  platformName : 'Mega Drive',
   emulatorPath : 'D:/Sega Mega Drive (Sega Genesis)/Sega Mega Drive Fusion.exe',
   romsPaths : ['D:/Sega Mega Drive (Sega Genesis)/roms'],
   romsExtensions : ['.zip'],

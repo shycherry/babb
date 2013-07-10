@@ -2,7 +2,7 @@
 //used emulator : epsxe
 
 exports.PlatformConfig = {
-  displayName : 'PlayStation 2',
+  platformName : 'PlayStation 2',
   emulatorPath : 'Z:/Developpement/BABB/emulateurs/PCSX2 0.9.8/pcsx2-r4600.exe',
   romsPaths : ['Z:/ISOs/ISOs PS2'],
   romsExtensions : ['.iso'],

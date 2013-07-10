@@ -2,7 +2,7 @@
 //used emulator : notepad ;)
 
 exports.PlatformConfig = {    
-  displayName : 'Dummy MAME',
+  platformName : 'Dummy MAME',
   emulatorPath : 'notepad.exe',
   romsPaths : [__dirname+'/Roms'],
   romsExtensions : ['.rom'],

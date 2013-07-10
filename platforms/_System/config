@@ -1,7 +1,7 @@
 ﻿//config for System
 
 exports.PlatformConfig = {
-  displayName : 'System',
+  platformName : 'System',
   romsPaths : [__dirname+'/Execs'],
   nonPlayable: true,
 }

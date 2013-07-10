@@ -2,7 +2,7 @@
 //used emulator : VisualBoy Advance 1.8.0 beta 3
 
 exports.PlatformConfig = {
-  displayName : 'GBA',
+  platformName : 'GBA',
   emulatorPath : 'D:/Gameboy Advance/GameBoy Advance VisualBoyAdvance.exe',
   romsPaths : ['D:/Gameboy Advance/roms'],
   romsExtensions : ['.zip'],

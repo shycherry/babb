@@ -3,7 +3,7 @@
 
 exports.PlatformConfig = {
   viewName : 'MAME',
-  displayName : 'MAME',
+  platformName : 'MAME',
   emulatorPath : 'Z:/Developpement/BABB/emulateurs/mame/mamepp.exe',
   romsPaths : ['D:/MAME/ROMS'],
   romsExtensions : ['.zip'],
