@@ -180,36 +180,6 @@ exports.FrontendView = Backbone.View.extend({
     }else if(this.currentValidatedRom && this.currentValidatedPlatform){
       this.currentValidatedPlatform.runRom(this.currentValidatedPlatform, this.currentValidatedRom)
     }
-  },
-
-  bindRomsCollection : function(iPlatform){
-    var self = this
-    this.romsCollectionView.doSniff(iPlatform)
-
-    this.romsCollectionView.on('selectionChanged', function(){
-      if(self.romsCollectionView.getSelected()){
-        BABB.EventEmitter.trigger('requestControledViewChange', self.romsCollectionView)
-      }
-    })
-
-    this.romsCollectionView.on('selectionValidated', function(parRom){
-      if(parRom){
-        if($(BABB.RomsConfig.romsContainerId).hasClass('focus')){
-          var selectedPlatform = self.platformSelectionView.getSelected()
-          if(selectedPlatform){
-            selectedPlatform.runRom(parRom)
-          }
-        }else{
-          BABB.EventEmitter.trigger('requestControledViewChange', self.romsCollectionView)
-        }
-      }else{
-        self.romsCollectionView.selectNext()
-      }
-    })
-
-    this.romsCollectionView.on('back', function(){
-      BABB.EventEmitter.trigger('requestControledViewChange', self.platformSelectionView)
-    })
-
   }
+
 })
