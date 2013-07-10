@@ -1,9 +1,7 @@
 ﻿//config for GameGear
-//used emulator : Kega 3.6
 
 exports.PlatformConfig = {
   platformName : 'Game Gear',
-  emulatorPath : 'D:/Sega Mega Drive (Sega Genesis)/Sega Mega Drive Fusion.exe',
   romsPaths : ['C:/Users/Vincent/Desktop/Roms/GAME GEAR'],
   romsExtensions : ['.zip', '.7z', '.gg'],
 }

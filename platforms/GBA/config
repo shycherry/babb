@@ -1,12 +1,7 @@
 ﻿//config for GameBoy Advance
-//used emulator : VisualBoy Advance 1.8.0 beta 3
 
 exports.PlatformConfig = {
   platformName : 'GBA',
-  emulatorPath : 'D:/Gameboy Advance/GameBoy Advance VisualBoyAdvance.exe',
   romsPaths : ['D:/Gameboy Advance/roms'],
-  romsExtensions : ['.zip'],
-  ShadowConfig : {
-    filesPaths : ['D:/Gameboy Advance/vba.ini'],
-  },
+  romsExtensions : ['.zip']
 }

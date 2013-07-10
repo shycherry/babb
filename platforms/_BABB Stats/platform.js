@@ -125,17 +125,6 @@ var statsBasedRomsProvider = function(parReport, ioRomsCollection){
 
 exports.Platform = BABBPlatform.extend({
 
-  isAvailable : function(){
-    return true
-  },
-
-  runRom : function (iPlatform, iRom){
-    var romPlatform = iRom.get('platform')
-    if(iRom && romPlatform){
-      romPlatform.runRom(romPlatform, iRom)
-    }
-  },
-
   getRomsProvider : function(){
     return statsBasedRomsProvider
   },

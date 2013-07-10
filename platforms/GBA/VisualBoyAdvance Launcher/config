@@ -2,5 +2,8 @@
 
 exports.LauncherConfig = {
   name : 'VisualBoyAdvance',
-  emulatorPath : 'D:/Gameboy Advance/GameBoy Advance VisualBoyAdvance.exe'
+  emulatorPath : 'D:/Gameboy Advance/GameBoy Advance VisualBoyAdvance.exe',
+  ShadowConfig : {
+    filesPaths : ['D:/Gameboy Advance/vba.ini']
+  }
 }

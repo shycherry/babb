@@ -175,10 +175,14 @@ exports.FrontendView = Backbone.View.extend({
   },
 
   runRomIfp : function(){
-    if( this.currentValidatedPlatform && !this.currentValidatedPlatform.isAvailable()){
-      BABB.EventEmitter.trigger('error', this.currentValidatedPlatform+' is not available')
-    }else if(this.currentValidatedRom && this.currentValidatedPlatform){
-      this.currentValidatedPlatform.runRom(this.currentValidatedPlatform, this.currentValidatedRom)
+
+    if(this.currentValidatedPlatform && this.currentValidatedRom){
+      var currentLauncher =  this.currentValidatedPlatform.getLauncher(this.currentValidatedRom)
+      if(currentLauncher && !currentLauncher.isAvailable()){
+        BABB.EventEmitter.trigger('error', this.currentLauncher+' is not available')
+      }else if(currentLauncher){
+        currentLauncher.runRom(this.currentValidatedPlatform, this.currentValidatedRom)
+      }
     }
   }
 
