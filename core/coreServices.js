@@ -6,7 +6,6 @@ var BABB = global.BABB
 var Fs = require('fs')
 var Path = require('path')
 var Sniffer = BABB.coreRequire('sniffer')
-var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 var RomsCollectionView = BABB.coreRequire('roms').RomsCollectionView
 var KeysView = BABB.coreRequire('keysController').KeysView
 

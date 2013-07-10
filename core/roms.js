@@ -4,7 +4,6 @@ var _ = global._
 var BABB = global.BABB
 
 var Sniffer = BABB.coreRequire('sniffer')
-var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
 
 var Rom = Backbone.Model.extend({
   defaults: {
@@ -28,7 +27,7 @@ var RomsCollection = Backbone.Collection.extend({
   }
 })
 
-var RomsCollectionView = ItemsCollectionView.extend({
+var RomsCollectionView = Backbone.View.extend({
   itemsCollection : new RomsCollection(),
 
   initialize : function() {

@@ -15,8 +15,6 @@ BABB.EventEmitter.on('platformsCollectionChanged', function(iPlatformsCollection
   _platformsCollection = iPlatformsCollection
 })
 
-var ItemsCollectionView = BABB.coreRequire('itemsCollection').ItemsCollectionView
-
 var Platform = Backbone.Model.extend({
   defaults: {
     id : "x",
@@ -30,7 +28,7 @@ var Platform = Backbone.Model.extend({
   initialize: function Platform(){
     this.set('id', this.cid)
 
-    _.bindAll(this,'defaultRomsProvider')
+    _.bindAll(this,'_defaultRomsProvider')
 
     if(this.getPlatformConfig().displayName){
       this.set('name', this.getPlatformConfig().displayName)
@@ -69,7 +67,7 @@ var Platform = Backbone.Model.extend({
   },
 
   getRomsProvider: function(){
-    return this.defaultRomsProvider
+    return this._defaultRomsProvider
   },
 
   getFilteredFilesMap: function(parReport){
@@ -91,7 +89,7 @@ var Platform = Backbone.Model.extend({
     return null
   },
 
-  defaultRomsProvider : function(parReport, ioRomsCollection){
+  _defaultRomsProvider : function(parReport, ioRomsCollection){
 
     var filteredFilesMap = this.getFilteredFilesMap(parReport)
 

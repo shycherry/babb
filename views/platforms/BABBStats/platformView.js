@@ -4,7 +4,7 @@ var KeysController = BABB.coreRequire('keysController')
 var BasePlatformView = BABB.platformsViewsRequire('default').PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
-  
+
   getCoverflowTemplatePath : function(){
     return __dirname+'/item-template.html'
   },
