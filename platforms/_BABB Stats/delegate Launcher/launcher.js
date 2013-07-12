@@ -7,8 +7,11 @@ exports.Launcher = BABBLauncher.extend({
 
   runRom : function (iPlatform, iRom){
     var romPlatform = iRom.get('platform')
-    if(iRom && romPlatform){
-      romPlatform.runRom(romPlatform, iRom)
+    if(romPlatform && iRom){
+      var platformLauncher = romPlatform.getLauncher(iRom)
+      if(platformLauncher){
+        platformLauncher.runRom(romPlatform, iRom)
+      }
     }
   }
 })
