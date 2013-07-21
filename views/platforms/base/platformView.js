@@ -16,10 +16,11 @@ exports.PlatformView = Backbone.View.extend({
 
   updateStuff : function(){
     var self = this
-    self.updateTitle()
+    self.updateRomTitle()
+    self.updateLauncherName()    
     self.updateStats()
     self.updateCover()
-    self.updateLogo()
+    self.updateLogos()
   },
 
   initialize : function(){
@@ -183,9 +184,16 @@ exports.PlatformView = Backbone.View.extend({
     }
   },
 
-  updateTitle : function(){
+  updateRomTitle : function(){
     if(this.focusedRom){
       $('#romTitle').html(this.focusedRom.get('title'))
+    }
+  },
+
+  updateLauncherName : function(){
+    if(this.focusedRom){
+      var launcher = this.getPlatform(this.focusedRom).getLauncher(this.focusedRom)
+      $('#launcherName').html('<i>Launched by:</i><br/><b>'+launcher.get('name')+'</b>')
     }
   },
 
@@ -195,11 +203,11 @@ exports.PlatformView = Backbone.View.extend({
     }
   },
 
-  updateLogo : function(){
-    var logoElement = $('#logoPlatform')
-    if(logoElement){
-      logoElement.css("background-image", "url('"+encodeURI(this.getPlatform(this.focusedRom).getLogoPath())+"')")
-    }
+  updateLogos : function(){
+    var logoPlatformElement = $('#logoPlatform')    
+    if(logoPlatformElement){
+      logoPlatformElement.css("background-image", "url('"+encodeURI(this.getPlatform(this.focusedRom).getLogoPath())+"')")
+    }    
   },
 
   recreateStats : function(){

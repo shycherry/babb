@@ -55,6 +55,19 @@
   background-position:center;
 }
 
+#launcherName{
+  z-index:99;
+  position:fixed;
+  background-color:rgba(255,255,255,0.9);
+  font-size: 1.2em;
+  width:12%;
+  height:12%;
+  top:0%;
+  left:12%;
+  overflow:auto; 
+}
+
+
 #platformBody{
   background-image : url('../shared/htmlbg.png');
   width:100%;
