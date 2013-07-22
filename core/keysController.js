@@ -26,6 +26,9 @@ exports.KeysView = Backbone.View.extend({
       if( -1 != BABB.Controls.back.indexOf(keyEvent.keyCode)){
         BABB.EventEmitter.trigger('control-back')
       }
+      if( -1 != BABB.Controls.change_launcher.indexOf(keyEvent.keyCode)){
+        BABB.EventEmitter.trigger('change-launcher')
+      }
       if( -1 != BABB.Controls.up.indexOf(keyEvent.keyCode)){
         BABB.EventEmitter.trigger('control-up')
       }

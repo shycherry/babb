@@ -70,6 +70,10 @@ exports.PlatformView = Backbone.View.extend({
       }
     }, this)
 
+    BABB.EventEmitter.on('change-launcher', function(){
+      console.log('todo : change launcher')
+    }, this)
+
     BABB.EventEmitter.on('control-right', function(){
       var covers = CoversProvider.provideCovers(self.focusedRom, self.getPlatform(self.focusedRom))
       var nbCovers = covers.length

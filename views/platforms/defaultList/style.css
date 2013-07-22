@@ -44,6 +44,10 @@
   z-index:10;  
 }
 
+#stats:empty{
+  display: none;
+}
+
 #logoPlatform{
   z-index:99;
   position:fixed;
@@ -67,6 +71,10 @@
   top:0%;
   left:25%;
   overflow:auto; 
+}
+
+#launcherName:empty{
+  display: none;
 }
 
 #images{

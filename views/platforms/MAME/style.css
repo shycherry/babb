@@ -48,6 +48,10 @@
   overflow:auto;
 }
 
+#stats:empty{
+  display: none;
+}
+
 #logoPlatform{
   z-index:99;
   position:fixed;
@@ -72,6 +76,10 @@
   height:30%;
   overflow-y:auto;  
   pointer-events:all;
+}
+
+#history-container:empty{
+  display: none;
 }
 
 @-webkit-keyframes text-appear

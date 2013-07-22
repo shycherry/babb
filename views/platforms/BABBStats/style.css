@@ -50,6 +50,10 @@
   overflow:auto;
 }
 
+#stats:empty{
+  display: none;
+}
+
 #logoPlatform{
   z-index:99;
   position:fixed;
