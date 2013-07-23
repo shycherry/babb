@@ -6,6 +6,7 @@ var BABB = global.BABB
 var Fs = require('fs')
 var Path = require('path')
 var Sniffer = BABB.coreRequire('sniffer')
+var LauncherMapper = BABB.coreRequire('launcherMapper')
 var ConfigShadow = BABB.coreRequire('configShadow')
 var RomsCollectionView = BABB.coreRequire('roms').RomsCollectionView
 var KeysView = BABB.coreRequire('keysController').KeysView
@@ -164,6 +165,7 @@ exports.FrontendView = Backbone.View.extend({
 
     BABB.EventEmitter.on('prepareRun', function(iRom, iPlatform){
       self.lockRun = true
+      LauncherMapper.mapLauncher(iRom, iPlatform, iPlatform.getLauncher(iRom))
       ConfigShadow.save(null, iPlatform)
       ConfigShadow.restore(iRom, iPlatform)
     })
@@ -178,7 +180,7 @@ exports.FrontendView = Backbone.View.extend({
 
   runRomIfp : function(){
 
-    if(this.currentValidatedPlatform && this.currentValidatedRom && !this.lockRun){
+    if(this.currentValidatedPlatform && this.currentValidatedRom && ! this.lockRun){
       var currentLauncher =  this.currentValidatedPlatform.getLauncher(this.currentValidatedRom)
       if(currentLauncher && !currentLauncher.isAvailable()){
         BABB.EventEmitter.trigger('error', this.currentLauncher+' is not available')
