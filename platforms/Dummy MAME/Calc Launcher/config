@@ -1,0 +1,6 @@
+﻿//config for calc
+
+exports.LauncherConfig = {
+  name : 'calc',
+  emulatorPath : 'calc.exe'
+}
