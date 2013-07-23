@@ -70,7 +70,7 @@ exports.PlatformView = Backbone.View.extend({
       }
     }, this)
 
-    BABB.EventEmitter.on('change-launcher', function(){
+    BABB.EventEmitter.on('control-change-launcher', function(){
       console.log('todo : change launcher')
     }, this)
 
