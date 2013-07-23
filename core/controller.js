@@ -163,11 +163,13 @@ exports.FrontendView = Backbone.View.extend({
     })
 
     BABB.EventEmitter.on('prepareRun', function(iRom, iPlatform){
+      self.lockRun = true
       ConfigShadow.save(null, iPlatform)
       ConfigShadow.restore(iRom, iPlatform)
     })
 
     BABB.EventEmitter.on('afterRun', function(iRom, iPlatform){
+      self.lockRun = false
       ConfigShadow.save(iRom, iPlatform)
       ConfigShadow.restore(null, iPlatform)
     })
@@ -176,7 +178,7 @@ exports.FrontendView = Backbone.View.extend({
 
   runRomIfp : function(){
 
-    if(this.currentValidatedPlatform && this.currentValidatedRom){
+    if(this.currentValidatedPlatform && this.currentValidatedRom && !this.lockRun){
       var currentLauncher =  this.currentValidatedPlatform.getLauncher(this.currentValidatedRom)
       if(currentLauncher && !currentLauncher.isAvailable()){
         BABB.EventEmitter.trigger('error', this.currentLauncher+' is not available')
