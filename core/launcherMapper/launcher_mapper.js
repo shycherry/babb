@@ -17,10 +17,7 @@ var writeFile = function(iPath, data){
   if( ! Fs.existsSync(Config.savePath)){
     Fs.mkdirSync(Config.savePath)
   }
-  if( ! Fs.existsSync(iPath)){
-    Fs.writeFileSync(iPath, data)
-  }
-
+  Fs.writeFileSync(iPath, data)
 }
 
 exports.mapLauncher = function(iRom, iPlatform, iLauncher){

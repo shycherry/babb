@@ -4,6 +4,7 @@ var Path = require('path')
 var Uuid = BABB.coreRequire('uuid')
 var KeysController = BABB.coreRequire('keysController')
 var CoversProvider = BABB.coreRequire('coversProvider')
+var LauncherMapper = BABB.coreRequire('launcherMapper')
 
 exports.PlatformView = Backbone.View.extend({
   lastSelectedRomId : 0,
@@ -71,7 +72,10 @@ exports.PlatformView = Backbone.View.extend({
     }, this)
 
     BABB.EventEmitter.on('control-change-launcher', function(){
-      console.log('todo : change launcher')
+      var platform = self.getPlatform(self.focusedRom)
+      var newLauncher = platform.getNextLauncher(self.focusedRom)
+      LauncherMapper.mapLauncher(self.focusedRom, platform, newLauncher)
+      self.updateLauncherName()
     }, this)
 
     BABB.EventEmitter.on('control-right', function(){
