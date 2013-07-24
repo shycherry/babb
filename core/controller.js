@@ -165,7 +165,6 @@ exports.FrontendView = Backbone.View.extend({
 
     BABB.EventEmitter.on('prepareRun', function(iRom, iPlatform){
       self.lockRun = true
-      LauncherMapper.mapLauncher(iRom, iPlatform, iPlatform.getLauncher(iRom))
       ConfigShadow.save(null, iPlatform)
       ConfigShadow.restore(iRom, iPlatform)
     })
