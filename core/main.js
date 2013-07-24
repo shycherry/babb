@@ -2,27 +2,28 @@
 global.$ = $
 global.Backbone = Backbone
 global._ = _
+var Path = require('path')
 
-global.BABB = require('../config.cfg').config
+global.BABB = require('..'+Path.sep+'config.cfg').config
 global.BABB.EventEmitter = new Backbone.View()
 
-var basePlatformViewPath = process.cwd()+'/views/platforms/'
-var basePlatformSelectionViewPath = process.cwd()+'/views/platformSelection/'
+var basePlatformViewPath = process.cwd()+Path.sep+'views'+Path.sep+'platforms'+Path.sep
+var basePlatformSelectionViewPath = process.cwd()+Path.sep+'views'+Path.sep+'platformSelection'+Path.sep
 
 global.BABB.coreRequire = function(iModuleName){
-  return require(process.cwd()+'/core/'+iModuleName)
+  return require(process.cwd()+Path.sep+'core'+Path.sep+iModuleName)
 }
 
 global.BABB.viewsRequire = function(iModuleName){
-  return require(process.cwd()+'/views/'+iModuleName)
+  return require(process.cwd()+Path.sep+'views'+Path.sep+iModuleName)
 }
 
 global.BABB.messagesViewsRequire = function(iModuleName){
-  return require(process.cwd()+'/views/messages/'+iModuleName+'/messagesView.js')
+  return require(process.cwd()+Path.sep+'views'+Path.sep+'messages'+Path.sep+iModuleName+Path.sep+'view.js')
 }
 
 global.BABB.platformsViewsRequire = function(iModuleName){
-  return require(basePlatformViewPath+iModuleName+'/platformView.js')
+  return require(basePlatformViewPath+iModuleName+Path.sep+'view.js')
 }
 
 global.BABB.platformViewLayoutPath = function(iPlaformViewName){
@@ -34,7 +35,7 @@ global.BABB.platformSelectionViewLayoutPath = function(iPlatformSelectionViewNam
 }
 
 global.BABB.platformSelectionViewsRequire = function(iModuleName){
-  return require(basePlatformSelectionViewPath+iModuleName+'/PlatformSelectionView.js')
+  return require(basePlatformSelectionViewPath+iModuleName+Path.sep+'view.js')
 }
 
 global.BABB.Utils = {
