@@ -83,7 +83,7 @@ var PlatformSelectionView = Backbone.View.extend({
 
     BABB.EventEmitter.on('requestRenderPlatform', function(iPlatform){
 
-        CoreServices.renderPlatform(iPlatform, null, (function(iPlatform){
+        CoreServices.renderPlatformView(iPlatform, null, (function(iPlatform){
           return function(){
             BABB.EventEmitter.trigger('platformRendered',iPlatform)
           }
@@ -154,7 +154,7 @@ var PlatformSelectionView = Backbone.View.extend({
       if(! iPlatform.isAvailable()){
         dynabody.addClass('unavailable')
       }
-      CoreServices.renderPlatform(iPlatform, dynabody)
+      CoreServices.renderPlatformView(iPlatform, dynabody)
       dynabody.insertBefore(focusedCell.children().first())
     }
   },
