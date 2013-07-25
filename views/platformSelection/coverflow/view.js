@@ -103,7 +103,7 @@ var PlatformSelectionView = Backbone.View.extend({
     }
 
     var Coverflow = BABB.coreRequire('coverflow')
-    var baseWidth = window.innerWidth/2
+    var baseWidth = window.innerWidth/3
     var coverflowModel = new Coverflow.CoverflowModel({
       template : _.template(Fs.readFileSync(__dirname+'/platform-template.html').toString()),
       height: window.innerHeight,
@@ -113,11 +113,11 @@ var PlatformSelectionView = Backbone.View.extend({
       perspective : baseWidth,
       cellWidth : baseWidth,
       cellHeight : baseWidth,
-      coverGap : baseWidth/4,
+      coverGap : baseWidth/3,
       coverOffset : baseWidth,
       zUnselected : -baseWidth,
       circularSelection : false,
-      virtualSize:2,
+      virtualSize:4,
       collection : this.platformsCollection
     })
 

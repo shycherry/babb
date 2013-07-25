@@ -1,21 +1,3 @@
-#romTitle{
-  position : fixed;
-  z-index:20;
-  width:100%;
-  top:50%;
-  text-align:center;
-  font-weight:bold;
-  font-size : 2em;
-  background-color:white;
-}
-
-.rom #title{
-  position:fixed;
-  top : 50%;
-  background-color:rgba(255,255,255,0.9);
-  width :100%;
-}
-
 .rom #platformLogo{
   position: fixed;
   top: 0;
@@ -25,66 +7,10 @@
   background-repeat: no-repeat;
 }
 
-.rom{
-  font-size : 1.5em;
-  font-weight: bold;
-  width :100%;
-  height:100%;
-  text-align:center;  
-  background-repeat:no-repeat;
-  background-size:contain;
-}
-
-#stats{
-  z-index:10;
-  background-color:rgba(255,255,255,0.8);
-  background-image : url('../shared/stats.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  position:fixed;
-  width:24%;
-  height:13%;
-  top:35%;
-  left:38%;
-  border-radius:6px;
-  overflow:auto;
-}
-
-#stats:empty{
-  display: none;
-}
-
-#logoPlatform{
-  z-index:99;
-  position:fixed;
-  width:12%;
-  height:12%;
-  top:0%;
-  left:0%;  
-  overflow:auto;
-  background-repeat:no-repeat;
-  background-size:contain;
-  background-position:center;
-}
-
 #platformBody{
   background-image : url('./clock_reversed.gif');
   background-color: white;
   background-repeat:no-repeat;
   background-size: auto 100%;
-  background-position-x: -400;
-  width:100%;
-  height:100%;
-}
-
-.coverflow .coverflow-cell{
-  opacity:.9;
-}
-
-.coverflow .coverflow-cell .focus{
-  opacity:1;
-}
-
-.coverflow .coverflow-cell:hover{
-  opacity:1;
+  background-position-x: -400;  
 }

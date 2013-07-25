@@ -1,0 +1,112 @@
+/*BACKGROUND*/
+
+#platformBody{
+  background-image : url('../shared/htmlbg.png');
+  width:100%;
+  height:100%;
+}
+
+/*LAUNCHER NAME*/
+
+#launcherName:empty{
+  display: none;
+}
+
+#launcherName{
+  z-index:99;
+  position:fixed;
+  background-color:rgba(255,255,255,0.9);
+  font-size: 1.2em;
+  width:12%;
+  height:12%;
+  top:0%;
+  overflow:auto; 
+}
+
+/* LOGO */
+
+#logoPlatform{
+  z-index:99;
+  position:fixed;
+  width:12%;
+  height:12%;
+  top:0%;
+  overflow:auto;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:center;
+}
+
+/*STATS CONTAINER*/
+
+#stats:empty{
+  display: none;
+}
+
+#stats{
+  position:fixed;
+  z-index:10;  
+  background-color:rgba(255,255,255,0.8);
+  background-image : url('../shared/stats.png');
+  background-size: contain;
+  background-repeat: no-repeat;  
+  overflow:auto;
+}
+
+/*ROM TITLE*/
+
+#romTitle{
+  text-align:center;
+  font-weight:bold;
+  font-size : 2em;
+  background-color:white;
+}
+
+/*ROMS*/
+
+.rom #title{
+  width :100%;
+}
+
+.rom{
+  width :100%;
+  height:100%;
+  font-size : 1.5em;
+  font-weight: bold;
+  text-align:center;  
+  background-repeat:no-repeat;  
+  background-size:contain;
+}
+
+/*HISTORY CONTAINER*/
+
+#history-container:empty{
+  display: none;
+}
+
+#history-container{  
+  border-radius:6px;  
+  background-color:rgba(250,250,250,0.9);   
+  overflow-y:auto;  
+  pointer-events:all;
+}
+
+@-webkit-keyframes text-appear
+{
+  0% {
+   -webkit-transform: translate(-10px);
+    opacity:0;
+  }
+  100%{
+    -webkit-transform: translate(0px);
+    opacity:1;
+  }  
+}
+
+#history-container .title{
+  -webkit-animation:text-appear 0.5s;
+}
+
+#history-container .corpus{
+  -webkit-animation:text-appear 1s;
+}

@@ -2,15 +2,11 @@
 var Fs = require('fs')
 var KeysController = BABB.coreRequire('keysController')
 
-exports.ViewExtends = 'default'
+exports.ViewExtends = BABB.PlatformsConfig.defaultViewName
 
 var BasePlatformView = BABB.platformsViewsRequire(exports.ViewExtends).PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
-
-  getCoverflowTemplatePath : function(){
-    return __dirname+'/item-template.html'
-  },
 
   getPlatform : function(iRom){
     if(iRom && iRom.get('platform')){

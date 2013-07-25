@@ -3,7 +3,7 @@ var Fs = require('fs')
 var History = require('./history.js')
 var KeysController = BABB.coreRequire('keysController')
 
-exports.ViewExtends = 'default'
+exports.ViewExtends = BABB.PlatformsConfig.defaultViewName
 
 var BasePlatformView = BABB.platformsViewsRequire(exports.ViewExtends).PlatformView
 
@@ -40,10 +40,6 @@ exports.PlatformView = BasePlatformView.extend({
         historyContainer.scrollByLines(-historyContainer.scrollHeight)
       }
     }, this)
-  },
-
-  getCoverflowTemplatePath : function(){
-    return __dirname+'/item-template.html'
   },
 
   updateTitle : function(){
