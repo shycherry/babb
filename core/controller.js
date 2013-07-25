@@ -182,7 +182,7 @@ exports.FrontendView = Backbone.View.extend({
     if(this.currentValidatedPlatform && this.currentValidatedRom && ! this.lockRun){
       var currentLauncher =  this.currentValidatedPlatform.getLauncher(this.currentValidatedRom)
       if(currentLauncher && !currentLauncher.isAvailable()){
-        BABB.EventEmitter.trigger('error', this.currentLauncher+' is not available')
+        BABB.EventEmitter.trigger('error', currentLauncher+' is not available')
       }else if(currentLauncher){
         currentLauncher.runRom(this.currentValidatedPlatform, this.currentValidatedRom)
       }

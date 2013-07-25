@@ -201,7 +201,7 @@ exports.PlatformView = Backbone.View.extend({
   updateLauncherName : function(){
     if(this.focusedRom){
       var launcher = this.getPlatform(this.focusedRom).getLauncher(this.focusedRom)
-      $('#launcherName').html('<i>Launched by:</i><br/><b>'+launcher.get('name')+'</b>')
+      $('#launcherName').html('<i>Launch with:</i><br/><b>'+launcher.get('name')+'</b>')
     }
   },
 

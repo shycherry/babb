@@ -1,0 +1,74 @@
+#romTitle{
+  display:none;
+}
+
+.rom #title{
+  font-size : 1em;
+  color: white;
+}
+
+.rom {
+  background-color: rgba(255,255,255,0);
+}
+
+#romscoverflow{
+  top: 7%;
+  left: 5%;
+  /*background-color: fuchsia;*/
+}
+
+#history-container{
+  position : fixed;
+  bottom : 0%;
+  left: 25%;
+  width:75%;
+  height:50%;  
+}
+
+.focus .rom{
+  background-color:rgba(0,30,197,0.8);
+}
+
+#stats{
+  width: 23.5%;
+  height: 29%;
+  top: 64.5%;
+  left: 31%;
+  color: white;
+  background-color: initial;
+}
+
+#stats:empty{
+  display: none;
+}
+
+#logoPlatform{
+  left: 29.5%;
+  top: 47%;
+}
+
+#launcherName{
+  top: 47%;
+  left: 42%;
+  color: white;
+  background-color: initial;
+}
+
+#images{
+  position:fixed;
+  width: 15%;
+  height: 22%;
+  top: 60%;
+  left: 71.5%;
+  overflow:auto;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:center;
+  background-color: rgba(255,255,255,0);
+}
+
+#platformBody{
+  background-image : url('./standardBABB.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}

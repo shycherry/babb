@@ -1,12 +1,3 @@
-.rom #platformLogo{
-  position: fixed;
-  top: 0;
-  width: 25%;
-  height: 25%;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
 #platformBody{
   background-image : url('./clock_reversed.gif');
   background-color: white;

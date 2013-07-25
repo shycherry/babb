@@ -2,6 +2,6 @@
 
 exports.PlatformConfig = {
   platformName : 'BABB Stats',
-  viewName : 'BABBStats',
+  viewName : '2BABBStats',
   nonPlayable: true,
 }

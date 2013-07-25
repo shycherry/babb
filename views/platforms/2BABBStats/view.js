@@ -1,6 +1,5 @@
 ﻿var BABB = global.BABB
 var Fs = require('fs')
-var KeysController = BABB.coreRequire('keysController')
 
 exports.ViewExtends = BABB.PlatformsConfig.defaultViewName
 
