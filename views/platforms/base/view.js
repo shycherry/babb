@@ -18,7 +18,7 @@ exports.PlatformView = Backbone.View.extend({
   updateStuff : function(){
     var self = this
     self.updateRomTitle()
-    self.updateLauncherName()    
+    self.updateLauncherName()
     self.updateStats()
     self.updateCover()
     self.updateLogos()
@@ -212,10 +212,10 @@ exports.PlatformView = Backbone.View.extend({
   },
 
   updateLogos : function(){
-    var logoPlatformElement = $('#logoPlatform')    
+    var logoPlatformElement = $('#logoPlatform')
     if(logoPlatformElement){
       logoPlatformElement.css("background-image", "url('"+encodeURI(this.getPlatform(this.focusedRom).getLogoPath())+"')")
-    }    
+    }
   },
 
   recreateStats : function(){

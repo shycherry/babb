@@ -14,13 +14,42 @@ var platformContainerDOM = null
 
 var renderView = function(iPathToView, iContainer$, iCallback){
 
-  var viewCSSPath = Path.resolve(iPathToView+Path.sep+"style.css")
-  var css = null
-  if(Fs.existsSync(viewCSSPath)){
-    viewCSSPath = Path.relative('.'+Path.sep+'core'+Path.sep, viewCSSPath)
-    css = $(window.document.createElement('link'))
-    css.attr('href', viewCSSPath)
-    css.attr('rel', 'stylesheet')
+  // retrieve all parents views pathes
+  var hierarchyViewsPathes = []
+  hierarchyViewsPathes.push(iPathToView)
+  var parentViewName = require(iPathToView+Path.sep+'view.js').ViewExtends
+  var parentViewPath = Path.resolve(iPathToView+Path.sep+'..'+Path.sep+parentViewName)
+  var moreParents = true
+  hierarchyViewsPathes.push(parentViewPath)
+
+  while(moreParents){
+    var parentViewFile = parentViewPath+Path.sep+'view.js'
+    if(Fs.existsSync(parentViewFile)){
+      parentViewName = require(parentViewFile).ViewExtends
+      if(parentViewName){
+        parentViewPath = Path.resolve(iPathToView+Path.sep+'..'+Path.sep+parentViewName)
+        hierarchyViewsPathes.push(parentViewPath)
+      }else{
+        moreParents = false
+      }
+    }else{
+      moreParents = false
+    }
+  }
+
+  var arrayCSS = []
+  while(hierarchyViewsPathes.length){
+    var currentViewPath = hierarchyViewsPathes.pop()
+    var viewCSSPath = Path.resolve(currentViewPath+Path.sep+"style.css")
+    var css = null
+
+    if(Fs.existsSync(viewCSSPath)){
+      viewCSSPath = Path.relative('.'+Path.sep+'core'+Path.sep, viewCSSPath)
+      css = $(window.document.createElement('link'))
+      css.attr('href', viewCSSPath)
+      css.attr('rel', 'stylesheet')
+      arrayCSS.push(css)
+    }
   }
 
   var viewLayoutPath = Path.resolve(iPathToView+Path.sep+"layout.html")
@@ -28,13 +57,13 @@ var renderView = function(iPathToView, iContainer$, iCallback){
     viewLayoutPath = Path.relative('.'+Path.sep+'core'+Path.sep, viewLayoutPath)
     var self = this
     iContainer$.load(/*encodeURI*/(viewLayoutPath), function(){
-      if(css){
-        iContainer$.append(css)
+      if(arrayCSS.length){
+        iContainer$.append(arrayCSS)
       }
       if(iCallback){iCallback()}
     })
-  }else if(css){
-    iContainer$.append(css)
+  }else if(arrayCSS.length){
+    iContainer$.append(arrayCSS)
     if(iCallback){iCallback()}
   }else{
     if(iCallback){iCallback()}
@@ -49,7 +78,7 @@ exports.renderPlatformSelectionView = function(iContainer$, iCallback){
   renderView(platformSelectionViewPath, iContainer$, iCallback)
 }
 
-exports.renderPlatform = function(iPlatform, iContainer$, iCallback){
+exports.renderPlatformView = function(iPlatform, iContainer$, iCallback){
   if(iPlatform){
     var basePath = BABB.platformViewLayoutPath(iPlatform.get('viewName'))
     if(!iContainer$){

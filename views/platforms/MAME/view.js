@@ -3,9 +3,9 @@ var Fs = require('fs')
 var History = require('./history.js')
 var KeysController = BABB.coreRequire('keysController')
 
-exports.PlatformViewExtends = 'defaultList'
+exports.ViewExtends = 'default'
 
-var BasePlatformView = BABB.platformsViewsRequire(exports.PlatformViewExtends).PlatformView
+var BasePlatformView = BABB.platformsViewsRequire(exports.ViewExtends).PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
 

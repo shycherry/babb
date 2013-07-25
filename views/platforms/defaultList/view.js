@@ -1,6 +1,9 @@
 ﻿var BABB = global.BABB
 var Fs = require('fs')
-var BasePlatformView = BABB.platformsViewsRequire('base').PlatformView
+
+exports.ViewExtends = 'base'
+
+var BasePlatformView = BABB.platformsViewsRequire(exports.ViewExtends).PlatformView
 
 exports.PlatformView = BasePlatformView.extend({
 
