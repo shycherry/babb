@@ -123,6 +123,16 @@ var Platform = Backbone.Model.extend({
 
   _defaultRomsProvider : function(parReport, ioRomsCollection){
 
+    // ioRomsCollection.comparator = function(iRom1, iRom2){
+    //   if( iRom1.get('title') < iRom2.get('title')){
+    //     return -1
+    //   }else if ( iRom1.get('title') > iRom2.get('title')){
+    //     return 1
+    //   }else{
+    //     return 0
+    //   }
+    // }
+
     var filteredFilesMap = this.getFilteredFilesMap(parReport)
 
     for(var locPath in filteredFilesMap){
