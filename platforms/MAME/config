@@ -1,7 +1,7 @@
 ﻿//config for MAME
 
 exports.PlatformConfig = {
-  viewName : 'MAME',
+  viewName : '2MAME',
   platformName : 'MAME',
   romsPaths : ['D:/MAME/ROMS'],
   romsExtensions : ['.zip'],
