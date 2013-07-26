@@ -7,8 +7,9 @@ exports.Launcher = BABBLauncher.extend({
 
   runRom : function (iPlatform, iRom){
     if(iRom){
-      if(iRom.get('title') == 'Retourner A Windows'){
-        process.exit()
+      script = require(iRom.get('path'))
+      if(script) {
+        script.run()
       }
     }
   }
