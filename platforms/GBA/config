@@ -2,6 +2,6 @@
 
 exports.PlatformConfig = {
   platformName : 'GBA',
-  romsPaths : ['D:/Gameboy Advance/roms'],
+  romsPaths : ['D:/Gameboy Advance/roms', 'C:/Frontend/DummyRoms/GBA'],
   romsExtensions : ['.zip']
 }

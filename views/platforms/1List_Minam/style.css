@@ -36,6 +36,7 @@
   left: 31%;
   color: white;
   background-color: initial;
+  background-image: initial;
 }
 
 #stats:empty{
