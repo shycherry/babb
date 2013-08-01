@@ -75,6 +75,7 @@ exports.FrontendView = Backbone.View.extend({
   },
 
   sniffRoms : function(){    
+    var self = this
     if(this.romsPathsToSniff){
       Sniffer.stopSniff(this.romsPathsToSniff)
     }
@@ -100,6 +101,9 @@ exports.FrontendView = Backbone.View.extend({
                 iPlatform.getPlatformConfig().romsPaths = iRomsPathes
                 iPlatform.rewritePlatformConfig()
                 BABB.EventEmitter.trigger('info', 'Roms found for '+iPlatform)
+                if(iPlatform == self.currentValidatedPlatform){
+                  self.sniffRoms()
+                }
               }
             })(this.currentValidatedPlatform),
             (function(iPlatform){

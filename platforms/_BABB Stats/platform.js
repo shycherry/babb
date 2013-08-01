@@ -53,7 +53,11 @@ var updateInternals = function(){
   })
 
   _playedPlatforms.forEach(function(platform){
-    platform.getRomsPaths().forEach(function(romPath){
+    var romsPathes = platform.getRomsPaths()
+    if(typeof romsPathes != 'object'){
+      return
+    }    
+    romsPathes.forEach(function(romPath){
       _playedPlatformsPathes.push(romPath)
       if( !_playedPathesPlatformsMap[romPath] ){
         _playedPathesPlatformsMap[romPath] = []
