@@ -51,7 +51,7 @@ var Launcher = Backbone.Model.extend({
   },
 
   runRom : function (iPlatform, iRom){
-    console.log('using default runRom')
+    BABB.log('using default runRom')
     if(iRom){
       var emulatorPath = this.getLauncherConfig().emulatorPath
       var selectedRomPath = iRom.get('path')

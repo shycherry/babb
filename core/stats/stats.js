@@ -19,7 +19,7 @@ var StatsModel = Backbone.Model.extend({
   },
 
   initialize: function(){
-    console.log('Stats init')
+    BABB.log('Stats init')
     this.set('id', this.cid)
   },
 

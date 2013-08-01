@@ -107,10 +107,10 @@ var getRawFullEntry = function(romName){
 
 var loadHistory = function(){
   if(!historyStream){
-    console.log('will read history...')
+    BABB.log('will read history...')
     historyStream = Fs.readFileSync(__dirname+'/history.dat').toString()
-    console.log('history...read !')
-    console.log('building history index...')
+    BABB.log('history...read !')
+    BABB.log('building history index...')
 
     var regExp = /[$]info=.*,/mg //$info=game1,game2,...,
     var indexEntries
@@ -125,9 +125,9 @@ var loadHistory = function(){
         }
       }
     }
-    console.log('history index... done !'+indexEntries)
+    BABB.log('history index... done !'+indexEntries)
   }else{
-    console.log('history already loaded, skipping...')
+    BABB.log('history already loaded, skipping...')
   }
 }
 

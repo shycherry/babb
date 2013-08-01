@@ -30,8 +30,8 @@ var _searchGoogleAndDownloadWorker_ = function(iTask, iCallback){
 }
 
 var searchGoogleAndDownloadWorkerQueue = Async.queue(_searchGoogleAndDownloadWorker_, 1)
-searchGoogleAndDownloadWorkerQueue.drain = function(){console.log('end calling google')}
-searchGoogleAndDownloadWorkerQueue.saturated = function(){console.log('a remote call is pending... queueing !')}
+searchGoogleAndDownloadWorkerQueue.drain = function(){BABB.log('end calling google')}
+searchGoogleAndDownloadWorkerQueue.saturated = function(){BABB.log('a remote call is pending... queueing !')}
 
 var provideCovers = function(iRom, iPlatform, iCallback){
 
@@ -134,7 +134,7 @@ var downloadImage = function(iURL, iLocalPath, iCallback){
             })
         })
       }).on('error', function(err){
-        console.log('error when downloading image from '+iURL)
+        BABB.log('error when downloading image from '+iURL)
         if(iCallback) iCallback()
       })
 

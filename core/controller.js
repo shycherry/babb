@@ -165,7 +165,7 @@ exports.FrontendView = Backbone.View.extend({
     var self = this
 
     BABB.EventEmitter.on('platformValidated', function(iPlatform){
-      console.log('selection validated :'+iPlatform.get('name'))
+      BABB.log('selection validated :'+iPlatform.get('name'))
 
       if( ! iPlatform){
         return
@@ -187,7 +187,7 @@ exports.FrontendView = Backbone.View.extend({
     })
 
     BABB.EventEmitter.on('romValidated', function(iRom){
-      console.log('selecion validated :'+iRom.get('title'))
+      BABB.log('selecion validated :'+iRom.get('title'))
 
       if(!iRom){
         return

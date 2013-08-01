@@ -21,11 +21,11 @@ function invokeChildProcess(command, args, options, childProcessFunction, iPlatf
     [cmdProcess.pid, iPlatform.get('name'), iRom.get('title')],
     {cwd:Path.dirname(global.BABB.GlobalConfig.killidPath)}
   )
-  console.log(command+' started')
+  BABB.log(command+' started')
   global.BABB.EventEmitter.trigger('status', spawnerStartTemplate({command: command, args : args, options : options, cmdPid: cmdProcess.pid, playitPid : killidProcess.pid}))
 
   cmdProcess.on('exit', function(code){
-		console.log(command+' exited with code '+code)
+		BABB.log(command+' exited with code '+code)
     global.BABB.EventEmitter.trigger('afterRun', iRom, iPlatform)
     global.BABB.EventEmitter.trigger('info', spawnerExitTemplate({command: command, code: code}))
     if(!killidProcess.killed){
@@ -68,7 +68,7 @@ function execFile(command, args, options, iPlatform, iRom){
     options,
     function(command, args, options){
       return ChildProcess.execFile(command, args, options, function(err, stdout, stderr){
-        console.log('err:'+err+' stdout:'+stdout+' stderr:'+stderr)
+        BABB.log('err:'+err+' stdout:'+stdout+' stderr:'+stderr)
       })
     },
     iPlatform,

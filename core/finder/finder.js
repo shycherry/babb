@@ -36,7 +36,7 @@ exports.finderDialog = Backbone.View.extend({
 
 exports.findAll = function(startDir, searchedFilename, onFindCallback, onNotFindCallback){
   if(stop == false){
-    console.log('finder is already running...')
+    BABB.log('finder is already running...')
     return false
   }
   stop = false
@@ -60,7 +60,7 @@ exports.findAll = function(startDir, searchedFilename, onFindCallback, onNotFind
 
 exports.findFirst = function(startDir, searchedFilename, onFindCallback, onNotFindCallback){
   if(stop == false){
-    console.log('finder is already running...')
+    BABB.log('finder is already running...')
     return false
   }
   stop = false
@@ -101,7 +101,7 @@ function walk(startDir, callback) {
                 acc.names.push(i)
               }
             }catch(err){
-              console.log('error encountered while searching : '+err)
+              BABB.log('error encountered while searching : '+err)
             }
 
             return acc

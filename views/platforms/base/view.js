@@ -134,11 +134,11 @@ exports.PlatformView = Backbone.View.extend({
     var self = this
     if(iRom && iResolvedCoverPath){
 
-      console.log('before updating '+iRom+' with '+iResolvedCoverPath)
+      BABB.log('before updating '+iRom+' with '+iResolvedCoverPath)
       if(!iResolvedCoverPath) return
       process.nextTick(function(){
         var htmlCoverElement = self.getHtmlCoverElement(iRom)
-        console.log('updating '+htmlCoverElement)
+        BABB.log('updating '+htmlCoverElement)
         if(htmlCoverElement){
           htmlCoverElement.css("background-image", "url('"+encodeURI(iResolvedCoverPath)+"')")
         }
@@ -176,13 +176,13 @@ exports.PlatformView = Backbone.View.extend({
       function(iRom, iPlatform){
         return function(){
           var illustrationPathes = CoversProvider.provideCovers(iRom, iPlatform, function(err, iPaths){
-            console.log('callback provideCovers: err='+err+' iPaths='+iPaths)
+            BABB.log('callback provideCovers: err='+err+' iPaths='+iPaths)
             if(err){
-              console.log(err)
+              BABB.log(err)
               return
             }
             var illustrationPath = getFirstResolvedPath(iPaths)
-            console.log('before call updateCover, illustrationPath='+illustrationPath)
+            BABB.log('before call updateCover, illustrationPath='+illustrationPath)
             self.updateCover(iRom, illustrationPath)
           })
 

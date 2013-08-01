@@ -113,7 +113,7 @@ function startSniff(parCallback){
   var paths = callbacksToPathsMap.getValueFromKey(parCallback)
 
   var watchCallback = function(event, filename){
-    console.log('event:'+event+' for filename:'+filename)
+    BABB.log('event:'+event+' for filename:'+filename)
     parCallback({isUpdate : true})
   }
 

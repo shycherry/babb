@@ -16,7 +16,7 @@ var PlatformSelectionView = Backbone.View.extend({
   lastSelectedPlatformId : 0,
 
   initialize : function() {
-    console.log('PlatformsCollectionView initialize')
+    BABB.log('PlatformsCollectionView initialize')
     var self = this
     BABB.EventEmitter.on('requestControledViewChange', function(iView){
       if(iView != self){
