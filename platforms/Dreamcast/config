@@ -1,7 +1,7 @@
-﻿//config for Dreamcast platform
+//config for Dreamcast platform
 
 exports.PlatformConfig = {
   platformName : 'Dreamcast',
-  romsPaths : ['Z:/ISOs/ISOs DC', 'C:/Frontend/DummyRoms/Dreamcast'],
+  romsPaths : 'findAll*Dreamcast.babbdir',
   romsExtensions : ['.iso', '.cdi', '.mds'],
 }

@@ -74,14 +74,48 @@ exports.FrontendView = Backbone.View.extend({
     BABB.EventEmitter.trigger('platformsCollectionChanged', this.platformsCollection)
   },
 
-  sniffRoms : function(){
+  sniffRoms : function(){    
     if(this.romsPathsToSniff){
       Sniffer.stopSniff(this.romsPathsToSniff)
     }
     this.romsCollection.reset()
     delete this.romsCollection.comparator
-    this.romsPathsToSniff = this.currentValidatedPlatform.getRomsPaths()
-    Sniffer.sniff(this.romsPathsToSniff, this.onRomsSniffed)
+    var romsPathes = this.currentValidatedPlatform.getRomsPaths()
+    
+    if(typeof romsPathes == 'object'){      
+      this.romsPathsToSniff = romsPathes
+      Sniffer.sniff(romsPathes, this.onRomsSniffed)
+    }else if(typeof romsPathes == 'string'){
+      /* format : 'findFunctionName*fileToFindName(*..)'
+         sample : 'findAll*snesroms.babbdir' */
+      var parsedArray = romsPathes.split('*')
+      switch(parsedArray[0]){
+        case 'findAll':
+          var Finder = BABB.coreRequire('finder')
+          var finderRun = Finder.findAll(
+            BABB.GlobalConfig.autoRomsFinderStartPath, 
+            parsedArray[1],
+            (function(iPlatform){
+              return function(iRomsPathes){
+                iPlatform.getPlatformConfig().romsPaths = iRomsPathes
+                iPlatform.rewritePlatformConfig()
+                BABB.EventEmitter.trigger('info', 'Roms found for '+iPlatform)
+              }
+            })(this.currentValidatedPlatform),
+            (function(iPlatform){
+              return function(){
+                BABB.EventEmitter.trigger('info', 'Searched, but no roms found for '+iPlatform)
+              }
+            })(this.currentValidatedPlatform)
+          )
+          if(finderRun){
+            BABB.EventEmitter.trigger('info', 'Start searching roms for '+this.currentValidatedPlatform)
+          }else{
+            BABB.EventEmitter.trigger('info', 'A search is already started, please wait...')
+          }
+        break        
+      }      
+    }    
   },
 
   onRomsSniffed : function(iReport){

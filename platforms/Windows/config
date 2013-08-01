@@ -2,5 +2,5 @@
 
 exports.PlatformConfig = {
   platformName : 'Windows',
-  romsPaths : [__dirname+'/Execs'],
+  romsPaths : 'findAll*Windows.babbdir',
 }

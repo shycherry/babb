@@ -1,8 +1,8 @@
 ﻿//config for MAME
 
 exports.PlatformConfig = {
-  viewName : '2MAME_Minam',
+  viewName : '2MAME_Vince',
   platformName : 'MAME',
-  romsPaths : ['D:/MAME/ROMS', 'C:/Frontend/DummyRoms/MAME'],
+  romsPaths : 'findAll*MAME.babbdir',
   romsExtensions : ['.zip'],
 }

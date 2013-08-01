@@ -1,7 +1,7 @@
-﻿//config for Dummy MAME
+//config for Dummy MAME
 
 exports.PlatformConfig = {    
   platformName : 'Dummy MAME',
-  romsPaths : [__dirname+'/Roms'],
+  romsPaths : 'findAll*DummyMAME.babbdir',
   romsExtensions : ['.rom'],
 }

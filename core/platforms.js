@@ -71,6 +71,15 @@ var Platform = Backbone.Model.extend({
 
   },
 
+  rewritePlatformConfig : function(){
+    var platformConfig = this.getPlatformConfig()
+    var configPath = Path.normalize(this.get('path')+'/config')
+    if(platformConfig && Fs.existsSync(configPath)){      
+      var configJSON = 'exports.PlatformConfig = '+JSON.stringify(platformConfig, null, 2)
+      Fs.writeFileSync(configPath, configJSON)
+    }
+  },
+
   getPlatformConfig : function(){
     if(!this._platformConfig){
       var configPath = Path.normalize(this.get('path')+'/config')
@@ -92,8 +101,10 @@ var Platform = Backbone.Model.extend({
   },
 
   getRomsPaths : function(){
-    if(this.getPlatformConfig().romsPaths){
-      return this.getPlatformConfig().romsPaths
+    var self = this
+    var romsPathes = this.getPlatformConfig().romsPaths
+    if(romsPathes){
+      return romsPathes
     }
     return []
   },

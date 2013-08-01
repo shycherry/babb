@@ -1,7 +1,7 @@
-﻿//config for Gamecube platform
+//config for Gamecube platform
 
 exports.PlatformConfig = {
   platformName : 'Gamecube',
-  romsPaths : ['Z:/ISOs/ISOs GC', 'C:/Frontend/DummyRoms/Gamecube'],
+  romsPaths : 'findAll*Gamecube.babbdir',
   romsExtensions : ['.iso', '.gcm'],
 }

@@ -6,7 +6,7 @@ var BABB = global.BABB
 var fs = require('fs')
 var path = require('path')
 
-var stop = false
+var stop = undefined
 var deepCounter = 0
 
 var idCpnt = 'finderCpnt'
@@ -34,34 +34,64 @@ exports.finderDialog = Backbone.View.extend({
   }
 })
 
-exports.find = function(start, searchedFilename, onFindCallback, onNotFindCallback){
+exports.findAll = function(startDir, searchedFilename, onFindCallback, onNotFindCallback){
+  if(stop == false){
+    console.log('finder is already running...')
+    return false
+  }
   stop = false
   deepCounter = 0
-  walk(start, function(e, dirPath, dirs, files){
+  dirPathes = []
+  walk(startDir, function(e, dirPath, dirs, files){
+    deepCounter --
+    if(files && files.indexOf(searchedFilename) != -1){
+      dirPathes.push(dirPath)
+    }else if(deepCounter <= 0 && !stop){
+      stop = true
+      if(dirPathes.length){
+        onFindCallback(dirPathes)  
+      }else{
+        onNotFindCallback()  
+      }
+    }
+  })
+  return true
+}
+
+exports.findFirst = function(startDir, searchedFilename, onFindCallback, onNotFindCallback){
+  if(stop == false){
+    console.log('finder is already running...')
+    return false
+  }
+  stop = false
+  deepCounter = 0
+  walk(startDir, function(e, dirPath, dirs, files){
     deepCounter --
     if(files && files.indexOf(searchedFilename) != -1){
       stop = true
-      onFindCallback(path.normalize(path.join(dirPath, searchedFilename)))
+      onFindCallback(dirPath)
     }else if(deepCounter <= 0 && !stop){
+      stop = true
       onNotFindCallback()
     }
   })
+  return true
 }
 
-function walk(start, callback) {
+function walk(startDir, callback) {
   if(stop){
     return
   }
   deepCounter++
 
-  fs.lstat(start, function (err, stat) {
+  fs.lstat(startDir, function (err, stat) {
     if (err) { return callback(err) }
 
     if (stat.isDirectory()) {
-      fs.readdir(start, function (err, files) {
+      fs.readdir(startDir, function (err, files) {
         if(files){
           var coll = files.reduce(function (acc, i) {
-            var abspath = path.join(start, i)
+            var abspath = path.join(startDir, i)
 
             try{
               if (fs.statSync(abspath).isDirectory()) {
@@ -77,11 +107,11 @@ function walk(start, callback) {
             return acc
           }, {"names": [], "dirs": []})
 
-          return callback(null, start, coll.dirs, coll.names)
+          return callback(null, startDir, coll.dirs, coll.names)
         }
       })
     } else {
-      return callback(new Error("path: " + start + " is not a directory"))
+      return callback(new Error("path: " + startDir + " is not a directory"))
     }
 
   })
