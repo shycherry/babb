@@ -1,3 +1,3 @@
 exports.run = function(){
-  process.exit()
+  window.require('nw.gui').App.quit()
 }
