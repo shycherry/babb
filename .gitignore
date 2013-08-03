@@ -1,3 +1,5 @@
+*.sublime-project
+*.sublime-workspace
 launcher_mapper/*
 platforms/Windows/execs/*
 native_tools/stats/*
