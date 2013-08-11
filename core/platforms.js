@@ -196,7 +196,7 @@ var Platform = Backbone.Model.extend({
   },
 
   toString: function(){
-    return this.get('name')+' ('+this.get('path')+')'
+    return this.get('name')
   }
 })
 
