@@ -100,7 +100,7 @@ exports.FrontendView = Backbone.View.extend({
               return function(iRomsPathes){
                 iPlatform.getPlatformConfig().romsPaths = iRomsPathes
                 iPlatform.rewritePlatformConfig()
-                BABB.EventEmitter.trigger('info', 'Roms found for '+iPlatform)
+                BABB.EventEmitter.trigger('info', iRomsPathes.length+' roms director'+((iRomsPathes.length>1) ? 'ies' : 'y')+' found for '+iPlatform)
                 if(iPlatform == self.currentValidatedPlatform){
                   self.sniffRoms()
                 }

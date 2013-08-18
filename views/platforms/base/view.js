@@ -47,7 +47,6 @@ exports.PlatformView = Backbone.View.extend({
     BABB.EventEmitter.on('romsCollectionChanged', function(iRomsCollection){      
       self.addIllustrationProvider(iRomsCollection)
       self.recreateStuff(iRomsCollection)
-      BABB.EventEmitter.trigger('info', iRomsCollection.size()+' roms found')
     }, this)
 
     BABB.EventEmitter.on('control-valid', function(){
