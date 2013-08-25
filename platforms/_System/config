@@ -3,5 +3,6 @@
 exports.PlatformConfig = {
   platformName : 'System',
   romsPaths : [__dirname+'/Execs'],
+  romsExtensions : ['.js'],
   nonPlayable: true,
 }
