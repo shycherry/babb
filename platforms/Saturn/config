@@ -1,0 +1,7 @@
+﻿//config for Saturn platform
+
+exports.PlatformConfig = {
+  platformName : 'Saturn',
+  romsPaths : ['Z:/ISOs/ISOs Saturn'], //'findAll*Saturn.babbdir',
+  romsExtensions : ['.iso', '.bin', '.cue'],
+}

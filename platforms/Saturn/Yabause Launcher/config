@@ -1,0 +1,6 @@
+﻿//config for Yabause 0.9.12
+
+exports.LauncherConfig = {
+  name : 'Yabause 0.9.12',
+  emulatorPath : 'C:/Program Files (x86)/yabause 0.9.12/yabause.exe'
+}
