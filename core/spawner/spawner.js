@@ -16,9 +16,11 @@ function invokeChildProcess(command, args, options, childProcessFunction, iPlatf
 
   global.BABB.EventEmitter.trigger('prepareRun', iRom, iPlatform)
 
+  var platformName = (iPlatform ? iPlatform.get('name') : 'noname')
+  var romTitle = (iRom ? iRom.get('title') : 'notitle')
   var killidProcess = ChildProcess.spawn(
     Path.basename(global.BABB.GlobalConfig.killidPath),
-    [cmdProcess.pid, iPlatform.get('name'), iRom.get('title')],
+    [cmdProcess.pid, platformName, romTitle],
     {cwd:Path.dirname(global.BABB.GlobalConfig.killidPath)}
   )
   BABB.log(command+' started')
