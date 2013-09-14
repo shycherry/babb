@@ -2,39 +2,41 @@ var _ = global._
 var Fs = require('fs')
 var Path = require('path')
 var ChildProcess = require('child_process')
+var BABB = global.BABB
 var spawnerExitTemplate = _.template(Fs.readFileSync(__dirname+'/spawner_exit_template.html').toString())
 var spawnerStartTemplate = _.template(Fs.readFileSync(__dirname+'/spawner_start_template.html').toString())
 var spawnerErrorTemplate = _.template(Fs.readFileSync(__dirname+'/spawner_error_template.html').toString())
 
 function invokeChildProcess(command, args, options, childProcessFunction, iPlatform, iRom){
+
   if(!command){
-    global.BABB.EventEmitter.trigger('error', spawnerErrorTemplate({error : 'no command specified'}))
+    BABB.EventEmitter.trigger('error', spawnerErrorTemplate({error : 'no command specified'}))
     return
   }
 
   var cmdProcess = childProcessFunction(command, args, options)
 
-  global.BABB.EventEmitter.trigger('prepareRun', iRom, iPlatform)
+  BABB.EventEmitter.trigger('prepareRun', iRom, iPlatform)
 
   var platformName = (iPlatform ? iPlatform.get('name') : 'noname')
   var romTitle = (iRom ? iRom.get('title') : 'notitle')
   var killidProcess = ChildProcess.spawn(
-    Path.basename(global.BABB.GlobalConfig.killidPath),
-    [cmdProcess.pid, global.BABB.GlobalConfig.killidKey, platformName, romTitle],
-    {cwd:Path.dirname(global.BABB.GlobalConfig.killidPath)}
+    Path.basename(BABB.GlobalConfig.killidPath),
+    [cmdProcess.pid, BABB.GlobalConfig.killidKey, platformName, romTitle],
+    {cwd:Path.dirname(BABB.GlobalConfig.killidPath)}
   )
   BABB.log(command+' started')
-  global.BABB.EventEmitter.trigger('status', spawnerStartTemplate({command: command, args : args, options : options, cmdPid: cmdProcess.pid, playitPid : killidProcess.pid}))
-
+  BABB.EventEmitter.trigger('status', spawnerStartTemplate({command: command, args : args, options : options, cmdPid: cmdProcess.pid, playitPid : killidProcess.pid}))
+  
   cmdProcess.on('exit', function(code){
-		BABB.log(command+' exited with code '+code)
-    global.BABB.EventEmitter.trigger('afterRun', iRom, iPlatform)
-    global.BABB.EventEmitter.trigger('info', spawnerExitTemplate({command: command, code: code}))
+    BABB.log(command+' exited with code '+code)
+    BABB.EventEmitter.trigger('afterRun', iRom, iPlatform)
+    BABB.EventEmitter.trigger('info', spawnerExitTemplate({command: command, code: code}))
     if(!killidProcess.killed){
       killidProcess.kill()
     }
-	})
-
+  })
+  
 }
 
 function spawn(command, args, options, iPlatform, iRom){
