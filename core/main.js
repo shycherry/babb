@@ -1,3 +1,10 @@
+//process protection
+process.on('uncaughtException', function(err){
+  if(global.BABB.EventEmitter){
+    global.BABB.EventEmitter.trigger('error', 'Unexpected error occured... frontend may be in an invalid state. <br/> Message is : '+err.message)
+  }
+})
+
 //global definitions
 global.$ = $
 global.Backbone = Backbone
