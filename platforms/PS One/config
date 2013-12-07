@@ -1,7 +1,11 @@
-﻿//config for PSOne platform
-
 exports.PlatformConfig = {
-  platformName : 'PSOne',
-  romsPaths : 'findAll*PSOne.babbdir',
-  romsExtensions : ['.iso', '.bin'],
+  "platformName": "PSOne",
+  "romsPaths": [
+    "E:\\Roms\\PSOne"
+  ],
+  "romsExtensions": [
+    ".iso",
+    ".bin",
+    ".mds"
+  ]
 }

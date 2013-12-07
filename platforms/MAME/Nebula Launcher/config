@@ -1,0 +1,6 @@
+﻿//config for nebula
+
+exports.LauncherConfig = {
+  name : 'Nebula',
+  emulatorPath : 'E:/Emulators/nebula225b/nebula.exe'
+}

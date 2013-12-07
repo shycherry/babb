@@ -3,6 +3,6 @@
 exports.PlatformConfig = {
   viewName : '2MAME_Vince',
   platformName : 'MAME',
-  romsPaths : 'findAll*MAME.babbdir',
+  romsPaths : ['E:/roms/mame'],
   romsExtensions : ['.zip'],
 }

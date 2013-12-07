@@ -2,6 +2,6 @@
 
 exports.PlatformConfig = {
   platformName : 'PlayStation 2',
-  romsPaths : 'findAll*PS2.babbdir',
+  romsPaths : ['e:/roms/ps2'],
   romsExtensions : ['.iso'],
 }

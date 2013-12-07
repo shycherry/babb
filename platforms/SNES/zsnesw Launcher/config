@@ -2,5 +2,5 @@
 
 exports.LauncherConfig = {
   name : 'zsnesw',
-  emulatorPath : 'D:/SNES/zsnesw.exe'
+  emulatorPath : 'E:/Emulators/zsnes.exe'
 }

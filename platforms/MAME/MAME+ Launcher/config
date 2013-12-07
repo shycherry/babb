@@ -2,5 +2,5 @@
 
 exports.LauncherConfig = {
   name : 'MAME+',
-  emulatorPath : 'Z:/Developpement/BABB/emulateurs/mame/mamepp.exe'
+  emulatorPath : 'E:/Emulators/mame/mamepp.exe'
 }

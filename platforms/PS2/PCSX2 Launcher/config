@@ -2,5 +2,5 @@
 
 exports.LauncherConfig = {
   name : 'pcsx2',
-  emulatorPath : 'Z:/Developpement/BABB/emulateurs/PCSX2 0.9.8/pcsx2-r4600.exe'
+  emulatorPath : 'E:/Emulators/PCSX2 0.9.8/pcsx2-r4600.exe'
 }
