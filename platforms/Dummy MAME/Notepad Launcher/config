@@ -1,6 +1,0 @@
-﻿//config for notepad
-
-exports.LauncherConfig = {
-  name : 'notepad',
-  emulatorPath : 'notepad.exe'
-}
