@@ -18,6 +18,7 @@ html{
 
 body {    
   background-image: url('../images/htmlbg.png');
+  background-size: cover;
   margin: 0px;
   height: 100%;    
   overflow:hidden;
