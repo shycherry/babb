@@ -1,5 +1,6 @@
 exports.PlatformConfig = {
   "platformName": "Dreamcast",
+  "viewName": "2Dreamcast_Vince",
   "romsPaths": [
     "E:\\Roms\\Dreamcast"
   ],
