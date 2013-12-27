@@ -12,7 +12,7 @@ var PlatformsCollection = BABB.coreRequire('platforms').PlatformsCollection
 
 
 var PlatformSelectionView = Backbone.View.extend({
-	platformsCollection : new PlatformsCollection(),
+  platformsCollection : new PlatformsCollection(),
   lastSelectedPlatformId : 0,
 
   initialize : function() {
@@ -38,7 +38,7 @@ var PlatformSelectionView = Backbone.View.extend({
 
     })//not this
 
-	},
+  },
 
   doBindings :function(){
 
@@ -62,23 +62,11 @@ var PlatformSelectionView = Backbone.View.extend({
 
     BABB.EventEmitter.on('platformFocused', function(iPlatform){
       self.focusedPlatform = iPlatform
-      self.updateTitle()
-      clearTimeout(self.lastFocusTimeoutId)
-      if(self.focusedPlatform != self.dynabodyPlatform){
-        self.lastFocusTimeoutId = setTimeout(function(){
-          self.dynabodyPlatform = self.focusedPlatform
-          self.previewPlatform(self.dynabodyPlatform)
-        },800)
-      }
+      self.updateTitle()      
     }, this)
 
     BABB.EventEmitter.on('platformValidated', function(iPlatform){
-
-        clearTimeout(self.lastFocusTimeoutId)
-        self.dynabodyPlatform = iPlatform
-        self.previewPlatform(iPlatform)
-        self.lastSelectedPlatformId = self.platformsCollection.indexOf(iPlatform)
-
+      self.lastSelectedPlatformId = self.platformsCollection.indexOf(iPlatform)
     }, this)
 
     BABB.EventEmitter.on('requestRenderPlatform', function(iPlatform){
@@ -135,27 +123,12 @@ var PlatformSelectionView = Backbone.View.extend({
       BABB.EventEmitter.trigger('platformValidated', iPlatform)
     })
 
-    this.dynabodyPlatform = null
     this.coverflowView.select(this.lastSelectedPlatformId)
   },
 
   updateTitle : function(){
     if(this.focusedPlatform){
       $('#platformTitle').html(this.focusedPlatform.get('name'))
-    }
-  },
-
-  previewPlatform : function(iPlatform){
-    if(iPlatform){
-      $('.coverflow-cell #dynabody').detach()
-      var focusedCell = $('.coverflow-cell.focus')
-      var dynabody = $(window.document.createElement('div'))
-      dynabody.attr('id', 'dynabody')
-      if(! iPlatform.isAvailable()){
-        dynabody.addClass('unavailable')
-      }
-      CoreServices.renderPlatformView(iPlatform, dynabody)
-      dynabody.insertBefore(focusedCell.children().first())
     }
   },
 
