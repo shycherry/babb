@@ -1,0 +1,6 @@
+﻿//config for Nebula
+
+exports.LauncherConfig = {
+  name : 'Nebula 2.25',
+  emulatorPath : 'C:/Users/Vincent/Downloads/Nebula_V2.25_win_Fr/nebula.exe'
+}

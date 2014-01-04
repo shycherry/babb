@@ -139,3 +139,32 @@ exports.detachPlatformContainer = function(){
 exports.sniffPlatformsRoms = function(iPlatforms, iCallback){
 
 }
+
+exports.copyFile = function (iSource, iTarget, iCallback) {
+  //create a copy of file
+  if(Fs.existsSync(iTarget)){
+    Fs.unlinkSync(iTarget);
+  }
+
+  var cbCalled = false;
+
+  var rd = Fs.createReadStream(iSource);
+  rd.on("error", function(err) {
+    done(err);
+  });
+  var wr = Fs.createWriteStream(iTarget);
+  wr.on("error", function(err) {
+    done(err);
+  });
+  wr.on("close", function(ex) {
+    done();
+  });
+  rd.pipe(wr);
+
+  function done(err) {
+    if (!cbCalled) {
+      iCallback(err);
+      cbCalled = true;
+    }
+  }
+}
