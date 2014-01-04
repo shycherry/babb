@@ -1,6 +1,8 @@
-exports.PlatformConfig = {  
+exports.PlatformConfig = {
   "platformName": "NeoGeo",
-  "romsPaths": 'findAll*NeoGeo.babbdir',
+  "romsPaths": [
+    "E:\\Roms\\NeoGeo"
+  ],
   "romsExtensions": [
     ".zip"
   ]
