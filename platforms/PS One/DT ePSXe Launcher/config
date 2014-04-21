@@ -1,0 +1,7 @@
+﻿//config for DT and epsxe
+
+exports.LauncherConfig = {
+  name : 'DT ePSXe',
+  daemonToolsPath : 'C:/Program Files (x86)/DAEMON Tools Lite/DTLite.exe',
+  emulatorPath : 'E:/Emulators/ePSXe190/ePSXe.exe'  
+}
