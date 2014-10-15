@@ -16,7 +16,10 @@
     "start": "nodewebkit"
   },
   "dependencies": {
-    "nodewebkit": "^0.10.5"
+    "nodewebkit": "^0.10.5",
+    "URIjs": "^1.14.1",
+    "async": "^0.9.0",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "bower": "^1.3.12"
