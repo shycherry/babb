@@ -5,6 +5,8 @@ platforms/Windows/execs/*
 native_tools/stats/*
 covers/*
 media/*
+node_modules/*
+bower_components/*
 
 #################
 ## Eclipse
@@ -169,3 +171,4 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+*.log
