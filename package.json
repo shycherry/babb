@@ -1,15 +1,27 @@
 {
-  "name": "BABB Frontend Prototype",
+  "name": "BABB",
   "description": "Frontend Prototype for BABB Project",
-  "version": "0.1",
-  "nodejs":true,
+  "version": "0.2.0",
+  "nodejs": true,
   "main": "core/index.html",
-  
   "window": {
     "show": false,
     "toolbar": false,
     "fullscreen":true,
     "width": 1280,
     "height": 1024
+  },
+  "scripts": {
+    "postinstall": "node_modules/.bin/bower install",
+    "start": "nodewebkit"
+  },
+  "dependencies": {
+    "nodewebkit": "^0.10.5",
+    "URIjs": "^1.14.1",
+    "async": "^0.9.0",
+    "uuid": "^2.0.1"
+  },
+  "devDependencies": {
+    "bower": "^1.3.12"
   }
 }

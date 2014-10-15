@@ -11,7 +11,7 @@ global.Backbone = Backbone
 global._ = _
 var Path = require('path')
 
-global.BABB = require('..'+Path.sep+'config.cfg').config
+global.BABB = require(Path.resolve('.'+Path.sep+'config.cfg')).config
 var BABB = global.BABB
 
 BABB.EventEmitter = new Backbone.View()

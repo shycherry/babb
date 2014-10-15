@@ -1,11 +1,10 @@
 ﻿var Config = global.BABB.CoversProviderConfig
 var Fs = require('fs')
 var Path = require('path')
-var ChildProcess = require('child_process')
 var EventEmitter = global.BABB.EventEmitter
-var URI = global.BABB.coreRequire('uri')
+var URI = require('URIjs')
 var Https = require('https')
-var Async = global.BABB.coreRequire('async')
+var Async = require('async')
 var Http = require('http')
 var $ = global.$
 
