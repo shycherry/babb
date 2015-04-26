@@ -1,7 +1,9 @@
-﻿//config for SNES
-
 exports.PlatformConfig = {
-  platformName : 'SNES',
-  romsPaths : 'findAll*SNES.babbdir',
-  romsExtensions : ['.zip'],
+  "platformName": "SNES",
+  "romsPaths": [
+    "E:\\Roms\\SNES"
+  ],
+  "romsExtensions": [
+    ".smc"
+  ]
 }
