@@ -20,7 +20,7 @@ exports.Launcher = BABBLauncher.extend({
           var Spawner = global.BABB.Utils.Spawner
           Spawner.spawn(
             absolutePathToExe,
-            null,
+            [],
             {cwd : Path.dirname(absolutePathToExe)},
             iPlatform,
             iRom
